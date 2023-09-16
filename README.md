@@ -1,0 +1,1 @@
+# lotdiz-member-service
