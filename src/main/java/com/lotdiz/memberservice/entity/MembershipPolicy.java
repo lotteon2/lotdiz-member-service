@@ -1,6 +1,6 @@
 package com.lotdiz.memberservice.entity;
 
-import com.lotdiz.memberservice.common.BaseEntity;
+import com.lotdiz.memberservice.entity.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @Builder
 public class MembershipPolicy extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long membershipPolicyId;

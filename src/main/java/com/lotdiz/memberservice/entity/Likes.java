@@ -10,21 +10,14 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@IdClass(Likes.class)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Likes {
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
 
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "project_id")
-    private Long projectId;
+    @EmbeddedId
+    private LikesId id;
 
     @Column(nullable = false)
     @CreatedDate

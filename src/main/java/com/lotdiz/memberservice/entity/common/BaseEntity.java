@@ -1,4 +1,4 @@
-package com.lotdiz.memberservice.common;
+package com.lotdiz.memberservice.entity.common;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
+
     @CreatedDate
     @Column(name = "created_at")
     private LocalDateTime createdAt;
