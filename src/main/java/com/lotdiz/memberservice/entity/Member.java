@@ -1,6 +1,7 @@
 package com.lotdiz.memberservice.entity;
 
 import com.lotdiz.memberservice.entity.common.BaseEntity;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import javax.validation.constraints.Size;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
+@Table(name = "member")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,10 +31,9 @@ public class Member extends BaseEntity {
     private MemberRole memberRole = MemberRole.USER;
 
     @Column(name = "member_email", nullable = false, unique = true)
-    private String MemberEmail;
+    private String memberEmail;
 
-    @Column(name = "member_password", nullable = false, length = 5)
-    @Size(min = 8, max = 16)
+    @Column(name = "member_password", nullable = false)
     private String memberPassword;
 
     @Column(name = "member_name", nullable = false, length = 10)
@@ -40,7 +41,7 @@ public class Member extends BaseEntity {
     private String memberName;
 
     @Column(name = "member_phone_number", nullable = false)
-    private Long memberPhoneNumber;
+    private String memberPhoneNumber;
 
     @Column(name = "member_point", nullable = false)
     @Builder.Default
@@ -52,4 +53,11 @@ public class Member extends BaseEntity {
 
     @Column(name = "member_privacy_agreement", nullable = false)
     private Boolean memberPrivacyAgreement;
+
+    @Column(name = "member_is_activate", nullable = false)
+    @Builder.Default
+    private Boolean memberIsActivate = true;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private Set<Authority> authorities;
 }
