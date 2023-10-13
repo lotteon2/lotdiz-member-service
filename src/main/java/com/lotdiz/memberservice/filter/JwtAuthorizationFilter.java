@@ -75,8 +75,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwtToken).getBody();
     String username = claims.get("username", String.class);
     String auth = claims.get("auth", String.class);
+    int memberId = claims.get("memberId", Integer.class);
     logger.info("username: " + username);
     logger.info("auth: " + auth);
+    logger.info("memberId: " + memberId);
     // 서명이 정상적으로 됨
     if (username != null) {
       logger.info("서명 정상 인증");
