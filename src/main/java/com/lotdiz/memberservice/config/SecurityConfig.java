@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +45,8 @@ public class SecurityConfig {
   private final JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
   private final CorsConfig corsConfig;
   private final MemberRepository memberRepository;
+  @Value("${jwt.secret}")
+  private String secret;
 
   private final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
@@ -80,6 +83,8 @@ public class SecurityConfig {
                     .permitAll()
                     .antMatchers("/api/sign-up")
                     .permitAll()
+                    .antMatchers("/api/tests")
+                    .permitAll()
                     .antMatchers("/login")
                     .permitAll()
                     .antMatchers("/api/v1/user/**")
@@ -107,7 +112,7 @@ public class SecurityConfig {
       jwtAuthenticationFilter.setFilterProcessesUrl("/api/sign-in");
       http.addFilter(corsConfig.corsFilter())
           .addFilter(jwtAuthenticationFilter)
-          .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository));
+          .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, secret));
     }
   }
 

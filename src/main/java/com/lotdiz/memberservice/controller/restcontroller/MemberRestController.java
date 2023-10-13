@@ -50,6 +50,11 @@ public class MemberRestController {
 //            new TokenForAuthenticationResponseDto()));
 //  }
 
+  @GetMapping("/tests")
+  public String members() {
+    return "<h1>members</h1>";
+  }
+
   @PostMapping("/token")
   public String token() {
     return "<h1>token</h1>";
