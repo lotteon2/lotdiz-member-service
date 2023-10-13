@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
     @Column(name = "member_role", nullable = false)
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private MemberRole memberRole = MemberRole.USER;
+    private MemberRole memberRole = MemberRole.ROLE_USER;
 
     @Column(name = "member_email", nullable = false, unique = true)
     private String memberEmail;
@@ -57,7 +57,4 @@ public class Member extends BaseEntity {
     @Column(name = "member_is_activate", nullable = false)
     @Builder.Default
     private Boolean memberIsActivate = true;
-
-    @OneToMany(cascade = CascadeType.REMOVE)
-    private Set<Authority> authorities;
 }

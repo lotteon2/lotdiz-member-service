@@ -17,33 +17,33 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 public class DeliveryAddress extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long deliveryAddressId;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private Long deliveryAddressId;
 
-    @Column(nullable = false)
-    private String deliveryAddressRecipientName;
+  @Column(nullable = false)
+  private String deliveryAddressRecipientName;
 
-    @Column(nullable = false)
-    private String deliveryAddressRecipientPhoneNumber;
+  @Column(nullable = false)
+  private String deliveryAddressRecipientPhoneNumber;
 
-    private String deliveryAddressRecipientEmail;
+  private String deliveryAddressRecipientEmail;
 
-    private String deliveryAddressRequest;
+  private String deliveryAddressRequest;
 
-    @Column(nullable = false)
-    private String deliveryAddressRoadName;
+  @Column(nullable = false)
+  private String deliveryAddressRoadName;
 
-    @Column(nullable = false)
-    private String deliveryAddressDetail;
+  @Column(nullable = false)
+  private String deliveryAddressDetail;
 
-    @Column(nullable = false)
-    private String deliveryAddressZipCode;
+  @Column(nullable = false)
+  private String deliveryAddressZipCode;
 
-    @Column(nullable = false)
-    @Builder.Default
-    private Boolean deliveryAddressIsDefault = false;
+  @Column(nullable = false)
+  @Builder.Default
+  private Boolean deliveryAddressIsDefault = false;
 
-    @Column(nullable = false)
-    private Long memberId;
+  @Column(nullable = false)
+  private Long memberId;
 }

@@ -1,0 +1,15 @@
+package com.lotdiz.memberservice.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
+@AllArgsConstructor
+@Getter
+@ToString
+public class ResultDataResponseBody<T> {
+    private final String code;
+    private final String message;
+    private final String detail;
+    private final T data;
+}

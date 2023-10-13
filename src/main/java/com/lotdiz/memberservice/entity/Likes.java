@@ -16,10 +16,9 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class Likes {
 
-    @EmbeddedId
-    private LikesId id;
+  @EmbeddedId private LikesId id;
 
-    @Column(nullable = false)
-    @CreatedDate
-    private LocalDateTime createdAt;
+  @Column(nullable = false)
+  @CreatedDate
+  private LocalDateTime createdAt;
 }
