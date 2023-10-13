@@ -5,6 +5,7 @@ import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.jwt.TokenProvider;
 import com.lotdiz.memberservice.repository.MemberRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,16 +47,20 @@ public class MemberService {
     return memberRepository.save(member);
   }
 
-  public String signin(MemberInfoForSignInRequestDto memberDto) {
-    logger.info("sign-in Service Logic..");
-    UsernamePasswordAuthenticationToken authenticationToken =
-        new UsernamePasswordAuthenticationToken(memberDto.getUsername(), memberDto.getPassword());
-
-    // loadUserByUsername in PrincipalDetailsService executes.
-    Authentication authentication =
-        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
-    String token = tokenProvider.createToken(authentication);
-    return token;
-  }
+//  public Boolean signin(MemberInfoForSignInRequestDto memberDto) {
+//    logger.info("sign-in Service Logic..");
+//    Optional<Member> om = memberRepository.findByMemberEmail(memberDto.getPassword());
+//    if(om.isPresent()) {
+//      Member member = om.get();
+//      String encryptedInDB = member.getMemberPassword();
+//      String encryptedInput = passwordEncoder.encode(memberDto.getPassword());
+//      if(encryptedInput.equals(encryptedInDB)) {
+//        logger.info("비밀번호가 일치합니다.");
+//        return true;
+//      }else {
+//        logger.info("비밀번호가 일치하지 않습니다.");
+//      }
+//    }
+//    return false;
+//  }
 }

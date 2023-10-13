@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       ObjectMapper om = new ObjectMapper();
       MemberInfoForSignInRequestDto signInDto =
           om.readValue(request.getInputStream(), MemberInfoForSignInRequestDto.class);
-      System.out.println("signInDto: " + signInDto);
+      logger.info("signInDto: " + signInDto);
 
       UsernamePasswordAuthenticationToken authenticationToken =
           new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword());
