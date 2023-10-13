@@ -10,3 +10,8 @@ spring:
   cloud:
     config:
       enabled: false
+
+jwt:
+  header: Authorization
+  secret: d29vLXRlY2gtc3ByaW5nLWJvb3Qtand0LXNlY3JldC13b28tdGVjaC1zcHJpbmctYm9vdC1qd3Qtc2VjcmV0LXdvby10ZWNoLXNwcmluZy1ib290LWp3dC1zZWNyZXQ=
+  token-validity-in-seconds: 600

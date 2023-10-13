@@ -1,6 +1,7 @@
 package com.lotdiz.memberservice.entity;
 
 import com.lotdiz.memberservice.entity.common.BaseEntity;
+import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,7 +55,8 @@ public class Member extends BaseEntity {
   @Column(name = "member_privacy_agreement", nullable = false)
   private Boolean memberPrivacyAgreement;
 
-  @Column(name = "member_is_activate", nullable = false)
-  @Builder.Default
-  private Boolean memberIsActivate = true;
+//  @OneToMany(
+//      mappedBy = "id.member",
+//      cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+//  private List<Likes> likes;
 }

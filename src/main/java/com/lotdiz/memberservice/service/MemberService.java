@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.MemberInfoForSignInRequestDto;
 import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
+import com.lotdiz.memberservice.dto.response.MemberInfoForQueryDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.jwt.TokenProvider;
 import com.lotdiz.memberservice.repository.MemberRepository;
@@ -45,6 +46,16 @@ public class MemberService {
             .memberPrivacyAgreement(memberDto.getMemberPrivacyAgreement())
             .build();
     return memberRepository.save(member);
+  }
+
+  public MemberInfoForQueryDto findByMemberId(Long memberId) {
+    Member member = memberRepository.findByMemberId(memberId);
+    MemberInfoForQueryDto memberDto = MemberInfoForQueryDto.builder()
+        .memberName(member.getMemberName())
+        .memberPhoneNumber(member.getMemberPhoneNumber())
+        .memberProfileImageUrl(member.getMemberProfileImageUrl())
+        .build();
+    return memberDto;
   }
 
 //  public Boolean signin(MemberInfoForSignInRequestDto memberDto) {
