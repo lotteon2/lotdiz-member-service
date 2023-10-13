@@ -13,5 +13,5 @@ import lombok.Setter;
 @Builder
 public class TokenForAuthenticationResponseDto {
 
-    private String token;
+  private String token;
 }

@@ -18,41 +18,44 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final Logger logger = LoggerFactory.getLogger(MemberService.class);
-    private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final TokenProvider tokenProvider;
+  private final Logger logger = LoggerFactory.getLogger(MemberService.class);
+  private final MemberRepository memberRepository;
+  private final PasswordEncoder passwordEncoder;
+  private final AuthenticationManagerBuilder authenticationManagerBuilder;
+  private final TokenProvider tokenProvider;
 
-    /**
-     * 회원가입
-     * @param memberDto
-     * @return
-     */
-    public Member signup(MemberInfoForSignUpRequestDto memberDto) {
-        if (memberRepository.findByMemberEmail(memberDto.getMemberEmail()).orElse(null) != null) {
-            throw new RuntimeException("이미 가입되어 있는 회원입니다.");
-        }
+  /**
+   * 회원가입
+   *
+   * @param memberDto
+   * @return
+   */
+  public Member signup(MemberInfoForSignUpRequestDto memberDto) {
+    if (memberRepository.findByMemberEmail(memberDto.getMemberEmail()).orElse(null) != null) {
+      throw new RuntimeException("이미 가입되어 있는 회원입니다.");
+    }
 
-        Member member = Member.builder()
+    Member member =
+        Member.builder()
             .memberEmail(memberDto.getMemberEmail())
             .memberPassword(passwordEncoder.encode(memberDto.getMemberPassword()))
             .memberName(memberDto.getMemberName())
             .memberPhoneNumber(memberDto.getMemberPhoneNumber())
             .memberPrivacyAgreement(memberDto.getMemberPrivacyAgreement())
             .build();
-        return memberRepository.save(member);
-    }
+    return memberRepository.save(member);
+  }
 
-    public String signin(MemberInfoForSignInRequestDto memberDto) {
-        logger.info("sign-in Service Logic..");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(memberDto.getUsername(), memberDto.getPassword());
+  public String signin(MemberInfoForSignInRequestDto memberDto) {
+    logger.info("sign-in Service Logic..");
+    UsernamePasswordAuthenticationToken authenticationToken =
+        new UsernamePasswordAuthenticationToken(memberDto.getUsername(), memberDto.getPassword());
 
-        // loadUserByUsername in PrincipalDetailsService executes.
-        Authentication authentication =
-            authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+    // loadUserByUsername in PrincipalDetailsService executes.
+    Authentication authentication =
+        authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
-        String token = tokenProvider.createToken(authentication);
-        return token;
-    }
+    String token = tokenProvider.createToken(authentication);
+    return token;
+  }
 }

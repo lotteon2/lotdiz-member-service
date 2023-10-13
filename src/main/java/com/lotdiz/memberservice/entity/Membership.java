@@ -17,23 +17,23 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 public class Membership {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long membershipId;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private Long membershipId;
 
-    @Column(nullable = false)
-    private LocalDateTime membershipSubscriptionCreatedAt;
+  @Column(nullable = false)
+  private LocalDateTime membershipSubscriptionCreatedAt;
 
-    @Column(nullable = false)
-    private LocalDateTime membershipSubscriptionExpiredAt;
+  @Column(nullable = false)
+  private LocalDateTime membershipSubscriptionExpiredAt;
 
-    @Column(nullable = false)
-    @Builder.Default
-    private Boolean membershipStatus = true;
+  @Column(nullable = false)
+  @Builder.Default
+  private Boolean membershipStatus = true;
 
-    @Column(nullable = false)
-    private Long membershipPolicyId;
+  @Column(nullable = false)
+  private Long membershipPolicyId;
 
-    @Column(nullable = false)
-    private Long MemberId;
+  @Column(nullable = false)
+  private Long MemberId;
 }

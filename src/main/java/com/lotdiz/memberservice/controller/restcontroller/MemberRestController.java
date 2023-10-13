@@ -25,52 +25,51 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class MemberRestController {
-    private final Logger logger = LoggerFactory.getLogger(MemberRestController.class);
+  private final Logger logger = LoggerFactory.getLogger(MemberRestController.class);
 
-    private final MemberService memberService;
+  private final MemberService memberService;
 
-    @PostMapping("/api/sign-up")
-    public ResponseEntity<Member> signup(@Valid @RequestBody MemberInfoForSignUpRequestDto memberInfoForSignUpRequestDto) {
-        logger.info("signup here!!");
-        return ResponseEntity.ok(memberService.signup(memberInfoForSignUpRequestDto));
+  @PostMapping("/api/sign-up")
+  public ResponseEntity<Member> signup(
+      @Valid @RequestBody MemberInfoForSignUpRequestDto memberInfoForSignUpRequestDto) {
+    logger.info("signup here!!");
+    return ResponseEntity.ok(memberService.signup(memberInfoForSignUpRequestDto));
+  }
 
-    }
-
-    @PostMapping("/sign-in")
-    public ResponseEntity<ResultDataResponseBody> signin(@Valid @RequestBody
-        MemberInfoForSignInRequestDto memberInfoForSignInRequestDto) {
-        logger.info("sign-in Controller Logic..");
-        String token = memberService.signin(memberInfoForSignInRequestDto);
-        logger.info("token: " + token);
+  @PostMapping("/sign-in")
+  public ResponseEntity<ResultDataResponseBody> signin(
+      @Valid @RequestBody MemberInfoForSignInRequestDto memberInfoForSignInRequestDto) {
+    logger.info("sign-in Controller Logic..");
+    String token = memberService.signin(memberInfoForSignInRequestDto);
+    logger.info("token: " + token);
     return ResponseEntity.ok(
         new ResultDataResponseBody(
             HttpStatus.OK.name(),
             HttpStatus.OK.getReasonPhrase(),
             "로그인 성공",
             new TokenForAuthenticationResponseDto(token)));
-    }
+  }
 
-    @PostMapping("/token")
-    public String token() {
-        return "<h1>token</h1>";
-    }
+  @PostMapping("/token")
+  public String token() {
+    return "<h1>token</h1>";
+  }
 
-    //user, manager, admin 다 접근가능
-    @GetMapping("/api/v1/user")
-    public String user() {
-        return "user";
-    }
+  // user, manager, admin 다 접근가능
+  @GetMapping("/api/v1/user")
+  public String user() {
+    return "user";
+  }
 
-    //manager, admin만 접근가능
-    @GetMapping("/api/v1/manager")
-    public String manager() {
-        return "manager";
-    }
+  // manager, admin만 접근가능
+  @GetMapping("/api/v1/manager")
+  public String manager() {
+    return "manager";
+  }
 
-    //admin만 접근가능
-    @GetMapping("/api/v1/adimin")
-    public String admin() {
-        return "admin";
-    }
-
+  // admin만 접근가능
+  @GetMapping("/api/v1/adimin")
+  public String admin() {
+    return "admin";
+  }
 }

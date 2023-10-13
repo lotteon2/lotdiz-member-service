@@ -8,8 +8,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ResultDataResponseBody<T> {
-    private final String code;
-    private final String message;
-    private final String detail;
-    private final T data;
+  private final String code;
+  private final String message;
+  private final String detail;
+  private final T data;
 }

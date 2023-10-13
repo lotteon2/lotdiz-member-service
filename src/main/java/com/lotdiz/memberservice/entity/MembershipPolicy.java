@@ -17,19 +17,19 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 public class MembershipPolicy extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long membershipPolicyId;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private Long membershipPolicyId;
 
-    @Column(nullable = false)
-    private String membershipPolicyGrade;
+  @Column(nullable = false)
+  private String membershipPolicyGrade;
 
-    @Column(nullable = false)
-    private Long membershipPolicySubscriptionFee;
+  @Column(nullable = false)
+  private Long membershipPolicySubscriptionFee;
 
-    @Column(nullable = false)
-    private Integer membershipPolicyDiscountRate;
+  @Column(nullable = false)
+  private Integer membershipPolicyDiscountRate;
 
-    @Column(nullable = false)
-    private Integer membershipPolicyPointAccumulationRate;
+  @Column(nullable = false)
+  private Integer membershipPolicyPointAccumulationRate;
 }

@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
       logger.info("로그인 완료: " + principalDetails.getMember().getMemberEmail());
 
-      return authentication; //save in session, 권한 관리를 Spring Security가 대신 해줌
+      return authentication; // save in session, 권한 관리를 Spring Security가 대신 해줌
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -61,12 +61,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     return null;
   }
 
-  //attemptAuthentication 실행 후 인증이 정상적으로 되었을 때 successfulAuthentication 함수 실행
+  // attemptAuthentication 실행 후 인증이 정상적으로 되었을 때 successfulAuthentication 함수 실행
   @Override
-  protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-      FilterChain chain, Authentication authResult) throws IOException, ServletException {
+  protected void successfulAuthentication(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      FilterChain chain,
+      Authentication authResult)
+      throws IOException, ServletException {
     logger.info("successfulAuthentication 실행됨: 인증 완료 후");
-//    PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+    //    PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
     String jwtToken = tokenProvider.createToken(authResult);
 
     response.addHeader("Authorization", "Bearer " + jwtToken);

@@ -28,7 +28,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 // 만약 권한이나 인증이 필요한 주소가 아니라면 이 필터를 안탄다.
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-  private String secret = "d29vLXRlY2gtc3ByaW5nLWJvb3Qtand0LXNlY3JldC13b28tdGVjaC1zcHJpbmctYm9vdC1qd3Qtc2VjcmV0LXdvby10ZWNoLXNwcmluZy1ib290LWp3dC1zZWNyZXQ=";
+  private String secret =
+      "d29vLXRlY2gtc3ByaW5nLWJvb3Qtand0LXNlY3JldC13b28tdGVjaC1zcHJpbmctYm9vdC1qd3Qtc2VjcmV0LXdvby10ZWNoLXNwcmluZy1ib290LWp3dC1zZWNyZXQ=";
 
   private MemberRepository memberRepository;
   private Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);

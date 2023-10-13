@@ -10,15 +10,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtLogoutHandler implements LogoutHandler {
 
-    /**
-     * Securtiy Context clear
-     * @param request the HTTP request
-     * @param response the HTTP response
-     * @param authentication the current principal details
-     */
-    @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response,
-        Authentication authentication) {
-        SecurityContextHolder.clearContext();
-    }
+  /**
+   * Securtiy Context clear
+   *
+   * @param request the HTTP request
+   * @param response the HTTP response
+   * @param authentication the current principal details
+   */
+  @Override
+  public void logout(
+      HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    SecurityContextHolder.clearContext();
+  }
 }

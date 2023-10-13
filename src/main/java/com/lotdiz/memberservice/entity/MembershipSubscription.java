@@ -17,10 +17,10 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 public class MembershipSubscription extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long membershipSubscriptionId;
+  @Id
+  @GeneratedValue(strategy = IDENTITY)
+  private Long membershipSubscriptionId;
 
-    @Column(nullable = false)
-    private Long membershipId;
+  @Column(nullable = false)
+  private Long membershipId;
 }

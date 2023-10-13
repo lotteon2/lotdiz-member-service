@@ -16,10 +16,10 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 public class LikesId implements Serializable {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "member_id")
+  private Member member;
 
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
+  @Column(name = "project_id", nullable = false)
+  private Long projectId;
 }
