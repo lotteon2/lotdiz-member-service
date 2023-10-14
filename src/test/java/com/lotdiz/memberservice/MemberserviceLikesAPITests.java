@@ -36,17 +36,41 @@ public class MemberserviceLikesAPITests {
   @DisplayName("프로젝트를 단일 찜 추가할 수 있다")
   void test1() {
     Long projectId = 1L;
+    ExtractableResponse<Response> response = 단일찜_추가(projectId);
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+  }
+
+  private static ExtractableResponse<Response> 단일찜_추가(Long projectId) {
+    return RestAssured.given()
+        .log()
+        .all()
+        .pathParam("projectId", projectId)
+        .when()
+        .post("/api/projects/{projectId}/likes")
+        .then()
+        .log()
+        .all()
+        .extract();
+  }
+
+  @Test
+  @DisplayName("찜을 단일 삭제할 수 있다")
+  void test2() {
+    Long projectId = 1L;
+    단일찜_추가(projectId);
+
     ExtractableResponse<Response> response =
         RestAssured.given()
             .log()
             .all()
             .pathParam("projectId", projectId)
             .when()
-            .post("/api/projects/{projectId}/likes")
+            .delete("/api/projects/{projectId}/likes")
             .then()
             .log()
             .all()
             .extract();
+
     assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
   }
 }

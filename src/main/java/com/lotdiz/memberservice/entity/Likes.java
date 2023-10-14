@@ -27,8 +27,12 @@ public class Likes {
   @CreatedDate
   private LocalDateTime createdAt;
 
+  public static LikesId createId(Member member, Long projectId) {
+    return LikesId.builder().member(member).projectId(projectId).build();
+  }
+
   public static Likes create(Member member, Long projectId) {
-    LikesId likesId = LikesId.builder().member(member).projectId(projectId).build();
+    LikesId likesId = createId(member, projectId);
 
     return Likes.builder().id(likesId).build();
   }

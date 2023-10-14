@@ -15,8 +15,15 @@ public class LikesService {
   private final LikesRepository likesRepository;
   private final MemberRepository memberRepository;
 
-  public void addLikes(Long memberId, Long projectId) {
+  public void add(Long memberId, Long projectId) {
     Member member = memberRepository.findByMemberId(memberId).orElseThrow();
     likesRepository.save(Likes.create(member, projectId));
+  }
+
+  public void remove(Long memberId, Long projectId) {
+    Member member = memberRepository.findByMemberId(memberId).orElseThrow();
+    LikesId likesId = Likes.createId(member, projectId);
+    Likes likes = likesRepository.findById(likesId).orElseThrow();
+    likesRepository.delete(likes);
   }
 }
