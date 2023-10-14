@@ -1,7 +1,7 @@
 package com.lotdiz.memberservice.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lotdiz.memberservice.dto.ResultDataResponseBody;
+import com.lotdiz.memberservice.dto.ResultDataResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
@@ -27,7 +27,7 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
 
     objectMapper.writeValue(
         response.getWriter(),
-        new ResultDataResponseBody<>(
+        new ResultDataResponse<>(
             HttpStatus.MOVED_PERMANENTLY.getReasonPhrase(),
             HttpStatus.OK.getReasonPhrase(),
             "로그아웃 성공",

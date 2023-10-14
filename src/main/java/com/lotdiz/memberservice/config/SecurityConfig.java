@@ -79,7 +79,7 @@ public class SecurityConfig {
         .authorizeRequests(
             requests ->
                 requests
-                    .antMatchers("/api/sign-in")
+                    .antMatchers("/api/**") //api test를 위해 permit
                     .permitAll()
                     .antMatchers("/api/sign-up")
                     .permitAll()

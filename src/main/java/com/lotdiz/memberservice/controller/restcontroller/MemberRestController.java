@@ -1,25 +1,21 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.MemberInfoForSignInRequestDto;
 import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
-import com.lotdiz.memberservice.dto.ResultDataResponseBody;
-import com.lotdiz.memberservice.dto.TokenForAuthenticationResponseDto;
+import com.lotdiz.memberservice.dto.ResultDataResponse;
+import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.service.MemberService;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,6 +32,17 @@ public class MemberRestController {
     logger.info("signup here!!");
     return ResponseEntity.ok(memberService.signup(memberInfoForSignUpRequestDto));
   }
+
+  @GetMapping("/members")
+  public ResultDataResponse<MemberInfoForQueryResponseDto> showMember(final Long memberId) {
+    return new ResultDataResponse<>(
+        String.valueOf(HttpServletResponse.SC_OK),
+        HttpStatus.OK.name(),
+        "조회 성공",
+        memberService.showMember(memberId)
+    );
+  }
+
 
 //  @PostMapping("/sign-in")
 //  public ResponseEntity<ResultDataResponseBody> signin(

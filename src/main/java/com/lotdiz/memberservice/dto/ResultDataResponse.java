@@ -7,7 +7,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class ResultDataResponseBody<T> {
+public class ResultDataResponse<T> {
   private final String code;
   private final String message;
   private final String detail;

@@ -1,18 +1,16 @@
 package com.lotdiz.memberservice.service;
 
-import com.lotdiz.memberservice.dto.MemberInfoForSignInRequestDto;
 import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
-import com.lotdiz.memberservice.dto.response.MemberInfoForQueryDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.jwt.TokenProvider;
+import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,14 +46,22 @@ public class MemberService {
     return memberRepository.save(member);
   }
 
-  public MemberInfoForQueryDto findByMemberId(Long memberId) {
-    Member member = memberRepository.findByMemberId(memberId);
-    MemberInfoForQueryDto memberDto = MemberInfoForQueryDto.builder()
-        .memberName(member.getMemberName())
-        .memberPhoneNumber(member.getMemberPhoneNumber())
-        .memberProfileImageUrl(member.getMemberProfileImageUrl())
+
+  public void renew(MemberInfoForChangeRequestDto memberChangeDto) {
+    Member member = memberRepository.findByMemberId(memberChangeDto.getMemberId()).orElseThrow();
+    member = Member.builder()
+        .memberName(memberChangeDto.getMemberName())
+        .memberPhoneNumber(memberChangeDto.getMemberPhoneNumber())
+        .memberProfileImageUrl(memberChangeDto.getMemberProfileImageUrl())
         .build();
-    return memberDto;
+
+        
+
+  }
+
+  public MemberInfoForQueryResponseDto showMember(Long memberId) {
+    Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new RuntimeException("해당 회원정보를 조회할 수 없습니다"));
+    return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
   }
 
 //  public Boolean signin(MemberInfoForSignInRequestDto memberDto) {
