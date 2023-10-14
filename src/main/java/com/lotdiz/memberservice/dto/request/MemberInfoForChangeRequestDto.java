@@ -15,9 +15,6 @@ import org.jetbrains.annotations.NotNull;
 @AllArgsConstructor
 @Builder
 public class MemberInfoForChangeRequestDto {
-  @NotNull
-  private Long memberId;
-
   @Pattern(
       regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).+$",
       message = "영문, 숫자, 특수문자 모두 포함하여 작성해주세요.")

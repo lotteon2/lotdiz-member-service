@@ -7,6 +7,7 @@ import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.jwt.TokenProvider;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,20 +48,14 @@ public class MemberService {
   }
 
 
-  public void renew(MemberInfoForChangeRequestDto memberChangeDto) {
-    Member member = memberRepository.findByMemberId(memberChangeDto.getMemberId()).orElseThrow();
-    member = Member.builder()
-        .memberName(memberChangeDto.getMemberName())
-        .memberPhoneNumber(memberChangeDto.getMemberPhoneNumber())
-        .memberProfileImageUrl(memberChangeDto.getMemberProfileImageUrl())
-        .build();
-
-        
-
+  @Transactional
+  public void renew(String email, MemberInfoForChangeRequestDto memberChangeDto) {
+    Member member = memberRepository.findByMemberEmail(email).orElseThrow();
+    memberRepository.save(Member.renew(member, memberChangeDto));
   }
 
   public MemberInfoForQueryResponseDto showMember(Long memberId) {
-    Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new RuntimeException("해당 회원정보를 조회할 수 없습니다"));
+    Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new RuntimeException("해당 회원을 조회할 수 없습니다"));
     return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
   }
 

@@ -23,72 +23,125 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//@ContextConfiguration(classes = MemberServiceApplication.class)
-//@DataJpaTest
+// @ContextConfiguration(classes = MemberServiceApplication.class)
+// @DataJpaTest
 @SpringBootTest
 class MemberserviceTests {
 
-    @Autowired
-    private MemberService memberService;
+  @Autowired private MemberService memberService;
 
-    @Test
-    void contextLoads() {
+  @Test
+  void contextLoads() {}
 
-    }
+  @Autowired private JdbcTemplate jdbcTemplate;
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+  @BeforeEach
+  public void setUpTestData() throws SQLException {
+    //        jdbcTemplate.execute("TRUNCATE TABLE member");
+    jdbcTemplate.execute(
+        "INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test1@naver.com','$2a$12$K3fmfXl0i/ZXVv7nppksPOgXPw.cHdujbSA6TPwJD1XdOFhuezBuK', 'leewooyup1', '01000000000', 0L, 'https://picsum.photos/200', true)");
+    jdbcTemplate.execute(
+        "INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test2@naver.com','$2a$12$K3fmfXl0i/ZXVv7nppksPOgXPw.cHdujbSA6TPwJD1XdOFhuezBuK', 'leewooyup2', '01011111111', 0L, 'https://picsum.photos/200', true)");
+    jdbcTemplate.execute(
+        "INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test3@naver.com','$2a$12$K3fmfXl0i/ZXVv7nppksPOgXPw.cHdujbSA6TPwJD1XdOFhuezBuK', 'leewooyup3', '01022222222', 0L, 'https://picsum.photos/200', true)");
 
-    @BeforeEach
-    public void setUpTestData() throws SQLException {
-//        jdbcTemplate.execute("TRUNCATE TABLE member");
-        jdbcTemplate.execute("INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test1@naver.com','$2a$12$1KExfMQ7nNPKSrJh4O2a/u60QCW/.W5PqF9d7KwFzDV8hWbuxHU8W', 'leewooyup1', '01000000000', 0L, 'https://picsum.photos/200', true)");
-        jdbcTemplate.execute("INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test2@naver.com','$2a$12$1KExfMQ7nNPKSrJh4O2a/u60QCW/.W5PqF9d7KwFzDV8hWbuxHU8W', 'leewooyup2', '01011111111', 0L, 'https://picsum.photos/200', true)");
-        jdbcTemplate.execute("INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test3@naver.com','$2a$12$1KExfMQ7nNPKSrJh4O2a/u60QCW/.W5PqF9d7KwFzDV8hWbuxHU8W', 'leewooyup3', '01022222222', 0L, 'https://picsum.photos/200', true)");
+    RestAssured.baseURI = "http://localhost";
+    RestAssured.port = 8083;
+  }
 
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = 8083;
+  @AfterEach
+  public void tearDownTestData() throws SQLException {}
 
-    }
+  @Test
+  @DisplayName("현재 로그인한 회원이 개인정보를 조회할 수 있다")
+  void test1() {
+    Long loginedId = 1L;
+    ExtractableResponse<Response> response = 회원정보조회(loginedId);
 
-    @AfterEach
-    public void tearDownTestData() throws SQLException {
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+  }
 
-    }
+  private static ExtractableResponse<Response> 회원정보조회(Long loginedId) {
+    return RestAssured.given()
+        .log()
+        .all()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .queryParam("memberId", loginedId)
+        .when()
+        .get("/api/members")
+        .then()
+        .log()
+        .all()
+        .extract();
+  }
 
-    @Test
-    @DisplayName("memberId로 개인정보를 조회할 수 있다")
-    void test1() {
-//        Long memberId = 1L;
-//        Member member = memberService.showMember(memberId);
-//        MemberInfoForQueryResponseDto memberQueryDto = CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
-//        assertEquals("leewooyup1", memberQueryDto.getMemberName());
-        Long loginedId = 1L;
-        ExtractableResponse<Response> response = RestAssured.given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .queryParam("memberId", loginedId)
-            .when()
-            .get("/api/members")
-            .then()
-            .log().all().extract();
-
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-
-    }
-
-    @Test
-    @DisplayName("현재 로그인한 회원이 자신의 개인 정보를 수정할 수 있다")
-    void test2() {
-        Long loginedId = 1L;
-
-        MemberInfoForChangeRequestDto memberChangeDto = MemberInfoForChangeRequestDto.builder()
-            .memberId(loginedId)
-            .memberName("LEEWOOYUP1")
+  @Test
+  @DisplayName("현재 로그인한 회원이 자신의 개인 정보를 수정할 수 있다")
+  void test2() {
+    MemberInfoForChangeRequestDto memberChangeDto =
+        MemberInfoForChangeRequestDto.builder()
+            .originPassword(null)
+            .newPassword(null)
+            .memberName("이우엽1")
             .memberPhoneNumber("01012345678")
-            .memberProfileImageUrl("https://i.esdrop.com/d/f/OAHra5CzfD/Ools2bpggR.jpg")
+            .memberProfileImageUrl("fgdgdfg")
             .build();
 
-        memberService.renew(memberChangeDto);
+    ExtractableResponse<Response> response =
+        회원정보수정(memberChangeDto);
 
-    }
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+
+    Long loginedId = 1L;
+
+    회원정보조회(loginedId);
+  }
+
+  @Test
+  @DisplayName("현재 로그인한 회원이 자신의 개인 정보를 수정할 수 있다(비밀번호까지)")
+  void test3() {
+    MemberInfoForChangeRequestDto memberChangeDto =
+        MemberInfoForChangeRequestDto.builder()
+            .originPassword("woo1234@")
+            .newPassword("woo5678@")
+            .memberName("이우엽1")
+            .memberPhoneNumber("01012345678")
+            .memberProfileImageUrl("fgdgdfg")
+            .build();
+    ExtractableResponse<Response> response = 회원정보수정(memberChangeDto);
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+  }
+
+  @Test
+  @DisplayName("현재 로그인 한 회원이 자신의 개인 정보를 수정할 때, 비밀번호를 틀린 경우 새 비밀번호로 바꿀 수 없다.")
+  void test4() {
+    MemberInfoForChangeRequestDto memberChangeDto =
+        MemberInfoForChangeRequestDto.builder()
+            .originPassword("woo0000@")
+            .newPassword("woo5678@")
+            .memberName("이우엽1")
+            .memberPhoneNumber("01012345678")
+            .memberProfileImageUrl("fgdgdfg")
+            .build();
+    ExtractableResponse<Response> response = 회원정보수정(memberChangeDto);
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
+  }
+
+  private static ExtractableResponse<Response> 회원정보수정(
+      MemberInfoForChangeRequestDto memberChangeDto) {
+    return RestAssured.given()
+        .log()
+        .all()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(memberChangeDto)
+        .when()
+        .patch("/api/members")
+        .then()
+        .log()
+        .all()
+        .extract();
+  }
+
+
+
 }

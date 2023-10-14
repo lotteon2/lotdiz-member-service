@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.controller.restcontroller;
 
 import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.ResultDataResponse;
+import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.service.MemberService;
@@ -13,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,8 +41,20 @@ public class MemberRestController {
     return new ResultDataResponse<>(
         String.valueOf(HttpServletResponse.SC_OK),
         HttpStatus.OK.name(),
-        "조회 성공",
+        "회원 정보 조회 성공",
         memberService.showMember(memberId)
+    );
+  }
+
+  @PatchMapping("/members")
+  public ResultDataResponse<Object> renewMember(@Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
+    String loginedEmail = "test1@naver.com";//hard coding.
+    memberService.renew(loginedEmail, memberInfoForChangeRequestDto);
+    return new ResultDataResponse<>(
+        String.valueOf(HttpStatus.OK.value()),
+        HttpStatus.OK.toString(),
+        "회원 정보 수정 성공",
+        null
     );
   }
 
