@@ -2,11 +2,13 @@ package com.lotdiz.memberservice.controller.restcontroller;
 
 import com.lotdiz.memberservice.dto.ResultDataResponse;
 import com.lotdiz.memberservice.service.LikesService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +30,17 @@ public class LikesRestController {
     Long loginedId = 1L; // hard coding.
     likesService.remove(loginedId, projectId);
     return new ResultDataResponse<>("200", HttpStatus.OK.name(), "단일 찜 삭제 성공", null);
+  }
+
+  @DeleteMapping("/likes")
+  public ResultDataResponse<Object> removeMultiLikes(@RequestBody List<Long> projectIds) {
+    Long loginedId = 1L; // hard coding.
+    likesService.removeMulti(loginedId, projectIds);
+    return new ResultDataResponse<>(
+        "200",
+        HttpStatus.OK.name(),
+        "다중 찜 삭제 성공",
+        null
+    );
   }
 }

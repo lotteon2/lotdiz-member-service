@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -70,6 +71,29 @@ public class MemberserviceLikesAPITests {
             .log()
             .all()
             .extract();
+
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+  }
+
+  @Test
+  @DisplayName("한번에 여러 개의 찜을 삭제할 수 있다")
+  void test3() {
+    단일찜_추가(1L);
+    단일찜_추가(2L);
+    단일찜_추가(3L);
+    단일찜_추가(4L);
+
+    String jsonArray = "[1, 2, 3]";
+
+    ExtractableResponse<Response> response = RestAssured.given().log().all()
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(jsonArray)
+        .when()
+        .delete("/api/likes")
+        .then()
+        .log()
+        .all()
+        .extract();
 
     assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
   }
