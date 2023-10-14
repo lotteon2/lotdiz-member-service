@@ -28,23 +28,14 @@ public class MemberService {
   /**
    * 회원가입
    *
-   * @param memberDto
+   * @param memberSignUpDto
    * @return
    */
-  public Member signup(MemberInfoForSignUpRequestDto memberDto) {
-    if (memberRepository.findByMemberEmail(memberDto.getMemberEmail()).orElse(null) != null) {
+  public Member signup(MemberInfoForSignUpRequestDto memberSignUpDto) {
+    if (memberRepository.findByMemberEmail(memberSignUpDto.getMemberEmail()).orElse(null) != null) {
       throw new RuntimeException("이미 가입되어 있는 회원입니다.");
     }
-
-    Member member =
-        Member.builder()
-            .memberEmail(memberDto.getMemberEmail())
-            .memberPassword(passwordEncoder.encode(memberDto.getMemberPassword()))
-            .memberName(memberDto.getMemberName())
-            .memberPhoneNumber(memberDto.getMemberPhoneNumber())
-            .memberPrivacyAgreement(memberDto.getMemberPrivacyAgreement())
-            .build();
-    return memberRepository.save(member);
+    return memberRepository.save(Member.signup(memberSignUpDto));
   }
 
 

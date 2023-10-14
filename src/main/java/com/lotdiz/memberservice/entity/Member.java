@@ -1,5 +1,6 @@
 package com.lotdiz.memberservice.entity;
 
+import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
 import java.util.List;
@@ -79,6 +80,19 @@ public class Member extends BaseEntity {
 
   public void assignMemberProfileImageUrl(String memberProfileImageUrl) {
     this.memberProfileImageUrl = memberProfileImageUrl;
+  }
+
+  public static Member signup(MemberInfoForSignUpRequestDto memberSignUpDto) {
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    Member member =
+        Member.builder()
+            .memberEmail(memberSignUpDto.getMemberEmail())
+            .memberPassword(passwordEncoder.encode(memberSignUpDto.getMemberPassword()))
+            .memberName(memberSignUpDto.getMemberName())
+            .memberPhoneNumber(memberSignUpDto.getMemberPhoneNumber())
+            .memberPrivacyAgreement(memberSignUpDto.getMemberPrivacyAgreement())
+            .build();
+    return member;
   }
 
   public static Member renew(Member member, MemberInfoForChangeRequestDto memberChangeDto) {
