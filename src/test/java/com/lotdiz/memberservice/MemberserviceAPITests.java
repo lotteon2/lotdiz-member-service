@@ -1,9 +1,6 @@
 package com.lotdiz.memberservice;
 
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
-import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
-import com.lotdiz.memberservice.entity.Member;
-import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.service.MemberService;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -18,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 // @ContextConfiguration(classes = MemberServiceApplication.class)
 // @DataJpaTest
 @SpringBootTest
-class MemberserviceTests {
+class MemberserviceAPITests {
 
   @Autowired private MemberService memberService;
 
