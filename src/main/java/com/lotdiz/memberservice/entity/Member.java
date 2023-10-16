@@ -61,6 +61,9 @@ public class Member extends BaseEntity {
   @Column(name = "member_privacy_agreement", nullable = false)
   private Boolean memberPrivacyAgreement;
 
+  @Column(name = "membership_id")
+  private Long membershipId;
+
   //  @OneToMany(
   //      mappedBy = "id.member",
   //      cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
