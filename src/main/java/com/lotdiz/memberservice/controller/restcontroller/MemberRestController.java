@@ -1,7 +1,7 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
-import com.lotdiz.memberservice.dto.ResultDataResponse;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
+import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class MemberRestController {
   }
 
   @GetMapping("/members")
-  public ResultDataResponse<MemberInfoForQueryResponseDto> showMember(final Long memberId) {
+  public ResultDataResponse<MemberInfoForQueryResponseDto> showMember(@RequestHeader Long memberId) {
     return new ResultDataResponse<>(
         String.valueOf(HttpServletResponse.SC_OK),
         HttpStatus.OK.name(),

@@ -1,6 +1,6 @@
 package com.lotdiz.memberservice.service.client;
 
-import com.lotdiz.memberservice.dto.ResultDataResponse;
+import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
 import java.util.Map;
 import org.springframework.cloud.openfeign.FeignClient;

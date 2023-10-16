@@ -1,4 +1,4 @@
-package com.lotdiz.memberservice.dto;
+package com.lotdiz.memberservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

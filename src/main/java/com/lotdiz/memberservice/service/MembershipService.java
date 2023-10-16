@@ -33,8 +33,6 @@ public class MembershipService {
         Long membershipSubscriptionId = paymentsClientService.getMembershipSubscription(paymentsDto);
         logger.info("membershipSubscriptionId: " + membershipSubscriptionId);
         saved.assignMembershipSubscriptionId(membershipSubscriptionId);
-//        map.put("membership_id", saved.getMembershipId());
-
     }
 
     public void joinComplete(MembershipInfoForAssignRequestDto membershipAssignDto) {

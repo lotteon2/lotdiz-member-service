@@ -2,7 +2,7 @@ package com.lotdiz.memberservice.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
 import javax.persistence.*;

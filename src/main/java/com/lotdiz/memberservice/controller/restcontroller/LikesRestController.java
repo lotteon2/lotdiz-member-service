@@ -1,6 +1,6 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.ResultDataResponse;
+import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.service.LikesService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

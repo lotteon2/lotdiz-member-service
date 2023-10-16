@@ -1,4 +1,4 @@
-package com.lotdiz.memberservice.dto;
+package com.lotdiz.memberservice.dto.request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;

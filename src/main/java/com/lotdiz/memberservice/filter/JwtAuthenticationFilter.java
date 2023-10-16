@@ -2,7 +2,7 @@ package com.lotdiz.memberservice.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotdiz.memberservice.config.auth.PrincipalDetails;
-import com.lotdiz.memberservice.dto.MemberInfoForSignInRequestDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignInRequestDto;
 import com.lotdiz.memberservice.jwt.TokenProvider;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -39,7 +39,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       ObjectMapper om = new ObjectMapper();
       MemberInfoForSignInRequestDto signInDto =
           om.readValue(request.getInputStream(), MemberInfoForSignInRequestDto.class);
-      logger.info("signInDto: " + signInDto);
 
       UsernamePasswordAuthenticationToken authenticationToken =
           new UsernamePasswordAuthenticationToken(signInDto.getUsername(), signInDto.getPassword());

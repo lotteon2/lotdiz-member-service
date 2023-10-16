@@ -1,6 +1,6 @@
 package com.lotdiz.memberservice.service;
 
-import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
@@ -38,7 +38,6 @@ public class MemberService {
     return memberRepository.save(Member.signup(memberSignUpDto));
   }
 
-
   @Transactional
   public void renew(String email, MemberInfoForChangeRequestDto memberChangeDto) {
     Member member = memberRepository.findByMemberEmail(email).orElseThrow();
@@ -46,24 +45,10 @@ public class MemberService {
   }
 
   public MemberInfoForQueryResponseDto showMember(Long memberId) {
-    Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new RuntimeException("해당 회원을 조회할 수 없습니다"));
+    Member member =
+        memberRepository
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new RuntimeException("해당 회원을 조회할 수 없습니다"));
     return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
   }
-
-//  public Boolean signin(MemberInfoForSignInRequestDto memberDto) {
-//    logger.info("sign-in Service Logic..");
-//    Optional<Member> om = memberRepository.findByMemberEmail(memberDto.getPassword());
-//    if(om.isPresent()) {
-//      Member member = om.get();
-//      String encryptedInDB = member.getMemberPassword();
-//      String encryptedInput = passwordEncoder.encode(memberDto.getPassword());
-//      if(encryptedInput.equals(encryptedInDB)) {
-//        logger.info("비밀번호가 일치합니다.");
-//        return true;
-//      }else {
-//        logger.info("비밀번호가 일치하지 않습니다.");
-//      }
-//    }
-//    return false;
-//  }
 }

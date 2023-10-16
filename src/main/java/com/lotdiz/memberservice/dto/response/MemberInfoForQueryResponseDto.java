@@ -12,8 +12,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class MemberInfoForQueryResponseDto {
-    private Long memberId;
-    private String memberName;
-    private String memberPhoneNumber;
-    private String memberProfileImageUrl;
+  private Long memberId;
+  private String memberName;
+  private String memberPhoneNumber;
+  private String memberProfileImageUrl;
 }

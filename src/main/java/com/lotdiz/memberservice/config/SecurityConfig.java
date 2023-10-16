@@ -3,7 +3,6 @@ package com.lotdiz.memberservice.config;
 import com.lotdiz.memberservice.exceptionhandler.JwtAccessDeniedHandler;
 import com.lotdiz.memberservice.exceptionhandler.JwtAuthenticationEntryPoint;
 import com.lotdiz.memberservice.filter.JwtAuthenticationFilter;
-import com.lotdiz.memberservice.filter.JwtAuthorizationFilter;
 import com.lotdiz.memberservice.jwt.TokenProvider;
 import com.lotdiz.memberservice.jwt.handler.JwtLogoutHandler;
 import com.lotdiz.memberservice.jwt.handler.JwtLogoutSuccessHandler;
@@ -36,6 +35,7 @@ public class SecurityConfig {
   private final JwtLogoutSuccessHandler jwtLogoutSuccessHandler;
   private final CorsConfig corsConfig;
   private final MemberRepository memberRepository;
+
   @Value("${jwt.secret}")
   private String secret;
 
@@ -70,21 +70,12 @@ public class SecurityConfig {
         .authorizeRequests(
             requests ->
                 requests
-                    .antMatchers("/api/**") //api test를 위해 permit
-                    .permitAll()
                     .antMatchers("/api/sign-up")
                     .permitAll()
-                    .antMatchers("/api/tests")
+                    .antMatchers("/api/sign-in")
                     .permitAll()
-                    .antMatchers("/login")
+                    .antMatchers("/api/**")
                     .permitAll()
-                    .antMatchers("/api/v1/user/**")
-                    .access(
-                        "hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                    .antMatchers("/api/v1/manager/**")
-                    .access("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
-                    .antMatchers("/api/v1/admin/**")
-                    .access("hasRole('ROLE_ADMIN')")
                     .requestMatchers(PathRequest.toH2Console())
                     .permitAll()
                     .antMatchers("/favicon.ico")
@@ -97,15 +88,13 @@ public class SecurityConfig {
   public class MyCustomDsl extends AbstractHttpConfigurer<MyCustomDsl, HttpSecurity> {
     @Override
     public void configure(HttpSecurity http) throws Exception {
+      logger.info("SecurityConfig filterChain here");
       AuthenticationManager authenticationManager =
           http.getSharedObject(AuthenticationManager.class);
-      JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, tokenProvider);
+      JwtAuthenticationFilter jwtAuthenticationFilter =
+          new JwtAuthenticationFilter(authenticationManager, tokenProvider);
       jwtAuthenticationFilter.setFilterProcessesUrl("/api/sign-in");
-      http.addFilter(corsConfig.corsFilter())
-          .addFilter(jwtAuthenticationFilter)
-          .addFilter(new JwtAuthorizationFilter(authenticationManager, memberRepository, secret));
+      http.addFilter(corsConfig.corsFilter()).addFilter(jwtAuthenticationFilter);
     }
   }
-
-
 }

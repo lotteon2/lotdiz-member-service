@@ -12,9 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class PaymentsInfoForKakoaPayRequestDto {
-    private String itemName;
-    private String quantity;
-    private String totalAmount;
-    private String taxFreeAmount;
-    private String membershipId;
+  private String itemName;
+  private String quantity;
+  private String totalAmount;
+  private String taxFreeAmount;
+  private String membershipId;
 }
