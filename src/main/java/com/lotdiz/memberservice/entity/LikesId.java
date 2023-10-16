@@ -1,14 +1,12 @@
 package com.lotdiz.memberservice.entity;
 
-import lombok.AccessLevel;
+import static lombok.AccessLevel.PROTECTED;
+
+import java.io.Serializable;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.io.Serializable;
-
-import static lombok.AccessLevel.PROTECTED;
 
 @Embeddable
 @Builder

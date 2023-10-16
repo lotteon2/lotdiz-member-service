@@ -1,9 +1,6 @@
 package com.lotdiz.memberservice.service.client;
 
-import com.lotdiz.memberservice.dto.ResultDataResponse;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
-import com.lotdiz.memberservice.service.client.PaymentsServiceClient;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

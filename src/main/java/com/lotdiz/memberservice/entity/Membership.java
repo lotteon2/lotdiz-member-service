@@ -1,14 +1,13 @@
 package com.lotdiz.memberservice.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
+import java.time.LocalDateTime;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Getter

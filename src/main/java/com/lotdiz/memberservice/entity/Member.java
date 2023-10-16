@@ -1,23 +1,18 @@
 package com.lotdiz.memberservice.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import com.lotdiz.memberservice.dto.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
-import java.util.List;
-import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "member")

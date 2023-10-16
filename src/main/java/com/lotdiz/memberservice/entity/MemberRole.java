@@ -1,6 +1,5 @@
 package com.lotdiz.memberservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 @Getter

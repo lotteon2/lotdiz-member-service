@@ -6,7 +6,6 @@ import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.repository.LikesRepository;
 import com.lotdiz.memberservice.repository.MemberRepository;
 import java.util.List;
-import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
