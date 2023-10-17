@@ -57,46 +57,4 @@ public class MemberRestController {
         null
     );
   }
-
-
-//  @PostMapping("/sign-in")
-//  public ResponseEntity<ResultDataResponseBody> signin(
-//      @Valid @RequestBody MemberInfoForSignInRequestDto memberInfoForSignInRequestDto) {
-//    logger.info("sign-in Controller Logic..");
-//    memberService.signin(memberInfoForSignInRequestDto);
-//    return ResponseEntity.ok(
-//        new ResultDataResponseBody(
-//            HttpStatus.OK.name(),
-//            HttpStatus.OK.getReasonPhrase(),
-//            "로그인 성공",
-//            new TokenForAuthenticationResponseDto()));
-//  }
-
-  @GetMapping("/tests")
-  public String members() {
-    return "<h1>members</h1>";
-  }
-
-  @PostMapping("/token")
-  public String token() {
-    return "<h1>token</h1>";
-  }
-
-  // user, manager, admin 다 접근가능
-  @GetMapping("/v1/user")
-  public String user() {
-    return "user";
-  }
-
-  // manager, admin만 접근가능
-  @GetMapping("/v1/manager")
-  public String manager() {
-    return "manager";
-  }
-
-  // admin만 접근가능
-  @GetMapping("/v1/adimin")
-  public String admin() {
-    return "admin";
-  }
 }
