@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.request.PoiintInfoForConsumptionRequestDto;
 import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
@@ -73,11 +74,18 @@ public class MemberService {
     return memberInfos;
   }
 
-  public void refund(List<PointInfoForRefundRequestDto> refundPoints) {
-    for(PointInfoForRefundRequestDto refundDto : refundPoints) {
+  public void refund(PointInfoForRefundRequestDto refundDto) {
       Member member = memberRepository.findByMemberId(refundDto.getMemberId()).orElseThrow();
       member.assignMemberPoint(member.getMemberPoint() + refundDto.getMemberPoint());
       memberRepository.save(member);
+  }
+
+  public void consume(PoiintInfoForConsumptionRequestDto pointConsumptionDto) {
+    Member member = memberRepository.findByMemberId(pointConsumptionDto.getMemberId()).orElseThrow();
+    if(member.getMemberPoint() < pointConsumptionDto.getMemberPoint()) {
+      throw new RuntimeException("포인트가 부족합니다.");
     }
+    member.assignMemberPoint(member.getMemberPoint() - pointConsumptionDto.getMemberPoint());
+    memberRepository.save(member);
   }
 }
