@@ -2,10 +2,14 @@ package com.lotdiz.memberservice.controller.restcontroller;
 
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.service.LikesService;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,6 +45,19 @@ public class LikesRestController {
         HttpStatus.OK.name(),
         "다중 찜 삭제 성공",
         null
+    );
+  }
+
+  @GetMapping("/projects/{projectId}/like-count")
+  public ResultDataResponse<Map<String, Long>> calProjecLikes(@PathVariable("projectId") String projectId) {
+    long count = likesService.calCount(projectId);
+    Map<String, Long> map = new HashMap<String, Long>();
+    map.put(projectId.toString(), count);
+    return new ResultDataResponse<>(
+        "200",
+        HttpStatus.OK.name(),
+        "성공",
+        map
     );
   }
 }

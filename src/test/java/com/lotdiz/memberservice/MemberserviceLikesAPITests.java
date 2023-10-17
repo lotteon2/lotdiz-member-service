@@ -98,4 +98,21 @@ public class MemberserviceLikesAPITests {
 
     assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
   }
+
+  @Test
+  @DisplayName("Project별 찜 개수를 셀 수 있다")
+  void test4() {
+    단일찜_추가(1L);
+
+    ExtractableResponse<Response> response = RestAssured.given().log().all()
+        .pathParam("projectId", 1L)
+        .when()
+        .get("/api/projects/{projectId}/like-count")
+        .then()
+        .log()
+        .all()
+        .extract();
+
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+  }
 }

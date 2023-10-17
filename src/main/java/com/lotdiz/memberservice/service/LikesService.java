@@ -39,4 +39,8 @@ public class LikesService {
       likesRepository.delete(likes);
     }
   }
+
+    public Long calCount(String projectId) {
+      return likesRepository.countByProjectId(Long.parseLong(projectId));
+    }
 }
