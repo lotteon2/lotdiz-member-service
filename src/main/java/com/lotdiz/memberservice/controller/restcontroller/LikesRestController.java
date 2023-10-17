@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -53,6 +55,22 @@ public class LikesRestController {
     long count = likesService.calCount(projectId);
     Map<String, Long> map = new HashMap<String, Long>();
     map.put(projectId.toString(), count);
+    return new ResultDataResponse<>(
+        "200",
+        HttpStatus.OK.name(),
+        "성공",
+        map
+    );
+  }
+
+  @GetMapping("/projects/islike")
+  public ResultDataResponse<Map<String, Boolean>> isLikes(
+      @RequestHeader Long memberId, @RequestParam List<Long> projectIds) {
+    List<Boolean> likesStatus = likesService.queryIsLikes(memberId, projectIds);
+    Map<String, Boolean> map = new HashMap<>();
+    for(int i = 0; i < projectIds.size(); i++) {
+      map.put(projectIds.get(i).toString(), likesStatus.get(i));
+    }
     return new ResultDataResponse<>(
         "200",
         HttpStatus.OK.name(),

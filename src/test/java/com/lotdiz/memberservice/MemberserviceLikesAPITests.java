@@ -6,6 +6,8 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -108,6 +110,35 @@ public class MemberserviceLikesAPITests {
         .pathParam("projectId", 1L)
         .when()
         .get("/api/projects/{projectId}/like-count")
+        .then()
+        .log()
+        .all()
+        .extract();
+
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+  }
+
+  @Test
+  @DisplayName("주어진 projectIds로 현재 로그인한 회원의 프로젝트에 대한 각각의 찜여부를 알수 있다")
+  void test5() {
+    long loginedId = 1L;
+
+    단일찜_추가(1L);
+    단일찜_추가(2L);
+    단일찜_추가(3L);
+
+    List<Long> projectIds = new ArrayList<>();
+    projectIds.add(1L);
+    projectIds.add(2L);
+    projectIds.add(3L);
+    projectIds.add(4L);
+    projectIds.add(5L);
+
+    ExtractableResponse<Response> response = RestAssured.given().log().all()
+        .header("memberId", loginedId)
+        .queryParam("projectIds", projectIds)
+        .when()
+        .get("/api/projects/islike")
         .then()
         .log()
         .all()
