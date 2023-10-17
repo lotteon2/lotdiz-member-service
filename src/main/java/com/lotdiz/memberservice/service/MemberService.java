@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
@@ -70,5 +71,13 @@ public class MemberService {
       memberInfos.put(memberId.toString(), memberInfoDto);
     }
     return memberInfos;
+  }
+
+  public void refund(List<PointInfoForRefundRequestDto> refundPoints) {
+    for(PointInfoForRefundRequestDto refundDto : refundPoints) {
+      Member member = memberRepository.findByMemberId(refundDto.getMemberId()).orElseThrow();
+      member.assignMemberPoint(member.getMemberPoint() + refundDto.getMemberPoint());
+      memberRepository.save(member);
+    }
   }
 }

@@ -76,6 +76,10 @@ public class Member extends BaseEntity {
     this.memberPhoneNumber = memberPhoneNumber;
   }
 
+  public void assignMemberPoint(Long memberPoint) {
+    this.memberPoint = memberPoint;
+  }
+
   public void assignMemberProfileImageUrl(String memberProfileImageUrl) {
     this.memberProfileImageUrl = memberProfileImageUrl;
   }
