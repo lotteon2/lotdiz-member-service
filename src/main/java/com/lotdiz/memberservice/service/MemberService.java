@@ -2,11 +2,16 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.jwt.TokenProvider;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -50,5 +55,20 @@ public class MemberService {
             .findByMemberId(memberId)
             .orElseThrow(() -> new RuntimeException("해당 회원을 조회할 수 없습니다"));
     return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
+  }
+
+  public Map<String, MemberInfoForProjectResponseDto> inquireNameAndProfileImage(
+      List<Long> memberIds) {
+    Map<String, MemberInfoForProjectResponseDto> memberInfos = new HashMap<>();
+    for (Long memberId : memberIds) {
+      Member member = memberRepository.findByMemberId(memberId).orElseThrow();
+      MemberInfoForProjectResponseDto memberInfoDto =
+          MemberInfoForProjectResponseDto.builder()
+              .memberName(member.getMemberName())
+              .memberProfileImageUrl(member.getMemberProfileImageUrl())
+              .build();
+      memberInfos.put(memberId.toString(), memberInfoDto);
+    }
+    return memberInfos;
   }
 }

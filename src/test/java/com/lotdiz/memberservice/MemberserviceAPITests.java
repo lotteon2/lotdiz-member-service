@@ -8,6 +8,8 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -82,8 +84,7 @@ class MemberserviceAPITests {
             .memberProfileImageUrl("fgdgdfg")
             .build();
 
-    ExtractableResponse<Response> response =
-        회원정보수정(memberChangeDto);
+    ExtractableResponse<Response> response = 회원정보수정(memberChangeDto);
 
     assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
 
@@ -137,6 +138,24 @@ class MemberserviceAPITests {
         .extract();
   }
 
-
-
+  @Test
+  @DisplayName("각각 멤버의 이름과 프로필 사진을 조회할 수 있다")
+  void test5() {
+    List<Long> memberIds = Arrays.asList(1L, 2L);
+    for(Long memberId : memberIds) {
+      System.out.println("memberId: " + memberId);
+    }
+    ExtractableResponse<Response> response =
+        RestAssured.given()
+            .log()
+            .all()
+            .queryParam("memberIds", memberIds)
+            .when()
+            .get("/api/members-info")
+            .then()
+            .log()
+            .all()
+            .extract();
+    assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+  }
 }
