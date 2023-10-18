@@ -1,7 +1,7 @@
 package com.lotdiz.memberservice.service.client;
 
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
-import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
+import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import java.util.Map;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,5 +12,5 @@ public interface PaymentsServiceClient {
 
   @PostMapping("/api/membership/payments/ready")
   ResultDataResponse<Map<String, Long>> getMembershipSubscriptionId(
-      @RequestBody PaymentsInfoForKakoaPayRequestDto paymentsDto);
+      @RequestBody PaymentsInfoForKakaoPayRequestDto paymentsDto);
 }

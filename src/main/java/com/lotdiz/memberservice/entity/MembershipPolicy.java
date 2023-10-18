@@ -18,17 +18,18 @@ public class MembershipPolicy extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
+  @Column(name = "membership_policy_id")
   private Long membershipPolicyId;
 
-  @Column(nullable = false)
+  @Column(name = "membership_policy_grade", nullable = false)
   private String membershipPolicyGrade;
 
-  @Column(nullable = false)
+  @Column(name = "membership_policy_subscription_fee", nullable = false)
   private Long membershipPolicySubscriptionFee;
 
-  @Column(nullable = false)
+  @Column(name = "membership_policy_discount_rate", nullable = false)
   private Integer membershipPolicyDiscountRate;
 
-  @Column(nullable = false)
+  @Column(name = "membership_policy_point_accumulation_rate", nullable = false)
   private Integer membershipPolicyPointAccumulationRate;
 }

@@ -116,4 +116,8 @@ public class Member extends BaseEntity {
     }
     return member;
   }
+
+  public void assignMembershipId(Long membershipId) {
+    this.membershipId = membershipId;
+  }
 }

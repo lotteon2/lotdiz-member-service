@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,6 @@ public class MemberRestController {
   @PostMapping("/sign-up")
   public ResponseEntity<Member> signup(
       @Valid @RequestBody MemberInfoForSignUpRequestDto memberInfoForSignUpRequestDto) {
-    logger.info("signup here!!");
     return ResponseEntity.ok(memberService.signup(memberInfoForSignUpRequestDto));
   }
 
@@ -50,10 +50,11 @@ public class MemberRestController {
     );
   }
 
-  @PatchMapping("/members")
-  public ResultDataResponse<Object> renewMember(@Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
+  @PutMapping("/members")
+  public ResultDataResponse<Object> renewMember(@RequestHeader String username, @Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
     String loginedEmail = "test1@naver.com";//hard coding.
-    memberService.renew(loginedEmail, memberInfoForChangeRequestDto);
+
+    memberService.renew(username, memberInfoForChangeRequestDto);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()),
         HttpStatus.OK.toString(),

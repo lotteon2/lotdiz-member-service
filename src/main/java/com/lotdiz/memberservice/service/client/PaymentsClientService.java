@@ -1,6 +1,6 @@
 package com.lotdiz.memberservice.service.client;
 
-import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
+import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class PaymentsClientService {
   private final PaymentsServiceClient paymentsServiceClient;
 
-  public Long getMembershipSubscription(PaymentsInfoForKakoaPayRequestDto paymentsDto) {
+  public Long getMembershipSubscription(PaymentsInfoForKakaoPayRequestDto paymentsDto) {
     return paymentsServiceClient.getMembershipSubscriptionId(paymentsDto).getData().get("membershipSubscriptionId");
   }
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PoiintInfoForConsumptionRequestDto {
+public class PointInfoForConsumptionRequestDto {
     private Long memberId;
     private Long memberPoint;
 }

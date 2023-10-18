@@ -1,7 +1,7 @@
 package com.lotdiz.memberservice.controller.clientcontroller;
 
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
-import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
+import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.service.MembershipService;
 import com.lotdiz.memberservice.service.client.PaymentsClientService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,8 @@ public class PaymentsClientController {
 
   @GetMapping("/api/payments/client/test")
   private ResultDataResponse<Long> getMembershipSubscriptionIdForMembershipJoin() {
-    PaymentsInfoForKakoaPayRequestDto paymentsDto =
-        PaymentsInfoForKakoaPayRequestDto.builder()
+    PaymentsInfoForKakaoPayRequestDto paymentsDto =
+        PaymentsInfoForKakaoPayRequestDto.builder()
             .itemName("펀딩프렌즈")
             .quantity("1")
             .totalAmount("6900")

@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentsInfoForKakoaPayRequestDto {
+public class PaymentsInfoForKakaoPayRequestDto {
   private String itemName;
   private String quantity;
   private String totalAmount;

@@ -2,7 +2,7 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
-import com.lotdiz.memberservice.dto.request.PoiintInfoForConsumptionRequestDto;
+import com.lotdiz.memberservice.dto.request.PointInfoForConsumptionRequestDto;
 import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
@@ -13,7 +13,6 @@ import com.lotdiz.memberservice.repository.MemberRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -80,12 +79,16 @@ public class MemberService {
       memberRepository.save(member);
   }
 
-  public void consume(PoiintInfoForConsumptionRequestDto pointConsumptionDto) {
+  public void consume(PointInfoForConsumptionRequestDto pointConsumptionDto) {
     Member member = memberRepository.findByMemberId(pointConsumptionDto.getMemberId()).orElseThrow();
     if(member.getMemberPoint() < pointConsumptionDto.getMemberPoint()) {
       throw new RuntimeException("포인트가 부족합니다.");
     }
     member.assignMemberPoint(member.getMemberPoint() - pointConsumptionDto.getMemberPoint());
     memberRepository.save(member);
+  }
+
+  public Member find(Long memberId) {
+    return memberRepository.findByMemberId(memberId).orElseThrow();
   }
 }

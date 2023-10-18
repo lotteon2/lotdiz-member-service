@@ -1,7 +1,7 @@
 package com.lotdiz.memberservice.mapper;
 
 import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
-import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
+import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 
@@ -15,9 +15,9 @@ public class CustomMapper {
         .build();
   }
 
-  public static PaymentsInfoForKakoaPayRequestDto PaymentsInfoForKakoaPayRequestDtoMapper(
+  public static PaymentsInfoForKakaoPayRequestDto PaymentsInfoForKakoaPayRequestDtoMapper(
       Long membershipId, MembershipInfoForJoinReqeustDto memberJoinDto) {
-    return PaymentsInfoForKakoaPayRequestDto.builder()
+    return PaymentsInfoForKakaoPayRequestDto.builder()
         .itemName(memberJoinDto.getItemName())
         .quantity("1")
         .totalAmount(memberJoinDto.getTotalAmount())
