@@ -7,18 +7,17 @@ import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
-import com.lotdiz.memberservice.jwt.TokenProvider;
+import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,9 +26,7 @@ public class MemberService {
 
   private final Logger logger = LoggerFactory.getLogger(MemberService.class);
   private final MemberRepository memberRepository;
-  private final PasswordEncoder passwordEncoder;
-  private final AuthenticationManagerBuilder authenticationManagerBuilder;
-  private final TokenProvider tokenProvider;
+  private final MembershipService membershipService;
 
   /**
    * 회원가입
@@ -89,5 +86,13 @@ public class MemberService {
 
   public Member find(Long memberId) {
     return memberRepository.findByMemberId(memberId).orElseThrow();
+  }
+
+  @Transactional
+  public void breakMembership(Long memberId, Long membershipId) {
+    Member member = memberRepository.findByMemberId(memberId).orElseThrow();
+    member.assignMembershipId(null);
+    Membership membership = membershipService.find(membershipId);
+    membership.assignMembershipStatus(false);
   }
 }

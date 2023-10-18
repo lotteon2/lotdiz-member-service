@@ -12,7 +12,9 @@ import com.lotdiz.memberservice.service.MembershipService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,24 +34,22 @@ public class MembershipRestController {
     Member member = memberService.find(memberId);
 
     Membership membership = membershipService.find(member.getMembershipId());
-    MembershipPolicyInfoForShowResponseDto membershipPolicyDto = membershipPolicyService.find(membership.getMembershipPolicyId());
+    MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
+        membershipPolicyService.find(membership.getMembershipPolicyId());
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()),
         HttpStatus.OK.name(),
         "멤버십 조회 성공",
-        membershipPolicyDto
-    );
+        membershipPolicyDto);
   }
+
   @PostMapping("/members/membership")
-  public ResultDataResponse<Object> joinMembership(@RequestHeader Long memberId,
+  public ResultDataResponse<Object> joinMembership(
+      @RequestHeader Long memberId,
       @Valid @RequestBody MembershipInfoForJoinReqeustDto membershipJoinDto) {
     membershipService.create(memberId, membershipJoinDto);
     return new ResultDataResponse<>(
-        String.valueOf(HttpStatus.OK.value()),
-        HttpStatus.OK.name(),
-        "카카오페이 QR코드 요청 성공",
-        null
-    );
+        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "카카오페이 QR코드 요청 성공", null);
   }
 
   @PostMapping("/members/membership/assign")
@@ -58,10 +58,14 @@ public class MembershipRestController {
 
     membershipService.joinComplete(membershipAssignDto);
     return new ResultDataResponse<>(
-        String.valueOf(HttpStatus.OK.value()),
-        HttpStatus.OK.name(),
-        "카카오페이 최종 결제 성공",
-        null
-    );
+        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "카카오페이 최종 결제 성공", null);
+  }
+
+  @DeleteMapping("/members/membership/{membershipId}")
+  public ResultDataResponse<Object> removeMembership(
+      @RequestHeader Long memberId, @PathVariable("membershipId") String membershipId) {
+    memberService.breakMembership(memberId, Long.valueOf(membershipId));
+    return new ResultDataResponse<>(
+        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.toString(), "멤버십 해제 성공", null);
   }
 }

@@ -48,7 +48,7 @@ public class Membership {
     this.membershipSubscriptionExpiredAt = membershipSubscriptionExpiredAt;
   }
 
-  private void assignMembershipStatus(Boolean membershipStatus) {
+  public void assignMembershipStatus(Boolean membershipStatus) {
     this.membershipStatus = membershipStatus;
   }
 
