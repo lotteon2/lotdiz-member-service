@@ -83,7 +83,7 @@ public class Member extends BaseEntity {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     Member member =
         Member.builder()
-            .memberEmail(memberSignUpDto.getMemberEmail())
+            .memberEmail(memberSignUpDto.getUsername())
             .memberPassword(passwordEncoder.encode(memberSignUpDto.getMemberPassword()))
             .memberName(memberSignUpDto.getMemberName())
             .memberPhoneNumber(memberSignUpDto.getMemberPhoneNumber())

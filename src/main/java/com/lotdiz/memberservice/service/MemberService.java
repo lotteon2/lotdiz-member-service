@@ -35,7 +35,7 @@ public class MemberService {
    * @return
    */
   public Member signup(MemberInfoForSignUpRequestDto memberSignUpDto) {
-    if (memberRepository.findByMemberEmail(memberSignUpDto.getMemberEmail()).orElse(null) != null) {
+    if (memberRepository.findByMemberEmail(memberSignUpDto.getUsername()).orElse(null) != null) {
       throw new RuntimeException("이미 가입되어 있는 회원입니다.");
     }
     return memberRepository.save(Member.signup(memberSignUpDto));

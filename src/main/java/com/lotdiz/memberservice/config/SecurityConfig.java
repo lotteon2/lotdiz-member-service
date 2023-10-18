@@ -95,7 +95,7 @@ public class SecurityConfig {
       JwtAuthenticationFilter jwtAuthenticationFilter =
           new JwtAuthenticationFilter(authenticationManager, tokenProvider);
       jwtAuthenticationFilter.setFilterProcessesUrl("/api/sign-in");
-      http.addFilter(corsConfig.corsFilter()).addFilter(jwtAuthenticationFilter);
+      http.addFilter(jwtAuthenticationFilter);
     }
   }
 }
