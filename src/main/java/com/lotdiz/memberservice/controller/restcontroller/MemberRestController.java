@@ -1,15 +1,11 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
-import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
-import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
+import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.service.MemberService;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,13 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,7 +37,7 @@ public class MemberRestController {
   @GetMapping("/members")
   public ResultDataResponse<MemberInfoForQueryResponseDto> showMember(@RequestHeader Long memberId) {
     return new ResultDataResponse<>(
-        String.valueOf(HttpServletResponse.SC_OK),
+        String.valueOf(HttpStatus.OK.value()),
         HttpStatus.OK.name(),
         "회원 정보 조회 성공",
         memberService.showMember(memberId)
@@ -52,8 +46,6 @@ public class MemberRestController {
 
   @PutMapping("/members")
   public ResultDataResponse<Object> renewMember(@RequestHeader String username, @Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
-    String loginedEmail = "test1@naver.com";//hard coding.
-
     memberService.renew(username, memberInfoForChangeRequestDto);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()),

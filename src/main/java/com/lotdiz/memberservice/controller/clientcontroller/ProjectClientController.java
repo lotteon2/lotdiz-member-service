@@ -23,6 +23,6 @@ public class ProjectClientController {
       @RequestParam List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos =
         memberService.inquireNameAndProfileImage(memberIds);
-    return new ResultDataResponse<>("200", HttpStatus.OK.name(), "성공", memberInfos);
+    return new ResultDataResponse<>(String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "성공", memberInfos);
   }
 }

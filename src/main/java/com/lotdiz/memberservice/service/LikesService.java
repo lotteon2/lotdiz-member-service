@@ -31,8 +31,8 @@ public class LikesService {
   }
 
   @Transactional
-  public void removeMulti(Long loginedId, List<Long> projectIds) {
-    Member member = memberRepository.findByMemberId(loginedId).orElseThrow();
+  public void removeMulti(Long memberId, List<Long> projectIds) {
+    Member member = memberRepository.findByMemberId(memberId).orElseThrow();
     for(Long projectId : projectIds) {
       LikesId likesId = Likes.createId(member, projectId);
       Likes likes = likesRepository.findById(likesId).orElseThrow();

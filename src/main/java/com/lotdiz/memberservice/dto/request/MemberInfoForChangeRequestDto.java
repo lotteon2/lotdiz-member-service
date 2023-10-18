@@ -32,7 +32,7 @@ public class MemberInfoForChangeRequestDto {
   private String memberName;
 
   @NotNull
-  @Pattern(regexp = "[0-9]{11}$", message = "-없이 11자리 숫자를 입력해주세요.")
+  @Pattern(regexp = "[0-9]{10,11}$", message = "-없이 10 ~ 11자리 숫자를 입력해주세요.")
   private String memberPhoneNumber;
 
   @NotNull private String memberProfileImageUrl;

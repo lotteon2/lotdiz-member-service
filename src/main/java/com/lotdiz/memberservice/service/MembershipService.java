@@ -5,7 +5,6 @@ import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
-import com.lotdiz.memberservice.entity.MembershipPolicy;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
 import com.lotdiz.memberservice.repository.MembershipRepository;

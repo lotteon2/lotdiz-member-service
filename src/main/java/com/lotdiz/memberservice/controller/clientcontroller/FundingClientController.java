@@ -21,7 +21,7 @@ public class FundingClientController {
   public ResultDataResponse<Object> refundPoints(
       @RequestBody PointInfoForRefundRequestDto pointRefundDto) {
     memberService.refund(pointRefundDto);
-    return new ResultDataResponse<>("200", HttpStatus.OK.name(), "포인트 환불 성공", null);
+    return new ResultDataResponse<>(String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "포인트 환불 성공", null);
   }
 
   @PutMapping("/members/point")

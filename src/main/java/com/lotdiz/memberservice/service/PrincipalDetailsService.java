@@ -3,7 +3,6 @@ package com.lotdiz.memberservice.service;
 import com.lotdiz.memberservice.config.auth.PrincipalDetails;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.repository.MemberRepository;
-import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -31,10 +30,7 @@ public class PrincipalDetailsService implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
     logger.info("loadUserByUsername here");
-    Optional<Member> om = memberRepository.findByMemberEmail(username);
-    if (om.isPresent()) {
-      return new PrincipalDetails(om.get());
-    }
-    return null;
+    Member member = memberRepository.findByMemberEmail(username).orElseThrow();
+    return new PrincipalDetails(member);
   }
 }

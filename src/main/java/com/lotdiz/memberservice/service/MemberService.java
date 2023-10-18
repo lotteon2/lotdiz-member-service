@@ -1,7 +1,7 @@
 package com.lotdiz.memberservice.service;
 
-import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.PointInfoForConsumptionRequestDto;
 import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
@@ -47,7 +47,7 @@ public class MemberService {
   @Transactional
   public void renew(String email, MemberInfoForChangeRequestDto memberChangeDto) {
     Member member = memberRepository.findByMemberEmail(email).orElseThrow();
-    memberRepository.save(Member.renew(member, memberChangeDto));
+    Member.renew(member, memberChangeDto);
   }
 
   public MemberInfoForQueryResponseDto showMember(Long memberId) {
@@ -85,7 +85,6 @@ public class MemberService {
       throw new RuntimeException("포인트가 부족합니다.");
     }
     member.assignMemberPoint(member.getMemberPoint() - pointConsumptionDto.getMemberPoint());
-    memberRepository.save(member);
   }
 
   public Member find(Long memberId) {

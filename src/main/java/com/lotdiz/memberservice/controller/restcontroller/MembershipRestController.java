@@ -1,12 +1,11 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.response.MembershipPolicyInfoForShowResponseDto;
-import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
 import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
+import com.lotdiz.memberservice.dto.response.MembershipPolicyInfoForShowResponseDto;
+import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
-import com.lotdiz.memberservice.entity.MembershipPolicy;
 import com.lotdiz.memberservice.service.MemberService;
 import com.lotdiz.memberservice.service.MembershipPolicyService;
 import com.lotdiz.memberservice.service.MembershipService;

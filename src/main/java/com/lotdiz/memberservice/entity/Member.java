@@ -2,8 +2,8 @@ package com.lotdiz.memberservice.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -58,11 +58,6 @@ public class Member extends BaseEntity {
 
   @Column(name = "membership_id")
   private Long membershipId;
-
-  //  @OneToMany(
-  //      mappedBy = "id.member",
-  //      cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-  //  private List<Likes> likes;
 
   public void assignMemberPassword(String memberPassword) {
     this.memberPassword = memberPassword;

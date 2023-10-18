@@ -24,20 +24,20 @@ public class LikesRestController {
   public ResultDataResponse<Object> addLikes(
       @RequestHeader Long memberId, @PathVariable Long projectId) {
     likesService.add(memberId, projectId);
-    return new ResultDataResponse<>("201", HttpStatus.CREATED.name(), "단일 찜 추가 성공", null);
+    return new ResultDataResponse<>(String.valueOf(HttpStatus.CREATED.value()), HttpStatus.CREATED.name(), "단일 찜 추가 성공", null);
   }
 
   @DeleteMapping("/projects/{projectId}/likes")
   public ResultDataResponse<Object> removeSingleLikes(
       @RequestHeader Long memberId, @PathVariable Long projectId) {
     likesService.remove(memberId, projectId);
-    return new ResultDataResponse<>("200", HttpStatus.OK.name(), "단일 찜 삭제 성공", null);
+    return new ResultDataResponse<>(String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "단일 찜 삭제 성공", null);
   }
 
   @PutMapping("/likes")
   public ResultDataResponse<Object> removeMultiLikes(
       @RequestHeader Long memberId, @RequestBody List<Long> projectIds) {
     likesService.removeMulti(memberId, projectIds);
-    return new ResultDataResponse<>("200", HttpStatus.OK.name(), "다중 찜 삭제 성공", null);
+    return new ResultDataResponse<>(String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "다중 찜 삭제 성공", null);
   }
 }
