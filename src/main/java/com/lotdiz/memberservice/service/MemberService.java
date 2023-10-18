@@ -75,7 +75,7 @@ public class MemberService {
   }
 
   public void refund(PointInfoForRefundRequestDto refundDto) {
-      Member member = memberRepository.findByMemberId(refundDto.getMemberId()).orElseThrow();
+      Member member = memberRepository.findByMemberId(Long.valueOf(refundDto.getMemberId())).orElseThrow();
       member.assignMemberPoint(member.getMemberPoint() + refundDto.getMemberPoint());
       memberRepository.save(member);
   }

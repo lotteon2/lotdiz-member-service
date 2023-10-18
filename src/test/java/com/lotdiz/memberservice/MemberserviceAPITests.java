@@ -173,9 +173,9 @@ class MemberserviceAPITests {
 
     ExtractableResponse<Response> response = RestAssured.given().log().all()
         .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .body(refundInfos)
+        .body(refundDto)
         .when()
-        .post("/members/update-point")
+        .put("/members/point")
         .then()
         .log()
         .all()

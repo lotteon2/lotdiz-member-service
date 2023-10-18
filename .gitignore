@@ -37,7 +37,6 @@ out/
 .vscode/
 src/main/resources/data.sql
 
-src/main/resources/application.yml
 src/main/resources/application-local.yml
 
 src/test/resources/appliation.yml

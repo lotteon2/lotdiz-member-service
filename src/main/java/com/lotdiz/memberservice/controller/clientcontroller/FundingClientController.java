@@ -5,40 +5,31 @@ import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class FundingClientController {
   private final MemberService memberService;
 
-  @PutMapping("/members/update-point")
-  public ResponseEntity<ResultDataResponse> refundPoints(
-      @RequestBody PointInfoForRefundRequestDto refundPoints) {
-    memberService.refund(refundPoints);
-    return ResponseEntity.ok()
-        .body(
-            ResultDataResponse.builder()
-                .code(String.valueOf(HttpStatus.OK.value()))
-                .message(HttpStatus.OK.name())
-                .detail("포인트 수정 성공")
-                .build());
+  @PutMapping("/members/point/refund")
+  public ResultDataResponse<Object> refundPoints(
+      @RequestBody PointInfoForRefundRequestDto pointRefundDto) {
+    memberService.refund(pointRefundDto);
+    return new ResultDataResponse<>("200", HttpStatus.OK.name(), "포인트 환불 성공", null);
   }
 
-  @PutMapping("/members/use-point")
-  public ResponseEntity<ResultDataResponse> usePoints(
+  @PutMapping("/members/point")
+  public ResultDataResponse<Object> usePoints(
       @RequestBody PoiintInfoForConsumptionRequestDto pointConsumptionDto) {
     memberService.consume(pointConsumptionDto);
-    return ResponseEntity.ok()
-        .body(
-            ResultDataResponse.builder()
-                .code(String.valueOf(HttpStatus.OK.value()))
-                .message(HttpStatus.OK.name())
-                .detail("포인트 수정 성공")
-                .build());
+    return new ResultDataResponse<>(
+        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "포인트 수정 성공", null);
   }
 }
