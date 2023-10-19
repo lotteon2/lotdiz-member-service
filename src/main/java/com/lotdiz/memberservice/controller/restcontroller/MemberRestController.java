@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,10 +47,10 @@ public class MemberRestController {
     );
   }
 
-  @PatchMapping("/members")
-  public ResultDataResponse<Object> renewMember(@Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
-    String loginedEmail = "test1@naver.com";//hard coding.
-    memberService.renew(loginedEmail, memberInfoForChangeRequestDto);
+  @PutMapping("/members")
+  public ResultDataResponse<Object> renewMember(@RequestHeader Long memberId, @Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
+    Member member = memberService.findMemberByMemberId(memberId);
+    memberService.renew(member.getMemberEmail(), memberInfoForChangeRequestDto);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()),
         HttpStatus.OK.toString(),
@@ -57,20 +58,6 @@ public class MemberRestController {
         null
     );
   }
-
-
-//  @PostMapping("/sign-in")
-//  public ResponseEntity<ResultDataResponseBody> signin(
-//      @Valid @RequestBody MemberInfoForSignInRequestDto memberInfoForSignInRequestDto) {
-//    logger.info("sign-in Controller Logic..");
-//    memberService.signin(memberInfoForSignInRequestDto);
-//    return ResponseEntity.ok(
-//        new ResultDataResponseBody(
-//            HttpStatus.OK.name(),
-//            HttpStatus.OK.getReasonPhrase(),
-//            "로그인 성공",
-//            new TokenForAuthenticationResponseDto()));
-//  }
 
   @GetMapping("/tests")
   public String members() {

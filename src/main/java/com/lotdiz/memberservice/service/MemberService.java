@@ -51,4 +51,8 @@ public class MemberService {
             .orElseThrow(() -> new RuntimeException("해당 회원을 조회할 수 없습니다"));
     return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
   }
+
+  public Member findMemberByMemberId(Long memberId) {
+    return memberRepository.findByMemberId(memberId).orElseThrow();
+  }
 }
