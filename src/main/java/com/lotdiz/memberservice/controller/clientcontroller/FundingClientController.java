@@ -4,6 +4,7 @@ import com.lotdiz.memberservice.dto.request.PointInfoForConsumptionRequestDto;
 import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.service.MemberService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,7 @@ public class FundingClientController {
   }
 
   @PutMapping("/members/point")
-  public ResultDataResponse<Object> usePoints(
-      @RequestBody PointInfoForConsumptionRequestDto pointConsumptionDto) {
+  public ResultDataResponse<Object> usePoints(@Valid @RequestBody PointInfoForConsumptionRequestDto pointConsumptionDto) {
     memberService.consume(pointConsumptionDto);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "포인트 수정 성공", null);

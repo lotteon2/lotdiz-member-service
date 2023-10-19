@@ -53,8 +53,7 @@ public class MembershipRestController {
   }
 
   @PostMapping("/members/membership/assign")
-  public ResultDataResponse<Object> assignCreatedAt(
-      @RequestBody MembershipInfoForAssignRequestDto membershipAssignDto) {
+  public ResultDataResponse<Object> assignCreatedAt(@Valid @RequestBody MembershipInfoForAssignRequestDto membershipAssignDto) {
 
     membershipService.joinComplete(membershipAssignDto);
     return new ResultDataResponse<>(
@@ -63,8 +62,8 @@ public class MembershipRestController {
 
   @DeleteMapping("/members/membership/{membershipId}")
   public ResultDataResponse<Object> removeMembership(
-      @RequestHeader Long memberId, @PathVariable("membershipId") String membershipId) {
-    memberService.breakMembership(memberId, Long.valueOf(membershipId));
+      @RequestHeader Long memberId, @PathVariable("membershipId") Long membershipId) {
+    memberService.breakMembership(memberId, membershipId);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.toString(), "멤버십 해제 성공", null);
   }
