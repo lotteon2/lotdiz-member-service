@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 public interface LikesRepository extends JpaRepository<Likes, LikesId> {
 
     @Query("SELECT l FROM Likes l WHERE l.id.member = :member")
-    List<Likes> findLikesByMemberId(@Param("member") Member member);
+    List<Likes> findLikesByMember(@Param("member") Member member);
 }

@@ -1,8 +1,8 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.response.LikesInfoForShowResponseDto;
+import com.lotdiz.memberservice.dto.response.LikesDetailsForShowResponseDto;
+import com.lotdiz.memberservice.dto.response.ProjectDetailsForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
-import com.lotdiz.memberservice.entity.Likes;
 import com.lotdiz.memberservice.service.LikesService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -49,8 +49,8 @@ public class LikesRestController {
 
   @GetMapping("/members/likes")
   public ResultDataResponse<Object> showLikes(@RequestHeader Long memberId) {
-    List<LikesInfoForShowResponseDto> likesInfos = likesService.show(memberId);
+    List<LikesDetailsForShowResponseDto> projectDetails = likesService.showProjectDetails(memberId);
     return new ResultDataResponse<>(
-        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "찜 목록 조회 성공", likesInfos);
+        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "찜 목록 조회 성공", projectDetails);
   }
 }

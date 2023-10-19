@@ -11,7 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LikesInfoForShowResponseDto {
-    private Long projectId;
-    private String createdAt;
+public class ProjectDetailsForShowResponseDto {
+    private Integer remainingProjectPeriod; //펀딩 남은 기간
+    private String projectName;
+    private String projectThumbnailImage;
+    private String makerName;
 }

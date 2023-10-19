@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.controller.clientcontroller;
 
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
+import com.lotdiz.memberservice.service.LikesService;
 import com.lotdiz.memberservice.service.MemberService;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProjectClientController {
   private final MemberService memberService;
+  private final LikesService likesService;
 
   @GetMapping("/members")
   public ResultDataResponse<Map<String, MemberInfoForProjectResponseDto>> inquireMemberInfos(

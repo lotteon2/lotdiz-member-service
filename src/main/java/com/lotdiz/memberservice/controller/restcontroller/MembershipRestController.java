@@ -31,7 +31,7 @@ public class MembershipRestController {
 
   @GetMapping("/members/membership")
   public ResultDataResponse<Object> showMembership(@RequestHeader Long memberId) {
-    Member member = memberService.find(memberId);
+    Member member = memberService.findMemberByMemberId(memberId);
 
     Membership membership = membershipService.find(member.getMembershipId());
     MembershipPolicyInfoForShowResponseDto membershipPolicyDto =

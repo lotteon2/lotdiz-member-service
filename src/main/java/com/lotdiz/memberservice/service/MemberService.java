@@ -13,7 +13,6 @@ import com.lotdiz.memberservice.repository.MemberRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -84,7 +83,7 @@ public class MemberService {
     member.assignMemberPoint(member.getMemberPoint() - pointConsumptionDto.getMemberPoint());
   }
 
-  public Member find(Long memberId) {
+  public Member findMemberByMemberId(Long memberId) {
     return memberRepository.findByMemberId(memberId).orElseThrow();
   }
 
