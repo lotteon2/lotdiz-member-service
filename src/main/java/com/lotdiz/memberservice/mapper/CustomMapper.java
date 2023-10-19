@@ -7,7 +7,6 @@ import com.lotdiz.memberservice.dto.response.LikesDetailsForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.dto.response.ProjectDetailsForShowResponseDto;
 import com.lotdiz.memberservice.entity.Member;
-import java.util.List;
 
 public class CustomMapper {
   public static MemberInfoForQueryResponseDto MemberInfoForQueryResponseDtoMapper(Member member) {

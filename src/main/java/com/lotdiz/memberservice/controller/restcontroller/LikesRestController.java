@@ -1,7 +1,6 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
 import com.lotdiz.memberservice.dto.response.LikesDetailsForShowResponseDto;
-import com.lotdiz.memberservice.dto.response.ProjectDetailsForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.service.LikesService;
 import java.util.List;
