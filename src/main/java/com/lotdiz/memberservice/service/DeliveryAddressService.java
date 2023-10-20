@@ -1,11 +1,13 @@
 package com.lotdiz.memberservice.service;
 
+import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForChangeRequestDto;
 import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForCreateRequestDto;
 import com.lotdiz.memberservice.dto.response.DeliveryAddressInfoForShowResponseDto;
 import com.lotdiz.memberservice.entity.DeliveryAddress;
 import com.lotdiz.memberservice.mapper.MessageMapper;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,13 @@ public class DeliveryAddressService {
       deliveryAddressDtos.add(deliveryAddressInfoDto);
     }
     return deliveryAddressDtos;
+  }
+
+  @Transactional
+  public void renewDeliveryAddress(
+      Long deliveryAddressId, DeliveryAddressInfoForChangeRequestDto deliveryAddressInfoDto) {
+    DeliveryAddress deliveryAddress =
+        deliveryAddressRepository.findByDeliveryAddressId(deliveryAddressId).orElseThrow();
+    DeliveryAddress.renew(deliveryAddress, deliveryAddressInfoDto);
   }
 }

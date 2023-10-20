@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForChangeRequestDto;
 import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForCreateRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
 import javax.persistence.*;
@@ -72,6 +73,43 @@ public class DeliveryAddress extends BaseEntity {
     }
 
     return deliveryAddress;
+  }
+
+  public static DeliveryAddress renew(DeliveryAddress deliveryAddress, DeliveryAddressInfoForChangeRequestDto deliveryAddressInfoDto) {
+    deliveryAddress.assignDeliveryAddressRecipientName(deliveryAddressInfoDto.getDeliveryAddressRecipientName());
+    deliveryAddress.assignDeliveryAddressRecipientPhoneNumber(deliveryAddressInfoDto.getDeliveryAddressRecipientPhoneNumber());
+    deliveryAddress.assignDeliveryAddressRoadName(deliveryAddressInfoDto.getDeliveryAddressRoadName());
+    deliveryAddress.assignDeliveryAddressDetail(deliveryAddressInfoDto.getDeliveryAddressDetail());
+    deliveryAddress.assignDeliveryAddressZipCode(deliveryAddressInfoDto.getDeliveryAddressZipCode());
+
+    if(deliveryAddressInfoDto.getDeliveryAddressRecipientEmail() != null) {
+      deliveryAddress.assignDeliveryAddressRecipientEmail(deliveryAddressInfoDto.getDeliveryAddressRecipientEmail());
+    }
+
+    if(deliveryAddressInfoDto.getDeliveryAddressRequest() != null) {
+      deliveryAddress.assignDeliveryAddressRequest(deliveryAddressInfoDto.getDeliveryAddressRequest());
+    }
+    return deliveryAddress;
+  }
+
+  private void assignDeliveryAddressZipCode(String deliveryAddressZipCode) {
+    this.deliveryAddressZipCode = deliveryAddressZipCode;
+  }
+
+  private void assignDeliveryAddressDetail(String deliveryAddressDetail) {
+    this.deliveryAddressDetail = deliveryAddressDetail;
+  }
+
+  private void assignDeliveryAddressRoadName(String deliveryAddressRoadName) {
+    this.deliveryAddressRoadName = deliveryAddressRoadName;
+  }
+
+  private void assignDeliveryAddressRecipientPhoneNumber(String deliveryAddressRecipientPhoneNumber) {
+    this.deliveryAddressRecipientPhoneNumber = deliveryAddressRecipientPhoneNumber;
+  }
+
+  private void assignDeliveryAddressRecipientName(String deliveryAddressRecipientName) {
+    this.deliveryAddressRecipientName = deliveryAddressRecipientName;
   }
 
   private void assignDeliveryAddressRequest(String deliveryAddressRequest) {
