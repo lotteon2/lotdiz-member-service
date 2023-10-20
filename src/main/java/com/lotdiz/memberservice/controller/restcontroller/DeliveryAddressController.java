@@ -9,6 +9,7 @@ import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,11 +48,18 @@ public class DeliveryAddressController {
 
   @PutMapping("/members/delivery-address/{deliveryAddressId}")
   public ResultDataResponse<Object> renewDeliveryAddress(
-      @RequestHeader Long memberId,
       @PathVariable("deliveryAddressId") Long deliveryAddressId,
       @Valid @RequestBody DeliveryAddressInfoForChangeRequestDto deliveryAddressInfoDto) {
     deliveryAddressService.renewDeliveryAddress(deliveryAddressId, deliveryAddressInfoDto);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "배송지 수정 성공", null);
+  }
+
+  @DeleteMapping("/members/delivery-address/{deliveryAddressId}")
+  public ResultDataResponse<Object> removeDeliveryAddress(
+      @PathVariable("deliveryAddressId") Long deliveryAddressId) {
+    deliveryAddressService.removeDeliveryAddress(deliveryAddressId);
+    return new ResultDataResponse<>(
+        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "배송지 삭제 성공", null);
   }
 }

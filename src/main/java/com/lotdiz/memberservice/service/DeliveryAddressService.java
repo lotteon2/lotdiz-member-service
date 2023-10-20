@@ -40,4 +40,10 @@ public class DeliveryAddressService {
         deliveryAddressRepository.findByDeliveryAddressId(deliveryAddressId).orElseThrow();
     DeliveryAddress.renew(deliveryAddress, deliveryAddressInfoDto);
   }
+
+  @Transactional
+  public void removeDeliveryAddress(Long deliveryAddressId) {
+    DeliveryAddress deliveryAddress = deliveryAddressRepository.findByDeliveryAddressId(deliveryAddressId).orElseThrow();
+    deliveryAddressRepository.delete(deliveryAddress);
+  }
 }
