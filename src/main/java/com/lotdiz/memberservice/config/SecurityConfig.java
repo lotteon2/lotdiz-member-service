@@ -69,12 +69,10 @@ public class SecurityConfig {
         .authorizeRequests(
             requests ->
                 requests
-//                    .antMatchers("/api/sign-up")
-//                    .permitAll()
-//                    .antMatchers("/api/sign-in")
-//                    .permitAll()
-//                    .antMatchers("/api/**")
-//                    .permitAll()
+                    .antMatchers("/api/sign-up")
+                    .permitAll()
+                    .antMatchers("/api/sign-in")
+                    .permitAll()
                     .antMatchers("/**")
                     .permitAll()
                     .requestMatchers(PathRequest.toH2Console())
