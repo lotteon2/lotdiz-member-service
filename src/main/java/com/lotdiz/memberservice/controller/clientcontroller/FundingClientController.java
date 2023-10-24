@@ -21,13 +21,15 @@ public class FundingClientController {
   @PutMapping("/members/point/refund")
   public ResultDataResponse<Object> refundPoints(
       @RequestBody PointInfoForRefundRequestDto pointRefundDto) {
-    memberService.refund(pointRefundDto);
-    return new ResultDataResponse<>(String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "포인트 환불 성공", null);
+    memberService.refundPoints(pointRefundDto);
+    return new ResultDataResponse<>(
+        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "포인트 환불 성공", null);
   }
 
   @PutMapping("/members/point")
-  public ResultDataResponse<Object> usePoints(@Valid @RequestBody PointInfoForConsumptionRequestDto pointConsumptionDto) {
-    memberService.consume(pointConsumptionDto);
+  public ResultDataResponse<Object> usePoints(
+      @Valid @RequestBody PointInfoForConsumptionRequestDto pointConsumptionDto) {
+    memberService.consumePoints(pointConsumptionDto);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "포인트 수정 성공", null);
   }

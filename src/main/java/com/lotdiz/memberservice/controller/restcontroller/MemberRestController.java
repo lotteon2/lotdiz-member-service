@@ -6,7 +6,6 @@ import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.service.MemberService;
-import java.rmi.AlreadyBoundException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,12 +32,10 @@ public class MemberRestController {
       @Valid @RequestBody MemberInfoForSignUpRequestDto memberInfoForSignUpRequestDto) {
     log.info("sign-up");
     memberService.signup(memberInfoForSignUpRequestDto);
-    return ResponseEntity.ok().body(new ResultDataResponse<>(
-        String.valueOf(HttpStatus.OK.value()),
-        HttpStatus.OK.name(),
-        "회원 가입 성공",
-        null
-    ));
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "회원 가입 성공", null));
   }
 
   @GetMapping("/members")
@@ -56,7 +53,7 @@ public class MemberRestController {
       @RequestHeader Long memberId,
       @Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
     Member member = memberService.findMemberByMemberId(memberId);
-    memberService.renew(member.getMemberEmail(), memberInfoForChangeRequestDto);
+    memberService.renewMemberInfo(member.getMemberEmail(), memberInfoForChangeRequestDto);
     return new ResultDataResponse<>(
         String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.toString(), "회원 정보 수정 성공", null);
   }
