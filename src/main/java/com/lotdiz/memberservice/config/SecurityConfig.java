@@ -25,7 +25,6 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-// @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
   private final CorsFilter corsFilter;
   private final TokenProvider tokenProvider;
@@ -74,7 +73,7 @@ public class SecurityConfig {
                     .permitAll()
                     .antMatchers("/api/sign-in")
                     .permitAll()
-                    .antMatchers("/api/**")
+                    .antMatchers("/**")
                     .permitAll()
                     .requestMatchers(PathRequest.toH2Console())
                     .permitAll()
@@ -94,7 +93,7 @@ public class SecurityConfig {
       JwtAuthenticationFilter jwtAuthenticationFilter =
           new JwtAuthenticationFilter(authenticationManager, tokenProvider);
       jwtAuthenticationFilter.setFilterProcessesUrl("/api/sign-in");
-      http.addFilter(corsConfig.corsFilter()).addFilter(jwtAuthenticationFilter);
+      http.addFilter(jwtAuthenticationFilter);
     }
   }
 }

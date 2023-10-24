@@ -2,8 +2,8 @@ package com.lotdiz.memberservice.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
+import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -59,11 +59,6 @@ public class Member extends BaseEntity {
   @Column(name = "membership_id")
   private Long membershipId;
 
-  //  @OneToMany(
-  //      mappedBy = "id.member",
-  //      cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-  //  private List<Likes> likes;
-
   public void assignMemberPassword(String memberPassword) {
     this.memberPassword = memberPassword;
   }
@@ -76,6 +71,10 @@ public class Member extends BaseEntity {
     this.memberPhoneNumber = memberPhoneNumber;
   }
 
+  public void assignMemberPoint(Long memberPoint) {
+    this.memberPoint = memberPoint;
+  }
+
   public void assignMemberProfileImageUrl(String memberProfileImageUrl) {
     this.memberProfileImageUrl = memberProfileImageUrl;
   }
@@ -84,7 +83,7 @@ public class Member extends BaseEntity {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     Member member =
         Member.builder()
-            .memberEmail(memberSignUpDto.getMemberEmail())
+            .memberEmail(memberSignUpDto.getUsername())
             .memberPassword(passwordEncoder.encode(memberSignUpDto.getMemberPassword()))
             .memberName(memberSignUpDto.getMemberName())
             .memberPhoneNumber(memberSignUpDto.getMemberPhoneNumber())
@@ -111,5 +110,9 @@ public class Member extends BaseEntity {
       }
     }
     return member;
+  }
+
+  public void assignMembershipId(Long membershipId) {
+    this.membershipId = membershipId;
   }
 }

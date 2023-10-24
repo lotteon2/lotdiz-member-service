@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface MembershipRepository extends JpaRepository<Membership, Long> {
 
   Optional<Membership> findByMembershipId(Long membershipId);
+
 }

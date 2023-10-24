@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
+import com.lotdiz.memberservice.utils.DefaultHttpMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
   private final ObjectMapper objectMapper = new ObjectMapper();
+  private static final String LOGOUT_REDIRECT_END_POINT = "/api/sign-in";
 
   @Override
   public void onLogoutSuccess(
@@ -29,7 +31,7 @@ public class JwtLogoutSuccessHandler implements LogoutSuccessHandler {
         response.getWriter(),
         new ResultDataResponse<>(
             HttpStatus.MOVED_PERMANENTLY.getReasonPhrase(),
-            HttpStatus.OK.getReasonPhrase(),
+            String.format(DefaultHttpMessage.MOVED_PERMANENTLY, LOGOUT_REDIRECT_END_POINT),
             "로그아웃 성공",
             null));
   }

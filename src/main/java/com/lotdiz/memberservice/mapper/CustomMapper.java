@@ -1,8 +1,11 @@
 package com.lotdiz.memberservice.mapper;
 
 import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
-import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
+import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
+import com.lotdiz.memberservice.dto.response.FundingDetailsForShowResponseDto;
+import com.lotdiz.memberservice.dto.response.LikesDetailsForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
+import com.lotdiz.memberservice.dto.response.ProjectDetailsForShowResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 
 public class CustomMapper {
@@ -15,9 +18,9 @@ public class CustomMapper {
         .build();
   }
 
-  public static PaymentsInfoForKakoaPayRequestDto PaymentsInfoForKakoaPayRequestDtoMapper(
+  public static PaymentsInfoForKakaoPayRequestDto PaymentsInfoForKakoaPayRequestDtoMapper(
       Long membershipId, MembershipInfoForJoinReqeustDto memberJoinDto) {
-    return PaymentsInfoForKakoaPayRequestDto.builder()
+    return PaymentsInfoForKakaoPayRequestDto.builder()
         .itemName(memberJoinDto.getItemName())
         .quantity("1")
         .totalAmount(memberJoinDto.getTotalAmount())
@@ -25,4 +28,15 @@ public class CustomMapper {
         .membershipId(String.valueOf(membershipId))
         .build();
   }
+
+    public static LikesDetailsForShowResponseDto toLikesDetailsForShowResponseDto(ProjectDetailsForShowResponseDto projectDetailsDto, FundingDetailsForShowResponseDto fundingDetailsDto) {
+      return LikesDetailsForShowResponseDto.builder()
+          .remainingProjectPeriod(projectDetailsDto.getRemainingProjectPeriod())
+          .projectName(projectDetailsDto.getProjectName())
+          .projectThumbnailImage(projectDetailsDto.getProjectThumbnailImage())
+          .makerName(projectDetailsDto.getMakerName())
+          .projectFundingAchievementRate(fundingDetailsDto.getProjectFundingAchievementRate())
+          .totalAccumulatedFundingAmount(fundingDetailsDto.getTotalAccumulatedFundingAmount())
+          .build();
+    }
 }

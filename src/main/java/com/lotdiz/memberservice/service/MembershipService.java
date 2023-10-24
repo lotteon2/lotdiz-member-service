@@ -2,9 +2,11 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
 import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
-import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakoaPayRequestDto;
+import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
+import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.mapper.CustomMapper;
+import com.lotdiz.memberservice.repository.MemberRepository;
 import com.lotdiz.memberservice.repository.MembershipRepository;
 import com.lotdiz.memberservice.service.client.PaymentsClientService;
 import java.time.LocalDateTime;
@@ -19,17 +21,21 @@ import org.springframework.stereotype.Service;
 public class MembershipService {
     private Logger logger = LoggerFactory.getLogger(MembershipService.class);
 
+    private final MemberRepository memberRepository;
     private final MembershipRepository membershipRepository;
     private final PaymentsClientService paymentsClientService;
 
 
     @Transactional
-    public void create(MembershipInfoForJoinReqeustDto membershipJoinDto) {
+    public void create(Long memberId, MembershipInfoForJoinReqeustDto membershipJoinDto) {
+        Member member = memberRepository.findByMemberId(memberId).orElseThrow();
         Membership membership = Membership.builder()
             .membershipPolicyId(membershipJoinDto.getMembershipPolicyId())
             .build();
         Membership saved = membershipRepository.save(membership);
-        PaymentsInfoForKakoaPayRequestDto paymentsDto = CustomMapper.PaymentsInfoForKakoaPayRequestDtoMapper(saved.getMembershipId(), membershipJoinDto);
+        member.assignMembershipId(saved.getMembershipId());
+        memberRepository.save(member);
+        PaymentsInfoForKakaoPayRequestDto paymentsDto = CustomMapper.PaymentsInfoForKakoaPayRequestDtoMapper(saved.getMembershipId(), membershipJoinDto);
         Long membershipSubscriptionId = paymentsClientService.getMembershipSubscription(paymentsDto);
         logger.info("membershipSubscriptionId: " + membershipSubscriptionId);
         saved.assignMembershipSubscriptionId(membershipSubscriptionId);
@@ -45,4 +51,7 @@ public class MembershipService {
     }
 
 
+    public Membership find(Long membershipId) {
+        return membershipRepository.findByMembershipId(membershipId).orElseThrow();
+    }
 }

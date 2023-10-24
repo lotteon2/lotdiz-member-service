@@ -7,6 +7,7 @@ import com.lotdiz.memberservice.jwt.TokenProvider;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -73,5 +74,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     String jwtToken = tokenProvider.createToken(authResult);
 
     response.addHeader("Authorization", "Bearer " + jwtToken);
+
+    Cookie cookie = new Cookie("jwtToken", jwtToken);
+    cookie.setMaxAge(36000000);
+    cookie.setPath("/");
+    cookie.setSecure(false);
+    response.addCookie(cookie);
   }
 }

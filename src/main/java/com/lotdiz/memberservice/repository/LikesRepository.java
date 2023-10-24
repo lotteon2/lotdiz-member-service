@@ -4,6 +4,7 @@ import com.lotdiz.memberservice.entity.Likes;
 import com.lotdiz.memberservice.entity.LikesId;
 import com.lotdiz.memberservice.entity.Member;
 import java.util.Optional;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,6 @@ public interface LikesRepository extends JpaRepository<Likes, LikesId> {
   @Query("SELECT l FROM Likes l WHERE l.id.member = :memberId AND l.id.projectId = :projectId")
   Optional<Likes> findByMemberIdAndProjectId(
       @Param("memberId") Member member, @Param("projectId") Long projectId);
+    @Query("SELECT l FROM Likes l WHERE l.id.member = :member")
+    List<Likes> findLikesByMember(@Param("member") Member member);
 }

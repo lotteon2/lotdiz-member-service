@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 @Builder
 public class MemberInfoForSignUpRequestDto {
 
-  @NotNull @Email private String memberEmail;
+  @NotNull @Email private String username;
 
   @NotNull
   @Pattern(

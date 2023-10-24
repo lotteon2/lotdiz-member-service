@@ -11,10 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentsInfoForKakoaPayRequestDto {
-  private String itemName;
-  private String quantity;
-  private String totalAmount;
-  private String taxFreeAmount;
-  private String membershipId;
+public class PointInfoForConsumptionRequestDto {
+    private Long memberId;
+    private Long memberPoint;
 }
