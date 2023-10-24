@@ -9,8 +9,17 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MembershipPolicyService {
-    private final MembershipPolicyRepository membershipPolicyRepository;
-    public MembershipPolicyInfoForShowResponseDto find(Long membershipPolicyId) {
-        return MessageMapper.INSTANCE.toMembershipPolicyInfoDto(membershipPolicyRepository.findByMembershipPolicyId(membershipPolicyId));
-    }
+  private final MembershipPolicyRepository membershipPolicyRepository;
+
+  /**
+   * 멤버십 세부 정책 조회
+   *
+   * @param membershipPolicyId
+   * @return MembershipPolicyInfoForShowResponseDto
+   */
+  public MembershipPolicyInfoForShowResponseDto inquireMembershipPolicyInfo(
+      Long membershipPolicyId) {
+    return MessageMapper.INSTANCE.toMembershipPolicyInfoDto(
+        membershipPolicyRepository.findByMembershipPolicyId(membershipPolicyId));
+  }
 }

@@ -5,6 +5,7 @@ import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.service.LikesService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class LikesRestController {
   @PostMapping("/projects/{projectId}/likes")
   public ResponseEntity<ResultDataResponse<Object>> addLikes(
       @RequestHeader Long memberId, @PathVariable Long projectId) {
-    likesService.add(memberId, projectId);
+    likesService.addLikes(memberId, projectId);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
@@ -39,7 +41,7 @@ public class LikesRestController {
   @DeleteMapping("/projects/{projectId}/likes")
   public ResponseEntity<ResultDataResponse<Object>> removeSingleLikes(
       @RequestHeader Long memberId, @PathVariable Long projectId) {
-    likesService.remove(memberId, projectId);
+    likesService.removeSingleLikes(memberId, projectId);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
@@ -59,6 +61,7 @@ public class LikesRestController {
   @GetMapping("/members/likes")
   public ResponseEntity<ResultDataResponse<List<LikesDetailsForShowResponseDto>>> showLikes(
       @RequestHeader Long memberId) {
+    log.info("here");
     List<LikesDetailsForShowResponseDto> projectDetails = likesService.showProjectDetails(memberId);
     return ResponseEntity.ok()
         .body(

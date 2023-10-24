@@ -34,9 +34,9 @@ public class MembershipRestController {
   public ResponseEntity<ResultDataResponse<Object>> showMembership(@RequestHeader Long memberId) {
     Member member = memberService.findMemberByMemberId(memberId);
 
-    Membership membership = membershipService.find(member.getMembershipId());
+    Membership membership = membershipService.findMembershipByMembershipId(member.getMembershipId());
     MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
-        membershipPolicyService.find(membership.getMembershipPolicyId());
+        membershipPolicyService.inquireMembershipPolicyInfo(membership.getMembershipPolicyId());
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
@@ -64,7 +64,7 @@ public class MembershipRestController {
   public ResponseEntity<ResultDataResponse<Object>> assignCreatedAt(
       @Valid @RequestBody MembershipInfoForAssignRequestDto membershipAssignDto) {
 
-    membershipService.joinComplete(membershipAssignDto);
+    membershipService.joinMembershipComplete(membershipAssignDto);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(

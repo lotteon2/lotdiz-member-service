@@ -16,12 +16,25 @@ import org.springframework.stereotype.Service;
 public class DeliveryAddressService {
   private final DeliveryAddressRepository deliveryAddressRepository;
 
+  /**
+   * 배송지 생성
+   *
+   * @param memberId
+   * @param deliveryAddressInfoDto
+   */
+  @Transactional
   public void createDeliveryAddress(
       Long memberId, DeliveryAddressInfoForCreateRequestDto deliveryAddressInfoDto) {
     DeliveryAddress deliveryAddress = DeliveryAddress.create(memberId, deliveryAddressInfoDto);
     deliveryAddressRepository.save(deliveryAddress);
   }
 
+  /**
+   * 배송지 목록 보여주기
+   *
+   * @param memberId
+   * @return List<DeliveryAddressInfoForShowResponseDto>
+   */
   public List<DeliveryAddressInfoForShowResponseDto> inquireDeliveryAddresses(Long memberId) {
     List<DeliveryAddress> deliveryAddresses = deliveryAddressRepository.findByMemberId(memberId);
     List<DeliveryAddressInfoForShowResponseDto> deliveryAddressDtos = new ArrayList<>();
@@ -33,6 +46,12 @@ public class DeliveryAddressService {
     return deliveryAddressDtos;
   }
 
+  /**
+   * 배송지 수정
+   *
+   * @param deliveryAddressId
+   * @param deliveryAddressInfoDto
+   */
   @Transactional
   public void renewDeliveryAddress(
       Long deliveryAddressId, DeliveryAddressInfoForChangeRequestDto deliveryAddressInfoDto) {
@@ -41,9 +60,15 @@ public class DeliveryAddressService {
     DeliveryAddress.renew(deliveryAddress, deliveryAddressInfoDto);
   }
 
+  /**
+   * 배송지 삭제
+   *
+   * @param deliveryAddressId
+   */
   @Transactional
   public void removeDeliveryAddress(Long deliveryAddressId) {
-    DeliveryAddress deliveryAddress = deliveryAddressRepository.findByDeliveryAddressId(deliveryAddressId).orElseThrow();
+    DeliveryAddress deliveryAddress =
+        deliveryAddressRepository.findByDeliveryAddressId(deliveryAddressId).orElseThrow();
     deliveryAddressRepository.delete(deliveryAddress);
   }
 }

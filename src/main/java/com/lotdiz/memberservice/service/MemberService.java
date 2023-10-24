@@ -127,7 +127,7 @@ public class MemberService {
   public void breakMembership(Long memberId, Long membershipId) {
     Member member = findMemberByMemberId(memberId);
     member.assignMembershipId(null);
-    Membership membership = membershipService.find(membershipId);
+    Membership membership = membershipService.findMembershipByMembershipId(membershipId);
     membership.assignMembershipStatus(false);
   }
 
