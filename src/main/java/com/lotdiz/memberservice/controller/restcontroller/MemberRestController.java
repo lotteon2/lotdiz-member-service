@@ -30,7 +30,6 @@ public class MemberRestController {
   @PostMapping("/sign-up")
   public ResponseEntity<ResultDataResponse<Object>> signup(
       @Valid @RequestBody MemberInfoForSignUpRequestDto memberInfoForSignUpRequestDto) {
-    log.info("sign-up");
     memberService.signup(memberInfoForSignUpRequestDto);
     return ResponseEntity.ok()
         .body(
