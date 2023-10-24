@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FundingClientService {
-    private FundingServiceClient fundingServiceClient;
+    private final FundingServiceClient fundingServiceClient;
 
     public List<FundingDetailsForShowResponseDto> getFundigDetails(List<Long> projectIds) {
         return fundingServiceClient.getFundingDetails(projectIds).getData();

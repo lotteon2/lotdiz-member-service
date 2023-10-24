@@ -16,9 +16,10 @@ public interface LikesRepository extends JpaRepository<Likes, LikesId> {
   @Query("SELECT COUNT(*) FROM Likes l WHERE l.id.projectId = :projectId")
   Long countByProjectId(@Param("projectId") Long projectId);
 
+  @Query("SELECT l FROM Likes l WHERE l.id.member = :member")
+  List<Likes> findLikesByMember(@Param("member") Member member);
+
   @Query("SELECT l FROM Likes l WHERE l.id.member = :memberId AND l.id.projectId = :projectId")
-  Optional<Likes> findByMemberIdAndProjectId(
+  Likes findByMemberIdAndProjectId(
       @Param("memberId") Member member, @Param("projectId") Long projectId);
-    @Query("SELECT l FROM Likes l WHERE l.id.member = :member")
-    List<Likes> findLikesByMember(@Param("member") Member member);
 }

@@ -70,17 +70,13 @@ public class MemberService {
     return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
   }
 
-  public Member findMemberByMemberId(Long memberId) {
-    return memberRepository.findByMemberId(memberId).orElseThrow();
-  }
-
   /**
    * Project-service 에서 쓰일 멤버 이름, 프로필 이미지 url 가져오기
    *
    * @param memberIds
    * @return Map<String, MemberInfoForProjectResponseDto>
    */
-  public Map<String, MemberInfoForProjectResponseDto> inquireNameAndProfileImage(
+  public Map<String, MemberInfoForProjectResponseDto> getNameAndProfileImage(
       List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos = new HashMap<>();
     for (Long memberId : memberIds) {
@@ -131,7 +127,7 @@ public class MemberService {
   public void breakMembership(Long memberId, Long membershipId) {
     Member member = findMemberByMemberId(memberId);
     member.assignMembershipId(null);
-    Membership membership = membershipService.find(membershipId);
+    Membership membership = membershipService.findMembershipByMembershipId(membershipId);
     membership.assignMembershipStatus(false);
   }
 
