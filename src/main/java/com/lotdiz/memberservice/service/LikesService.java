@@ -73,12 +73,17 @@ public class LikesService {
     }
   }
 
+  public Long calCount(String projectId) {
+    return likesRepository.countByProjectId(Long.parseLong(projectId));
+  }
+
   /**
    * 찜 목록에 포함되어있는 프로젝트 세부 정보 조회
    *
    * @param memberId
    * @return List<LikesDetailsForShowResponseDto>
    */
+  @Transactional
   public List<LikesDetailsForShowResponseDto> showProjectDetails(Long memberId) {
     Member member = memberService.findMemberByMemberId(memberId);
     List<Likes> likes = likesRepository.findLikesByMember(member);
