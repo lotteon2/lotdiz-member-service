@@ -15,6 +15,8 @@ public class CorsConfig {
     CorsConfiguration config = new CorsConfiguration();
     config.setAllowCredentials(true); // 내 서버가 응답할 때, json을 자바스크립트에서 처리할 수 있게 할지를 설정
     config.addAllowedOrigin("http://localhost:5173");
+    config.addAllowedOrigin("https://lotdiz.lotteedu.com");
+    config.addAllowedOrigin("https://admin.lotdiz.lotteedu.com");
     config.addAllowedHeader("*"); // 모든 header의 응답을 허용
     config.addAllowedMethod("*"); // 모든 post, get, put, delete, patch 요청을 허용
     source.registerCorsConfiguration("/**", config);

@@ -9,8 +9,10 @@ import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.exception.AlreadyRegisteredMemberException;
+import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
+import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +47,10 @@ public class MemberService {
 
   @Transactional
   public void renew(String email, MemberInfoForChangeRequestDto memberChangeDto) {
-    Member member = memberRepository.findByMemberEmail(email).orElseThrow();
+    Member member =
+        memberRepository
+            .findByMemberEmail(email)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
     Member.renew(member, memberChangeDto);
   }
 
@@ -53,7 +58,7 @@ public class MemberService {
     Member member =
         memberRepository
             .findByMemberId(memberId)
-            .orElseThrow(() -> new RuntimeException("해당 회원을 조회할 수 없습니다"));
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
     return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
   }
 
@@ -61,7 +66,10 @@ public class MemberService {
       List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos = new HashMap<>();
     for (Long memberId : memberIds) {
-      Member member = memberRepository.findByMemberId(memberId).orElseThrow();
+      Member member =
+          memberRepository
+              .findByMemberId(memberId)
+              .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
       MemberInfoForProjectResponseDto memberInfoDto =
           MemberInfoForProjectResponseDto.builder()
               .memberName(member.getMemberName())
@@ -73,14 +81,18 @@ public class MemberService {
   }
 
   public void refund(PointInfoForRefundRequestDto refundDto) {
-      Member member = memberRepository.findByMemberId(Long.valueOf(refundDto.getMemberId())).orElseThrow();
-      member.assignMemberPoint(member.getMemberPoint() + refundDto.getMemberPoint());
-      memberRepository.save(member);
+    Member member =
+        memberRepository
+            .findByMemberId(Long.valueOf(refundDto.getMemberId()))
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    member.assignMemberPoint(member.getMemberPoint() + refundDto.getMemberPoint());
+    memberRepository.save(member);
   }
 
   public void consume(PointInfoForConsumptionRequestDto pointConsumptionDto) {
-    Member member = memberRepository.findByMemberId(pointConsumptionDto.getMemberId()).orElseThrow();
-    if(member.getMemberPoint() < pointConsumptionDto.getMemberPoint()) {
+    Member member =
+        memberRepository.findByMemberId(pointConsumptionDto.getMemberId()).orElseThrow();
+    if (member.getMemberPoint() < pointConsumptionDto.getMemberPoint()) {
       throw new RuntimeException("포인트가 부족합니다.");
     }
     member.assignMemberPoint(member.getMemberPoint() - pointConsumptionDto.getMemberPoint());
