@@ -9,6 +9,7 @@ import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.exception.AlreadyRegisteredMemberException;
+import com.lotdiz.memberservice.exception.InsufficientPointsException;
 import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
@@ -80,6 +81,7 @@ public class MemberService {
     return memberInfos;
   }
 
+  @Transactional
   public void refund(PointInfoForRefundRequestDto refundDto) {
     Member member =
         memberRepository
@@ -89,22 +91,28 @@ public class MemberService {
     memberRepository.save(member);
   }
 
+  @Transactional
   public void consume(PointInfoForConsumptionRequestDto pointConsumptionDto) {
     Member member =
         memberRepository.findByMemberId(pointConsumptionDto.getMemberId()).orElseThrow();
     if (member.getMemberPoint() < pointConsumptionDto.getMemberPoint()) {
-      throw new RuntimeException("포인트가 부족합니다.");
+      throw new InsufficientPointsException();
     }
     member.assignMemberPoint(member.getMemberPoint() - pointConsumptionDto.getMemberPoint());
   }
 
   public Member findMemberByMemberId(Long memberId) {
-    return memberRepository.findByMemberId(memberId).orElseThrow();
+    return memberRepository
+        .findByMemberId(memberId)
+        .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
   }
 
   @Transactional
   public void breakMembership(Long memberId, Long membershipId) {
-    Member member = memberRepository.findByMemberId(memberId).orElseThrow();
+    Member member =
+        memberRepository
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
     member.assignMembershipId(null);
     Membership membership = membershipService.find(membershipId);
     membership.assignMembershipStatus(false);
