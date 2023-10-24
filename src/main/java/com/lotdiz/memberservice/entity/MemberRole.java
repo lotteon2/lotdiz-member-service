@@ -1,12 +1,16 @@
 package com.lotdiz.memberservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @Getter
 public enum MemberRole {
-    USER,
-    MANAGER,
-    ADMIN
+  ROLE_USER("ROLE_USER"),
+  ROLE_MANAGER("ROLE_MANAGER"),
+  ROLE_ADMIN("ROLE_ADMIN");
+
+  private final String value;
+
+  private MemberRole(String value) {
+    this.value = value;
+  }
 }

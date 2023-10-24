@@ -1,0 +1,5 @@
+INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test1@naver.com','$2a$12$1KExfMQ7nNPKSrJh4O2a/u60QCW/.W5PqF9d7KwFzDV8hWbuxHU8W', 'leewooyup1', '01000000000', 0L, 'https://picsum.photos/200', true);
+INSERT INTO member(member_role, member_email, member_password, member_name, member_phone_number, member_point, member_profile_image_url, member_privacy_agreement) VALUES('ROLE_USER','test2@naver.com','$2a$12$1KExfMQ7nNPKSrJh4O2a/u60QCW/.W5PqF9d7KwFzDV8hWbuxHU8W', 'leewooyup2', '01011111111', 0L, 'https://picsum.photos/200', true);
+
+INSERT INTO membership_policy(membership_policy_grade, membership_policy_subscription_fee, membership_policy_discount_rate, membership_policy_point_accumulation_rate) VALUES('펀딩프렌즈', 6900L, 3, 1);
+INSERT INTO membership_policy(membership_policy_grade, membership_policy_subscription_fee, membership_policy_discount_rate, membership_policy_point_accumulation_rate) VALUES('펀딩파트너', 9900L, 5, 2);
