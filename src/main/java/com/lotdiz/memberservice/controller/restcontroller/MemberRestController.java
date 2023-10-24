@@ -39,22 +39,26 @@ public class MemberRestController {
   }
 
   @GetMapping("/members")
-  public ResultDataResponse<MemberInfoForQueryResponseDto> showMember(
+  public ResponseEntity<ResultDataResponse<MemberInfoForQueryResponseDto>> showMember(
       @RequestHeader Long memberId) {
-    return new ResultDataResponse<>(
-        String.valueOf(HttpStatus.OK.value()),
-        HttpStatus.OK.name(),
-        "회원 정보 조회 성공",
-        memberService.showMember(memberId));
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()),
+                HttpStatus.OK.name(),
+                "회원 정보 조회 성공",
+                memberService.showMember(memberId)));
   }
 
   @PutMapping("/members")
-  public ResultDataResponse<Object> renewMember(
+  public ResponseEntity<ResultDataResponse<Object>> renewMember(
       @RequestHeader Long memberId,
       @Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
     Member member = memberService.findMemberByMemberId(memberId);
     memberService.renewMemberInfo(member.getMemberEmail(), memberInfoForChangeRequestDto);
-    return new ResultDataResponse<>(
-        String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.toString(), "회원 정보 수정 성공", null);
+    return ResponseEntity.ok().body(
+        new ResultDataResponse<>(
+            String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.toString(), "회원 정보 수정 성공", null)
+    );
   }
 }

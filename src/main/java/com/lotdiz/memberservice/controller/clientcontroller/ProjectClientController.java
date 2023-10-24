@@ -9,6 +9,7 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,10 +22,13 @@ public class ProjectClientController {
   private final LikesService likesService;
 
   @GetMapping("/members")
-  public ResultDataResponse<Map<String, MemberInfoForProjectResponseDto>> inquireMemberInfos(
-      @RequestParam List<Long> memberIds) {
+  public ResponseEntity<ResultDataResponse<Map<String, MemberInfoForProjectResponseDto>>>
+      inquireMemberInfos(@RequestParam List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos =
         memberService.inquireNameAndProfileImage(memberIds);
-    return new ResultDataResponse<>(String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "성공", memberInfos);
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "성공", memberInfos));
   }
 }
