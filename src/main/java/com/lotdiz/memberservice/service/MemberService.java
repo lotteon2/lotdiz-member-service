@@ -62,6 +62,10 @@ public class MemberService {
     return CustomMapper.MemberInfoForQueryResponseDtoMapper(member);
   }
 
+  public Member findMemberByMemberId(Long memberId) {
+    return memberRepository.findByMemberId(memberId).orElseThrow();
+  }
+
   public Map<String, MemberInfoForProjectResponseDto> inquireNameAndProfileImage(
       List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos = new HashMap<>();
