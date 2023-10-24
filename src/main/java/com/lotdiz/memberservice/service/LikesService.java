@@ -89,7 +89,7 @@ public class LikesService {
     List<ProjectDetailsForShowResponseDto> projectDetails =
         projectClientService.getProjectDetails(projectIds);
 
-    for(ProjectDetailsForShowResponseDto dto : projectDetails) {
+    for (ProjectDetailsForShowResponseDto dto : projectDetails) {
       log.info(String.valueOf(dto.getRemainingProjectPeriod()));
       log.info(dto.getProjectName());
       log.info(dto.getProjectThumbnailImage());
@@ -107,5 +107,36 @@ public class LikesService {
       likesDetails.add(likesDetailsDto);
     }
     return likesDetails;
+  }
+
+  /**
+   * 해당 projectId 찜 개수 조회
+   *
+   * @param projectId
+   * @return
+   */
+  public Long calProjectLikesCnt(Long projectId) {
+    return likesRepository.countByProjectId(projectId);
+  }
+
+  /**
+   * 넘겨 받은 projectId 각각이 찜 목록에 있는지 없는지 조회
+   *
+   * @param memberId
+   * @param projectIds
+   * @return
+   */
+  public List<Boolean> queryIsLikes(Long memberId, List<Long> projectIds) {
+    Member member = memberService.findMemberByMemberId(memberId);
+    List<Boolean> results = new ArrayList<>();
+    for (Long projectId : projectIds) {
+      Likes likes = likesRepository.findByMemberIdAndProjectId(member, projectId);
+      if (likes == null) {
+        results.add(false);
+      } else {
+        results.add(true);
+      }
+    }
+    return results;
   }
 }
