@@ -6,6 +6,7 @@ import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.service.MemberService;
+import java.rmi.AlreadyBoundException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

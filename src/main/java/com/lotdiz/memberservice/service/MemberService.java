@@ -8,8 +8,10 @@ import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
+import com.lotdiz.memberservice.exception.AlreadyRegisteredMemberException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
+import java.rmi.AlreadyBoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +35,10 @@ public class MemberService {
    * @param memberSignUpDto
    * @return
    */
+  @Transactional
   public Member signup(MemberInfoForSignUpRequestDto memberSignUpDto) {
     if (memberRepository.findByMemberEmail(memberSignUpDto.getUsername()).orElse(null) != null) {
-      throw new RuntimeException("이미 가입되어 있는 회원입니다.");
+      throw new AlreadyRegisteredMemberException();
     }
     return memberRepository.save(Member.signup(memberSignUpDto));
   }
