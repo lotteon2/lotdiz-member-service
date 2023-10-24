@@ -15,6 +15,7 @@ import com.lotdiz.memberservice.service.client.ProjectClientService;
 import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,24 @@ public class LikesService {
     }
   }
 
+  public Long calCount(String projectId) {
+    return likesRepository.countByProjectId(Long.parseLong(projectId));
+  }
+
+  public List<Boolean> queryIsLikes(Long memberId, List<Long> projectIds) {
+    Member member = memberRepository.findByMemberId(memberId).orElseThrow();
+    List<Boolean> results = new ArrayList<>();
+    for (Long projectId : projectIds) {
+      Optional<Likes> ol = likesRepository.findByMemberIdAndProjectId(member, projectId);
+      if (ol.isPresent()) {
+        results.add(true);
+      } else {
+        results.add(false);
+      }
+    }
+    return results;
+
+  @Transactional
   public List<LikesDetailsForShowResponseDto> showProjectDetails(Long memberId) {
     Member member = memberRepository.findByMemberId(memberId).orElseThrow(() -> new EntityNotFoundException(
         CustomErrorMessage.NOT_FOUND_MEMBER));
