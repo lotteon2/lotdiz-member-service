@@ -3,6 +3,7 @@ package com.lotdiz.memberservice.service;
 import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
 import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
+import com.lotdiz.memberservice.dto.response.KakaoPayReadyForMemberResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.exception.NoMembershipException;
@@ -37,15 +38,18 @@ public class MembershipService {
         memberRepository
             .findByMemberId(memberId)
             .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+
     Membership membership =
         Membership.builder().membershipPolicyId(membershipJoinDto.getMembershipPolicyId()).build();
     Membership saved = membershipRepository.save(membership);
-    member.assignMembershipId(saved.getMembershipId());
+    member.assignMembershipId(saved);
+
     PaymentsInfoForKakaoPayRequestDto paymentsDto =
         CustomMapper.PaymentsInfoForKakoaPayRequestDtoMapper(
             saved.getMembershipId(), membershipJoinDto);
-    Long membershipSubscriptionId = paymentsClientService.getMembershipSubscription(paymentsDto);
-    saved.assignMembershipSubscriptionId(membershipSubscriptionId);
+
+    KakaoPayReadyForMemberResponseDto kakaoPayReadyForMemberDto = paymentsClientService.getMembershipSubscription(paymentsDto);
+    saved.assignMembershipSubscriptionId(kakaoPayReadyForMemberDto.getMembershipSubscriptionId());
   }
 
   /**
@@ -53,14 +57,15 @@ public class MembershipService {
    *
    * @param membershipAssignDto
    */
+  @Transactional
   public void joinMembershipComplete(MembershipInfoForAssignRequestDto membershipAssignDto) {
     LocalDateTime membershipSubscriptionCreatedAt = membershipAssignDto.getCreatedAt();
     LocalDateTime membershipSubscriptionExpiredAt =
         membershipSubscriptionCreatedAt.withYear(membershipSubscriptionCreatedAt.getYear() + 1);
+
     Membership found = findMembershipByMembershipId(membershipAssignDto.getMembershipId());
-    Membership membership =
-        Membership.addMore(found, membershipSubscriptionCreatedAt, membershipSubscriptionExpiredAt);
-    membershipRepository.save(membership);
+
+    Membership.addMore(found, membershipSubscriptionCreatedAt, membershipSubscriptionExpiredAt);
   }
 
   public Membership findMembershipByMembershipId(Long membershipId) {

@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -56,8 +57,14 @@ public class Member extends BaseEntity {
   @Column(name = "member_privacy_agreement", nullable = false)
   private Boolean memberPrivacyAgreement;
 
-  @Column(name = "membership_id")
-  private Long membershipId;
+//  @Column(name = "membership_id")
+//  private Long membershipId;
+  @OneToOne
+  @JoinColumn(name = "membership_id")
+  private Membership membership;
+
+//  @OneToMany(cascade = CascadeType.REMOVE)
+//  private List<DeliveryAddress> deliveryAddresses;
 
   public void assignMemberPassword(String memberPassword) {
     this.memberPassword = memberPassword;
@@ -112,7 +119,7 @@ public class Member extends BaseEntity {
     return member;
   }
 
-  public void assignMembershipId(Long membershipId) {
-    this.membershipId = membershipId;
+  public void assignMembershipId(Membership membership) {
+    this.membership = membership;
   }
 }

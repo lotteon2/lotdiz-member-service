@@ -34,16 +34,17 @@ public class MembershipRestController {
   public ResponseEntity<ResultDataResponse<Object>> showMembership(@RequestHeader Long memberId) {
     Member member = memberService.findMemberByMemberId(memberId);
 
-    Membership membership = membershipService.findMembershipByMembershipId(member.getMembershipId());
-    MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
-        membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicyId());
-    return ResponseEntity.ok()
-        .body(
-            new ResultDataResponse<>(
-                String.valueOf(HttpStatus.OK.value()),
-                HttpStatus.OK.name(),
-                "멤버십 조회 성공",
-                membershipPolicyDto));
+//    Membership membership = membershipService.findMembershipByMembershipId(member.getMembershipId());
+//    MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
+//        membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicyId());
+//    return ResponseEntity.ok()
+//        .body(
+//            new ResultDataResponse<>(
+//                String.valueOf(HttpStatus.OK.value()),
+//                HttpStatus.OK.name(),
+//                "멤버십 조회 성공",
+//                membershipPolicyDto));
+    return null;
   }
 
   @PostMapping("/members/membership")
@@ -57,20 +58,6 @@ public class MembershipRestController {
                 String.valueOf(HttpStatus.OK.value()),
                 HttpStatus.OK.name(),
                 "카카오페이 QR코드 요청 성공",
-                null));
-  }
-
-  @PostMapping("/members/membership/assign")
-  public ResponseEntity<ResultDataResponse<Object>> assignCreatedAt(
-      @Valid @RequestBody MembershipInfoForAssignRequestDto membershipAssignDto) {
-
-    membershipService.joinMembershipComplete(membershipAssignDto);
-    return ResponseEntity.ok()
-        .body(
-            new ResultDataResponse<>(
-                String.valueOf(HttpStatus.OK.value()),
-                HttpStatus.OK.name(),
-                "카카오페이 최종 결제 성공",
                 null));
   }
 

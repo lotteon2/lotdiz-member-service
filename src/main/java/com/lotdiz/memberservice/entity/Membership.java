@@ -36,6 +36,9 @@ public class Membership {
   @Column(name = "membership_subscription_id")
   private Long membershipSubscriptionId;
 
+  @OneToOne(mappedBy = "membership")
+  private Member member;
+
   public void assignMembershipSubscriptionId(Long membershipSubscriptionId) {
     this.membershipSubscriptionId = membershipSubscriptionId;
   }
