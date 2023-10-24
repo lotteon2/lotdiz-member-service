@@ -17,7 +17,7 @@ public class MembershipPolicyService {
    * @param membershipPolicyId
    * @return MembershipPolicyInfoForShowResponseDto
    */
-  public MembershipPolicyInfoForShowResponseDto inquireMembershipPolicyInfo(
+  public MembershipPolicyInfoForShowResponseDto getMembershipPolicyInfo(
       Long membershipPolicyId) {
     return MessageMapper.INSTANCE.toMembershipPolicyInfoDto(
         membershipPolicyRepository.findByMembershipPolicyId(membershipPolicyId));

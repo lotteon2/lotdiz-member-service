@@ -25,7 +25,7 @@ public class ProjectClientController {
   public ResponseEntity<ResultDataResponse<Map<String, MemberInfoForProjectResponseDto>>>
       inquireMemberInfos(@RequestParam List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos =
-        memberService.inquireNameAndProfileImage(memberIds);
+        memberService.getNameAndProfileImage(memberIds);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(

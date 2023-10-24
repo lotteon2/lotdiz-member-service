@@ -4,7 +4,9 @@ import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForChangeRequestD
 import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForCreateRequestDto;
 import com.lotdiz.memberservice.dto.response.DeliveryAddressInfoForShowResponseDto;
 import com.lotdiz.memberservice.entity.DeliveryAddress;
+import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.MessageMapper;
+import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -56,7 +58,9 @@ public class DeliveryAddressService {
   public void renewDeliveryAddress(
       Long deliveryAddressId, DeliveryAddressInfoForChangeRequestDto deliveryAddressInfoDto) {
     DeliveryAddress deliveryAddress =
-        deliveryAddressRepository.findByDeliveryAddressId(deliveryAddressId).orElseThrow();
+        deliveryAddressRepository
+            .findByDeliveryAddressId(deliveryAddressId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_DELIVERY_ADDRESS));
     DeliveryAddress.renew(deliveryAddress, deliveryAddressInfoDto);
   }
 
@@ -68,7 +72,9 @@ public class DeliveryAddressService {
   @Transactional
   public void removeDeliveryAddress(Long deliveryAddressId) {
     DeliveryAddress deliveryAddress =
-        deliveryAddressRepository.findByDeliveryAddressId(deliveryAddressId).orElseThrow();
+        deliveryAddressRepository
+            .findByDeliveryAddressId(deliveryAddressId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_DELIVERY_ADDRESS));
     deliveryAddressRepository.delete(deliveryAddress);
   }
 }

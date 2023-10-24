@@ -76,7 +76,7 @@ public class MemberService {
    * @param memberIds
    * @return Map<String, MemberInfoForProjectResponseDto>
    */
-  public Map<String, MemberInfoForProjectResponseDto> inquireNameAndProfileImage(
+  public Map<String, MemberInfoForProjectResponseDto> getNameAndProfileImage(
       List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos = new HashMap<>();
     for (Long memberId : memberIds) {

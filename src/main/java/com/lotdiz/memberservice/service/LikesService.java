@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LikesService {
@@ -75,7 +77,7 @@ public class LikesService {
    * 찜 목록에 포함되어있는 프로젝트 세부 정보 조회
    *
    * @param memberId
-   * @return
+   * @return List<LikesDetailsForShowResponseDto>
    */
   public List<LikesDetailsForShowResponseDto> showProjectDetails(Long memberId) {
     Member member = memberService.findMemberByMemberId(memberId);
@@ -86,6 +88,13 @@ public class LikesService {
     }
     List<ProjectDetailsForShowResponseDto> projectDetails =
         projectClientService.getProjectDetails(projectIds);
+
+    for(ProjectDetailsForShowResponseDto dto : projectDetails) {
+      log.info(String.valueOf(dto.getRemainingProjectPeriod()));
+      log.info(dto.getProjectName());
+      log.info(dto.getProjectThumbnailImage());
+      log.info(dto.getMakerName());
+    }
 
     List<FundingDetailsForShowResponseDto> fundingDetails =
         fundingClientService.getFundigDetails(projectIds);

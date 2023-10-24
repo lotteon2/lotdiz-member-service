@@ -5,6 +5,7 @@ import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
+import com.lotdiz.memberservice.exception.NoMembershipException;
 import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
@@ -31,7 +32,7 @@ public class MembershipService {
    * @param membershipJoinDto
    */
   @Transactional
-  public void create(Long memberId, MembershipInfoForJoinReqeustDto membershipJoinDto) {
+  public void createMembership(Long memberId, MembershipInfoForJoinReqeustDto membershipJoinDto) {
     Member member =
         memberRepository
             .findByMemberId(memberId)
@@ -56,16 +57,20 @@ public class MembershipService {
     LocalDateTime membershipSubscriptionCreatedAt = membershipAssignDto.getCreatedAt();
     LocalDateTime membershipSubscriptionExpiredAt =
         membershipSubscriptionCreatedAt.withYear(membershipSubscriptionCreatedAt.getYear() + 1);
-    Membership found =
-        membershipRepository
-            .findByMembershipId(membershipAssignDto.getMembershipId())
-            .orElseThrow();
+    Membership found = findMembershipByMembershipId(membershipAssignDto.getMembershipId());
     Membership membership =
         Membership.addMore(found, membershipSubscriptionCreatedAt, membershipSubscriptionExpiredAt);
     membershipRepository.save(membership);
   }
 
   public Membership findMembershipByMembershipId(Long membershipId) {
-    return membershipRepository.findByMembershipId(membershipId).orElseThrow();
+    Membership membership =
+        membershipRepository
+            .findByMembershipId(membershipId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBERSHIP));
+    if(membership == null) {
+      throw new NoMembershipException();
+    }
+    return membership;
   }
 }
