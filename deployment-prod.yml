@@ -42,11 +42,11 @@ spec:
             requests:
               memory: "2Gi"
           volumeMounts:
-            - name: lotdiz-storage
+            - name: lotdiz-member-storage
               mountPath: /var/lib/mysql
       volumes:
-        - name: lotdiz-storage
+        - name: lotdiz-member-storage
           persistentVolumeClaim:
-            claimName: efs-claim
+            claimName: member-efs-claim
       restartPolicy: Always
 
