@@ -1,7 +1,7 @@
 package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
-import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
+import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinRequestDto;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.dto.response.KakaoPayReadyForMemberResponseDto;
 import com.lotdiz.memberservice.entity.Member;
@@ -33,7 +33,7 @@ public class MembershipService {
    * @param membershipJoinDto
    */
   @Transactional
-  public void createMembership(Long memberId, MembershipInfoForJoinReqeustDto membershipJoinDto) {
+  public String createMembership(Long memberId, MembershipInfoForJoinRequestDto membershipJoinDto) {
     Member member =
         memberRepository
             .findByMemberId(memberId)
@@ -50,6 +50,7 @@ public class MembershipService {
 
     KakaoPayReadyForMemberResponseDto kakaoPayReadyForMemberDto = paymentsClientService.getMembershipSubscription(paymentsDto);
     saved.assignMembershipSubscriptionId(kakaoPayReadyForMemberDto.getMembershipSubscriptionId());
+    return kakaoPayReadyForMemberDto.getNext_redirect_pc_url();
   }
 
   /**

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MembershipInfoForJoinReqeustDto {
+public class MembershipInfoForJoinRequestDto {
   @NotNull private Long membershipPolicyId;
 
   @NotNull private String itemName;

@@ -1,11 +1,8 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
-import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
-import com.lotdiz.memberservice.dto.response.MembershipPolicyInfoForShowResponseDto;
+import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinRequestDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.entity.Member;
-import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.service.MemberService;
 import com.lotdiz.memberservice.service.MembershipPolicyService;
 import com.lotdiz.memberservice.service.MembershipService;
@@ -34,31 +31,32 @@ public class MembershipRestController {
   public ResponseEntity<ResultDataResponse<Object>> showMembership(@RequestHeader Long memberId) {
     Member member = memberService.findMemberByMemberId(memberId);
 
-//    Membership membership = membershipService.findMembershipByMembershipId(member.getMembershipId());
-//    MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
-//        membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicyId());
-//    return ResponseEntity.ok()
-//        .body(
-//            new ResultDataResponse<>(
-//                String.valueOf(HttpStatus.OK.value()),
-//                HttpStatus.OK.name(),
-//                "멤버십 조회 성공",
-//                membershipPolicyDto));
+    //    Membership membership =
+    // membershipService.findMembershipByMembershipId(member.getMembershipId());
+    //    MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
+    //        membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicyId());
+    //    return ResponseEntity.ok()
+    //        .body(
+    //            new ResultDataResponse<>(
+    //                String.valueOf(HttpStatus.OK.value()),
+    //                HttpStatus.OK.name(),
+    //                "멤버십 조회 성공",
+    //                membershipPolicyDto));
     return null;
   }
 
   @PostMapping("/members/membership")
-  public ResponseEntity<ResultDataResponse<Object>> joinMembership(
+  public ResponseEntity<ResultDataResponse<String>> joinMembership(
       @RequestHeader Long memberId,
-      @Valid @RequestBody MembershipInfoForJoinReqeustDto membershipJoinDto) {
-    membershipService.createMembership(memberId, membershipJoinDto);
-    return ResponseEntity.ok()
-        .body(
-            new ResultDataResponse<>(
-                String.valueOf(HttpStatus.OK.value()),
-                HttpStatus.OK.name(),
-                "카카오페이 QR코드 요청 성공",
-                null));
+      @Valid @RequestBody MembershipInfoForJoinRequestDto membershipJoinDto) {
+    String next_redirect_pc_url = membershipService.createMembership(memberId, membershipJoinDto);
+    return ResponseEntity.ok().body(
+        new ResultDataResponse<>(
+            String.valueOf(HttpStatus.OK.value()),
+            HttpStatus.OK.name(),
+            "카카오페이 QR코드 요청 성공",
+            next_redirect_pc_url)
+    );
   }
 
   @DeleteMapping("/members/membership/{membershipId}")
