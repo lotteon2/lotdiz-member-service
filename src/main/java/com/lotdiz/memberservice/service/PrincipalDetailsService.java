@@ -2,9 +2,12 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.config.auth.PrincipalDetails;
 import com.lotdiz.memberservice.entity.Member;
+import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.repository.MemberRepository;
+import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,10 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component("userDetailsService")
 @RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
-  private final Logger logger = LoggerFactory.getLogger(PrincipalDetailsService.class);
 
   private final MemberRepository memberRepository;
 
@@ -29,8 +32,12 @@ public class PrincipalDetailsService implements UserDetailsService {
   @Override
   @Transactional
   public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-    logger.info("loadUserByUsername here");
-    Member member = memberRepository.findByMemberEmail(username).orElseThrow();
+    log.info("loadUserByUsername here");
+    log.info("username: " + username);
+    Member member =
+        memberRepository
+            .findByMemberEmail(username)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
     return new PrincipalDetails(member);
   }
 }
