@@ -32,7 +32,11 @@ public class DeliveryAddressService {
   @Transactional
   public void createDeliveryAddress(
       Long memberId, DeliveryAddressInfoForCreateRequestDto deliveryAddressInfoDto) {
-    DeliveryAddress deliveryAddress = DeliveryAddress.create(memberId, deliveryAddressInfoDto);
+    Member member =
+        memberRepository
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    DeliveryAddress deliveryAddress = DeliveryAddress.create(member, deliveryAddressInfoDto);
     deliveryAddressRepository.save(deliveryAddress);
   }
 
