@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=false;MODE=MySQL
+  h2:
+    console:
+      enabled: true
+  cloud:
+    config:
+      enabled: false
+
+#local:
+#server:
+#  port: 8083
+
+jwt:
+  header: Authorization
+  secret: d29vLXRlY2gtc3ByaW5nLWJvb3Qtand0LXNlY3JldC13b28tdGVjaC1zcHJpbmctYm9vdC1qd3Qtc2VjcmV0LXdvby10ZWNoLXNwcmluZy1ib290LWp3dC1zZWNyZXQ=
+  token-validity-in-seconds: 600
