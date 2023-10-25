@@ -48,7 +48,8 @@ public class MembershipService {
         CustomMapper.PaymentsInfoForKakoaPayRequestDtoMapper(
             saved.getMembershipId(), membershipJoinDto);
 
-    KakaoPayReadyForMemberResponseDto kakaoPayReadyForMemberDto = paymentsClientService.getMembershipSubscription(paymentsDto);
+    KakaoPayReadyForMemberResponseDto kakaoPayReadyForMemberDto =
+        paymentsClientService.getMembershipSubscription(paymentsDto);
     saved.assignMembershipSubscriptionId(kakaoPayReadyForMemberDto.getMembershipSubscriptionId());
     return kakaoPayReadyForMemberDto.getNext_redirect_pc_url();
   }
@@ -64,19 +65,16 @@ public class MembershipService {
     LocalDateTime membershipSubscriptionExpiredAt =
         membershipSubscriptionCreatedAt.withYear(membershipSubscriptionCreatedAt.getYear() + 1);
 
-    Membership found = findMembershipByMembershipId(membershipAssignDto.getMembershipId());
+    Membership found =
+        membershipRepository
+            .findByMembershipId(membershipAssignDto.getMembershipId())
+            .orElseThrow(
+                () -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBERSHIP));
+
+    if (found == null) {
+      throw new EntityNotFoundException(CustomErrorMessage.NO_MEMBERSHIP);
+    }
 
     Membership.addMore(found, membershipSubscriptionCreatedAt, membershipSubscriptionExpiredAt);
-  }
-
-  public Membership findMembershipByMembershipId(Long membershipId) {
-    Membership membership =
-        membershipRepository
-            .findByMembershipId(membershipId)
-            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBERSHIP));
-    if(membership == null) {
-      throw new NoMembershipException();
-    }
-    return membership;
   }
 }
