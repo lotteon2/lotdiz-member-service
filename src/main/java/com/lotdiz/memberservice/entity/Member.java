@@ -57,14 +57,12 @@ public class Member extends BaseEntity {
   @Column(name = "member_privacy_agreement", nullable = false)
   private Boolean memberPrivacyAgreement;
 
-//  @Column(name = "membership_id")
-//  private Long membershipId;
   @OneToOne
   @JoinColumn(name = "membership_id")
   private Membership membership;
 
-//  @OneToMany(cascade = CascadeType.REMOVE)
-//  private List<DeliveryAddress> deliveryAddresses;
+  @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+  private List<DeliveryAddress> deliveryAddresses;
 
   public void assignMemberPassword(String memberPassword) {
     this.memberPassword = memberPassword;
@@ -102,14 +100,14 @@ public class Member extends BaseEntity {
   public static Member renew(Member member, MemberInfoForChangeRequestDto memberChangeDto) {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     member.assignMemberName(memberChangeDto.getMemberName());
-        member.assignMemberPhoneNumber(memberChangeDto.getMemberPhoneNumber());
-        member.assignMemberProfileImageUrl(memberChangeDto.getMemberProfileImageUrl());
-
+    member.assignMemberPhoneNumber(memberChangeDto.getMemberPhoneNumber());
+    member.assignMemberProfileImageUrl(memberChangeDto.getMemberProfileImageUrl());
 
     // 비밀번호 변경시
     if (memberChangeDto.getNewPassword() != null) {
       // 입력한 비밀번호가 기존 비밀번호와 일치한다면
-      if (passwordEncoder.matches(memberChangeDto.getOriginPassword(), member.getMemberPassword())) {
+      if (passwordEncoder.matches(
+          memberChangeDto.getOriginPassword(), member.getMemberPassword())) {
         // 새로운 비밀번호로 변경
         member.assignMemberPassword(passwordEncoder.encode(memberChangeDto.getNewPassword()));
       } else {

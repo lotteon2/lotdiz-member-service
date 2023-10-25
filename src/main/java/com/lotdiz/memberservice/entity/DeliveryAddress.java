@@ -47,9 +47,10 @@ public class DeliveryAddress extends BaseEntity {
   @Builder.Default
   private Boolean deliveryAddressIsDefault = false;
 
-  @Column(name = "member_id", nullable = false)
-  private Long memberId;
-
+//  @Column(name = "member_id", nullable = false)
+//  private Long memberId;
+  @ManyToOne
+  private Member member;
   public static DeliveryAddress create(Long memberId, DeliveryAddressInfoForCreateRequestDto deliveryAddressInfoCreateDto) {
     DeliveryAddress deliveryAddress = DeliveryAddress.builder()
         .deliveryAddressRecipientName(
@@ -61,7 +62,7 @@ public class DeliveryAddress extends BaseEntity {
         .deliveryAddressRoadName(deliveryAddressInfoCreateDto.getDeliveryAddressRoadName())
         .deliveryAddressDetail(deliveryAddressInfoCreateDto.getDeliveryAddressDetail())
         .deliveryAddressZipCode(deliveryAddressInfoCreateDto.getDeliveryAddressZipCode())
-        .memberId(memberId)
+//        .memberId(memberId)
         .build();
 
     if(deliveryAddressInfoCreateDto.getDeliveryAddressRecipientEmail() != null) {
