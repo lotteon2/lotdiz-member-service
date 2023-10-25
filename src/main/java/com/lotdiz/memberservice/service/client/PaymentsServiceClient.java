@@ -3,7 +3,6 @@ package com.lotdiz.memberservice.service.client;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.dto.response.KakaoPayReadyForMemberResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
-import java.util.Map;
 import javax.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

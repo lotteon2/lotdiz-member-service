@@ -6,7 +6,6 @@ import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.dto.response.KakaoPayReadyForMemberResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
-import com.lotdiz.memberservice.exception.NoMembershipException;
 import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;

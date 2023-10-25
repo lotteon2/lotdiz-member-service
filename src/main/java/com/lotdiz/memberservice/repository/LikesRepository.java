@@ -3,7 +3,6 @@ package com.lotdiz.memberservice.repository;
 import com.lotdiz.memberservice.entity.Likes;
 import com.lotdiz.memberservice.entity.LikesId;
 import com.lotdiz.memberservice.entity.Member;
-import java.util.Optional;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
