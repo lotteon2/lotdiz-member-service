@@ -117,7 +117,7 @@ public class Member extends BaseEntity {
     return member;
   }
 
-  public void assignMembershipId(Membership membership) {
+  public void assignMembership(Membership membership) {
     this.membership = membership;
   }
 }

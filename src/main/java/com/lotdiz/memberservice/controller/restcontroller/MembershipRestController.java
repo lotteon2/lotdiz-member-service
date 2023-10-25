@@ -58,10 +58,10 @@ public class MembershipRestController {
                 next_redirect_pc_url));
   }
 
-  @DeleteMapping("/members/membership/{membershipId}")
+  @DeleteMapping("/members/membership")
   public ResponseEntity<ResultDataResponse<Object>> removeMembership(
-      @RequestHeader Long memberId, @PathVariable("membershipId") Long membershipId) {
-    memberService.breakMembership(memberId, membershipId);
+      @RequestHeader Long memberId) {
+    memberService.breakMembership(memberId);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(

@@ -41,7 +41,7 @@ public class MembershipService {
     Membership membership =
         Membership.builder().membershipPolicyId(membershipJoinDto.getMembershipPolicyId()).build();
     Membership saved = membershipRepository.save(membership);
-    member.assignMembershipId(saved);
+    member.assignMembership(saved);
 
     PaymentsInfoForKakaoPayRequestDto paymentsDto =
         CustomMapper.PaymentsInfoForKakoaPayRequestDtoMapper(

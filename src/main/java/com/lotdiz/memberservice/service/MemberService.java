@@ -121,13 +121,11 @@ public class MemberService {
    * 멤버십 해제
    *
    * @param memberId
-   * @param membershipId
    */
   @Transactional
-  public void breakMembership(Long memberId, Long membershipId) {
+  public void breakMembership(Long memberId) {
     Member member = findMemberByMemberId(memberId);
-    member.assignMembershipId(null);
-    Membership membership = membershipService.findMembershipByMembershipId(membershipId);
+    Membership membership = member.getMembership();
     membership.assignMembershipStatus(false);
   }
 
