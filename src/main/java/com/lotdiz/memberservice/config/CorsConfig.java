@@ -19,6 +19,7 @@ public class CorsConfig {
     config.addAllowedOrigin("https://admin.lotdiz.lotteedu.com");
     config.addAllowedHeader("*"); // 모든 header의 응답을 허용
     config.addExposedHeader("Authorization");
+    config.addExposedHeader("Set-Cookie");
     config.addAllowedMethod("*"); // 모든 post, get, put, delete, patch 요청을 허용
     source.registerCorsConfiguration("/**", config);
     return new CorsFilter(source);
