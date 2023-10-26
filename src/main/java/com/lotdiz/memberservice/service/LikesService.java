@@ -122,11 +122,14 @@ public class LikesService {
    * @return
    */
   public MemberLikesInfoResponseDto getLikesInfo(Long memberId, Long projectId) {
-
+    Boolean isLike = null;
+    if (memberId != null) {
+      isLike = likesRepository.existsByMemberAndProjectId(memberId, projectId);
+    }
     return MemberLikesInfoResponseDto.builder()
         .likeCount(likesRepository.countByProjectId(projectId))
-        .isLikes(
-            likesRepository.existsByMemberAndProjectId(memberId, projectId)).build();
+        .isLikes(isLike)
+        .build();
   }
 
   /**

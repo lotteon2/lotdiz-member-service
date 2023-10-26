@@ -37,8 +37,8 @@ public class ProjectClientController {
   }
 
   @GetMapping("/projects/{projectId}/likes")
-  public ResponseEntity<ResultDataResponse<MemberLikesInfoResponseDto>> calProjectLikesCnt(@RequestHeader Long memberId,
-                                                                                             @PathVariable("projectId") Long projectId) {
+  public ResponseEntity<ResultDataResponse<MemberLikesInfoResponseDto>> calProjectLikesCnt(@RequestHeader(required = false) Long memberId,
+                                                                                             @PathVariable Long projectId) {
     MemberLikesInfoResponseDto likesInfo = likesService.getLikesInfo(memberId, projectId);
 
     return ResponseEntity.ok()
