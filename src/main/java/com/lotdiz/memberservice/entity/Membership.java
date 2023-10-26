@@ -37,6 +37,7 @@ public class Membership {
   private Long membershipSubscriptionId;
 
   @OneToOne(mappedBy = "membership")
+  @JoinColumn(name = "member_id")
   private Member member;
 
   public void assignMembershipSubscriptionId(Long membershipSubscriptionId) {

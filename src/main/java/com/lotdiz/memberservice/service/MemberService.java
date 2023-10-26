@@ -19,8 +19,10 @@ import java.util.List;
 import java.util.Map;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -133,5 +135,15 @@ public class MemberService {
     return memberRepository
         .findByMemberId(memberId)
         .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+  }
+
+  @org.springframework.transaction.annotation.Transactional(readOnly = true)
+  public Boolean checkMemberByMemberEmail(String memberEmail) {
+    log.info("memberEmail: " + memberEmail);
+    Member member =
+        memberRepository
+            .findByMemberEmail(memberEmail).orElse(null);
+    log.info("member: " + member);
+    return member != null;
   }
 }
