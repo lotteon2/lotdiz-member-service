@@ -3,6 +3,7 @@ package com.lotdiz.memberservice.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotdiz.memberservice.config.auth.PrincipalDetails;
 import com.lotdiz.memberservice.dto.request.MemberInfoForSignInRequestDto;
+import com.lotdiz.memberservice.entity.MemberRole;
 import com.lotdiz.memberservice.jwt.TokenProvider;
 import java.io.IOException;
 import javax.servlet.FilterChain;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,6 +53,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
       // authentication in session => success login
       PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
+      // if admin check role
+      String origin = request.getHeader("Origin");
+      if(origin != null && origin.equals("http://localhost:5173")) {
+        MemberRole memberRole = principalDetails.getMember().getMemberRole();
+        if(!memberRole.equals(MemberRole.ROLE_ADMIN)) {
+          response.sendError(HttpStatus.SC_FORBIDDEN, "권한이 없습니다.");
+        }
+      }
+
       log.info("로그인 완료: " + principalDetails.getMember().getMemberEmail());
 
       return authentication; // save in session, 권한 관리를 Spring Security가 대신 해줌
