@@ -60,4 +60,17 @@ public class MemberRestController {
             String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.toString(), "회원 정보 수정 성공", null)
     );
   }
+
+  @PostMapping("/members/isDuplicated")
+  public ResponseEntity<ResultDataResponse<Boolean>> isDuplicatedUsername(@Valid @RequestBody String username) {
+    username = username.replaceAll("\"", "");
+    return ResponseEntity.ok().body(
+        new ResultDataResponse<>(
+            String.valueOf(HttpStatus.OK.value()),
+            HttpStatus.OK.name(),
+            "이메일 중복 여부 조회 성공",
+            memberService.checkMemberByMemberEmail(username)
+        )
+    );
+  }
 }

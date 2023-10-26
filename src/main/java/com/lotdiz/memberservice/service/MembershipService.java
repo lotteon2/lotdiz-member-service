@@ -1,11 +1,11 @@
 package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
-import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
+import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinRequestDto;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
+import com.lotdiz.memberservice.dto.response.KakaoPayReadyForMemberResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
-import com.lotdiz.memberservice.exception.NoMembershipException;
 import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
@@ -32,20 +32,25 @@ public class MembershipService {
    * @param membershipJoinDto
    */
   @Transactional
-  public void createMembership(Long memberId, MembershipInfoForJoinReqeustDto membershipJoinDto) {
+  public String createMembership(Long memberId, MembershipInfoForJoinRequestDto membershipJoinDto) {
     Member member =
         memberRepository
             .findByMemberId(memberId)
             .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+
     Membership membership =
         Membership.builder().membershipPolicyId(membershipJoinDto.getMembershipPolicyId()).build();
     Membership saved = membershipRepository.save(membership);
-    member.assignMembershipId(saved.getMembershipId());
+    member.assignMembership(saved);
+
     PaymentsInfoForKakaoPayRequestDto paymentsDto =
         CustomMapper.PaymentsInfoForKakoaPayRequestDtoMapper(
             saved.getMembershipId(), membershipJoinDto);
-    Long membershipSubscriptionId = paymentsClientService.getMembershipSubscription(paymentsDto);
-    saved.assignMembershipSubscriptionId(membershipSubscriptionId);
+
+    KakaoPayReadyForMemberResponseDto kakaoPayReadyForMemberDto =
+        paymentsClientService.getMembershipSubscription(paymentsDto);
+    saved.assignMembershipSubscriptionId(kakaoPayReadyForMemberDto.getMembershipSubscriptionId());
+    return kakaoPayReadyForMemberDto.getNext_redirect_pc_url();
   }
 
   /**
@@ -53,24 +58,22 @@ public class MembershipService {
    *
    * @param membershipAssignDto
    */
+  @Transactional
   public void joinMembershipComplete(MembershipInfoForAssignRequestDto membershipAssignDto) {
     LocalDateTime membershipSubscriptionCreatedAt = membershipAssignDto.getCreatedAt();
     LocalDateTime membershipSubscriptionExpiredAt =
         membershipSubscriptionCreatedAt.withYear(membershipSubscriptionCreatedAt.getYear() + 1);
-    Membership found = findMembershipByMembershipId(membershipAssignDto.getMembershipId());
-    Membership membership =
-        Membership.addMore(found, membershipSubscriptionCreatedAt, membershipSubscriptionExpiredAt);
-    membershipRepository.save(membership);
-  }
 
-  public Membership findMembershipByMembershipId(Long membershipId) {
-    Membership membership =
+    Membership found =
         membershipRepository
-            .findByMembershipId(membershipId)
-            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBERSHIP));
-    if(membership == null) {
-      throw new NoMembershipException();
+            .findByMembershipId(membershipAssignDto.getMembershipId())
+            .orElseThrow(
+                () -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBERSHIP));
+
+    if (found == null) {
+      throw new EntityNotFoundException(CustomErrorMessage.NO_MEMBERSHIP);
     }
-    return membership;
+
+    Membership.addMore(found, membershipSubscriptionCreatedAt, membershipSubscriptionExpiredAt);
   }
 }

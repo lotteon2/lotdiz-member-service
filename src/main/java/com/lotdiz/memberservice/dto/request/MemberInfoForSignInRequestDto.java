@@ -19,9 +19,7 @@ public class MemberInfoForSignInRequestDto {
   @NotNull @Email private String username;
 
   @NotNull
-  @Pattern(
-      regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).+$",
-      message = "비밀번호가 다릅니다.")
+  @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).+$", message = "비밀번호가 다릅니다.")
   @Size(min = 8, max = 16, message = "8 ~ 16자로 작성해주세요.")
   private String password;
 }

@@ -5,6 +5,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
 import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.entity.common.BaseEntity;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -56,8 +57,12 @@ public class Member extends BaseEntity {
   @Column(name = "member_privacy_agreement", nullable = false)
   private Boolean memberPrivacyAgreement;
 
-  @Column(name = "membership_id")
-  private Long membershipId;
+  @OneToOne
+  @JoinColumn(name = "membership_id")
+  private Membership membership;
+
+  @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+  private List<DeliveryAddress> deliveryAddresses;
 
   public void assignMemberPassword(String memberPassword) {
     this.memberPassword = memberPassword;
@@ -95,14 +100,14 @@ public class Member extends BaseEntity {
   public static Member renew(Member member, MemberInfoForChangeRequestDto memberChangeDto) {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     member.assignMemberName(memberChangeDto.getMemberName());
-        member.assignMemberPhoneNumber(memberChangeDto.getMemberPhoneNumber());
-        member.assignMemberProfileImageUrl(memberChangeDto.getMemberProfileImageUrl());
-
+    member.assignMemberPhoneNumber(memberChangeDto.getMemberPhoneNumber());
+    member.assignMemberProfileImageUrl(memberChangeDto.getMemberProfileImageUrl());
 
     // 비밀번호 변경시
     if (memberChangeDto.getNewPassword() != null) {
       // 입력한 비밀번호가 기존 비밀번호와 일치한다면
-      if (passwordEncoder.matches(memberChangeDto.getOriginPassword(), member.getMemberPassword())) {
+      if (passwordEncoder.matches(
+          memberChangeDto.getOriginPassword(), member.getMemberPassword())) {
         // 새로운 비밀번호로 변경
         member.assignMemberPassword(passwordEncoder.encode(memberChangeDto.getNewPassword()));
       } else {
@@ -112,7 +117,7 @@ public class Member extends BaseEntity {
     return member;
   }
 
-  public void assignMembershipId(Long membershipId) {
-    this.membershipId = membershipId;
+  public void assignMembership(Membership membership) {
+    this.membership = membership;
   }
 }

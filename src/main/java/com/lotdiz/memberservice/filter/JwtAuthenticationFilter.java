@@ -11,8 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,9 +22,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // login 요청해서 username, password를 전송하면(post)
 // UsernamePasswordAuthenticationFilter가 동작
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-  private final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
   private final AuthenticationManager authenticationManager;
   private final TokenProvider tokenProvider;
 
@@ -33,7 +32,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
   @Override
   public Authentication attemptAuthentication(
       HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-    logger.info("JwtAuthenticationFilter: 로그인 시도중");
+    log.info("JwtAuthenticationFilter: 로그인 시도중");
 
     // Get username, password
     try {
@@ -51,7 +50,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
       // authentication in session => success login
       PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-      logger.info("로그인 완료: " + principalDetails.getMember().getMemberEmail());
+      log.info("로그인 완료: " + principalDetails.getMember().getMemberEmail());
 
       return authentication; // save in session, 권한 관리를 Spring Security가 대신 해줌
     } catch (IOException e) {
@@ -69,7 +68,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
       FilterChain chain,
       Authentication authResult)
       throws IOException, ServletException {
-    logger.info("successfulAuthentication 실행됨: 인증 완료 후");
+    log.info("successfulAuthentication 실행됨: 인증 완료 후");
     //    PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
     String jwtToken = tokenProvider.createToken(authResult);
 

@@ -4,8 +4,11 @@ import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForChangeRequestD
 import com.lotdiz.memberservice.dto.request.DeliveryAddressInfoForCreateRequestDto;
 import com.lotdiz.memberservice.dto.response.DeliveryAddressInfoForShowResponseDto;
 import com.lotdiz.memberservice.entity.DeliveryAddress;
+import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.MessageMapper;
+import com.lotdiz.memberservice.repository.DeliveryAddressRepository;
+import com.lotdiz.memberservice.repository.MemberRepository;
 import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DeliveryAddressService {
   private final DeliveryAddressRepository deliveryAddressRepository;
+  private final MemberRepository memberRepository;
 
   /**
    * 배송지 생성
@@ -27,7 +31,11 @@ public class DeliveryAddressService {
   @Transactional
   public void createDeliveryAddress(
       Long memberId, DeliveryAddressInfoForCreateRequestDto deliveryAddressInfoDto) {
-    DeliveryAddress deliveryAddress = DeliveryAddress.create(memberId, deliveryAddressInfoDto);
+    Member member =
+        memberRepository
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    DeliveryAddress deliveryAddress = DeliveryAddress.create(member, deliveryAddressInfoDto);
     deliveryAddressRepository.save(deliveryAddress);
   }
 
@@ -38,7 +46,11 @@ public class DeliveryAddressService {
    * @return List<DeliveryAddressInfoForShowResponseDto>
    */
   public List<DeliveryAddressInfoForShowResponseDto> inquireDeliveryAddresses(Long memberId) {
-    List<DeliveryAddress> deliveryAddresses = deliveryAddressRepository.findByMemberId(memberId);
+    Member member =
+        memberRepository
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    List<DeliveryAddress> deliveryAddresses = deliveryAddressRepository.findByMember(member);
     List<DeliveryAddressInfoForShowResponseDto> deliveryAddressDtos = new ArrayList<>();
     for (DeliveryAddress deliveryAddress : deliveryAddresses) {
       DeliveryAddressInfoForShowResponseDto deliveryAddressInfoDto =
@@ -60,7 +72,8 @@ public class DeliveryAddressService {
     DeliveryAddress deliveryAddress =
         deliveryAddressRepository
             .findByDeliveryAddressId(deliveryAddressId)
-            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_DELIVERY_ADDRESS));
+            .orElseThrow(
+                () -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_DELIVERY_ADDRESS));
     DeliveryAddress.renew(deliveryAddress, deliveryAddressInfoDto);
   }
 
@@ -74,7 +87,8 @@ public class DeliveryAddressService {
     DeliveryAddress deliveryAddress =
         deliveryAddressRepository
             .findByDeliveryAddressId(deliveryAddressId)
-            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_DELIVERY_ADDRESS));
+            .orElseThrow(
+                () -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_DELIVERY_ADDRESS));
     deliveryAddressRepository.delete(deliveryAddress);
   }
 }
