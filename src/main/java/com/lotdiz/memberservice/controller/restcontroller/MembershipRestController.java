@@ -48,14 +48,14 @@ public class MembershipRestController {
   public ResponseEntity<ResultDataResponse<String>> joinMembership(
       @RequestHeader Long memberId,
       @Valid @RequestBody MembershipInfoForJoinRequestDto membershipJoinDto) {
-    String next_redirect_pc_url = membershipService.createMembership(memberId, membershipJoinDto);
+    String nextFedirectPcUrl = membershipService.createMembership(memberId, membershipJoinDto);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
                 String.valueOf(HttpStatus.OK.value()),
                 HttpStatus.OK.name(),
                 "카카오페이 QR코드 요청 성공",
-                next_redirect_pc_url));
+                nextFedirectPcUrl));
   }
 
   @DeleteMapping("/members/membership")

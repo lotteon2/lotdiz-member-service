@@ -17,10 +17,11 @@ import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -139,11 +140,9 @@ public class MemberService {
 
   @org.springframework.transaction.annotation.Transactional(readOnly = true)
   public Boolean checkMemberByMemberEmail(String memberEmail) {
-    log.info("memberEmail: " + memberEmail);
     Member member =
         memberRepository
             .findByMemberEmail(memberEmail).orElse(null);
-    log.info("member: " + member);
     return member != null;
   }
 }

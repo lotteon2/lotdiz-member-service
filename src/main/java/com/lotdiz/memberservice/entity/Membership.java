@@ -30,7 +30,7 @@ public class Membership {
   @Column(name = "membership_status")
   private Boolean membershipStatus;
 
-  @Column(nullable = false)
+  @Column(name = "membership_policy_id", nullable = false)
   private Long membershipPolicyId;
 
   @Column(name = "membership_subscription_id")

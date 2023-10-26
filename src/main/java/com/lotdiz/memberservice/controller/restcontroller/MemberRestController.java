@@ -63,10 +63,7 @@ public class MemberRestController {
 
   @PostMapping("/members/isDuplicated")
   public ResponseEntity<ResultDataResponse<Boolean>> isDuplicatedUsername(@Valid @RequestBody String username) {
-    log.info("isDuplicated here");
-    log.info("username: " + username);
     username = username.replaceAll("\"", "");
-    log.info("username: " + username);
     return ResponseEntity.ok().body(
         new ResultDataResponse<>(
             String.valueOf(HttpStatus.OK.value()),

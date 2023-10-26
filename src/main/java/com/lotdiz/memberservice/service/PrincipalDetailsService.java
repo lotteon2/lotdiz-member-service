@@ -32,8 +32,6 @@ public class PrincipalDetailsService implements UserDetailsService {
   @Override
   @Transactional
   public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-    log.info("loadUserByUsername here");
-    log.info("username: " + username);
     Member member =
         memberRepository
             .findByMemberEmail(username)
