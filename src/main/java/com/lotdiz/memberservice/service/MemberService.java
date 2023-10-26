@@ -17,10 +17,12 @@ import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -121,13 +123,11 @@ public class MemberService {
    * 멤버십 해제
    *
    * @param memberId
-   * @param membershipId
    */
   @Transactional
-  public void breakMembership(Long memberId, Long membershipId) {
+  public void breakMembership(Long memberId) {
     Member member = findMemberByMemberId(memberId);
-    member.assignMembershipId(null);
-    Membership membership = membershipService.findMembershipByMembershipId(membershipId);
+    Membership membership = member.getMembership();
     membership.assignMembershipStatus(false);
   }
 
@@ -135,5 +135,13 @@ public class MemberService {
     return memberRepository
         .findByMemberId(memberId)
         .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+  }
+
+  @org.springframework.transaction.annotation.Transactional(readOnly = true)
+  public Boolean checkMemberByMemberEmail(String memberEmail) {
+    Member member =
+        memberRepository
+            .findByMemberEmail(memberEmail).orElse(null);
+    return member != null;
   }
 }

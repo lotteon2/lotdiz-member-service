@@ -1,7 +1,6 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
-import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
-import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinReqeustDto;
+import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinRequestDto;
 import com.lotdiz.memberservice.dto.response.MembershipPolicyInfoForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.entity.Member;
@@ -15,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -33,8 +31,7 @@ public class MembershipRestController {
   @GetMapping("/members/membership")
   public ResponseEntity<ResultDataResponse<Object>> showMembership(@RequestHeader Long memberId) {
     Member member = memberService.findMemberByMemberId(memberId);
-
-    Membership membership = membershipService.findMembershipByMembershipId(member.getMembershipId());
+    Membership membership = member.getMembership();
     MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
         membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicyId());
     return ResponseEntity.ok()
@@ -47,37 +44,23 @@ public class MembershipRestController {
   }
 
   @PostMapping("/members/membership")
-  public ResponseEntity<ResultDataResponse<Object>> joinMembership(
+  public ResponseEntity<ResultDataResponse<String>> joinMembership(
       @RequestHeader Long memberId,
-      @Valid @RequestBody MembershipInfoForJoinReqeustDto membershipJoinDto) {
-    membershipService.createMembership(memberId, membershipJoinDto);
+      @Valid @RequestBody MembershipInfoForJoinRequestDto membershipJoinDto) {
+    String nextFedirectPcUrl = membershipService.createMembership(memberId, membershipJoinDto);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
                 String.valueOf(HttpStatus.OK.value()),
                 HttpStatus.OK.name(),
                 "카카오페이 QR코드 요청 성공",
-                null));
+                nextFedirectPcUrl));
   }
 
-  @PostMapping("/members/membership/assign")
-  public ResponseEntity<ResultDataResponse<Object>> assignCreatedAt(
-      @Valid @RequestBody MembershipInfoForAssignRequestDto membershipAssignDto) {
-
-    membershipService.joinMembershipComplete(membershipAssignDto);
-    return ResponseEntity.ok()
-        .body(
-            new ResultDataResponse<>(
-                String.valueOf(HttpStatus.OK.value()),
-                HttpStatus.OK.name(),
-                "카카오페이 최종 결제 성공",
-                null));
-  }
-
-  @DeleteMapping("/members/membership/{membershipId}")
+  @DeleteMapping("/members/membership")
   public ResponseEntity<ResultDataResponse<Object>> removeMembership(
-      @RequestHeader Long memberId, @PathVariable("membershipId") Long membershipId) {
-    memberService.breakMembership(memberId, membershipId);
+      @RequestHeader Long memberId) {
+    memberService.breakMembership(memberId);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
