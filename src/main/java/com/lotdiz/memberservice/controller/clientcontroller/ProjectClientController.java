@@ -1,6 +1,7 @@
 package com.lotdiz.memberservice.controller.clientcontroller;
 
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
+import com.lotdiz.memberservice.dto.response.MemberLikesInfoResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.service.LikesService;
 import com.lotdiz.memberservice.service.MemberService;
@@ -35,14 +36,13 @@ public class ProjectClientController {
                 String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "성공", memberInfos));
   }
 
-  @GetMapping("/projects/{projectId}/like-count")
-  public ResponseEntity<ResultDataResponse<Map<Long, Long>>> calProjectLikesCnt(
-      @PathVariable("projectId") Long projectId) {
-    long count = likesService.calProjectLikesCnt(projectId);
-    Map<Long, Long> likesCnts = new HashMap<>();
-    likesCnts.put(projectId, count);
+  @GetMapping("/projects/{projectId}/likes")
+  public ResponseEntity<ResultDataResponse<MemberLikesInfoResponseDto>> calProjectLikesCnt(@RequestHeader(required = false) Long memberId,
+                                                                                             @PathVariable Long projectId) {
+    MemberLikesInfoResponseDto likesInfo = likesService.getLikesInfo(memberId, projectId);
+
     return ResponseEntity.ok()
-        .body(new ResultDataResponse<>("200", HttpStatus.OK.name(), "성공", likesCnts));
+        .body(new ResultDataResponse<>(String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "성공", likesInfo));
   }
 
   @GetMapping("/projects/islike")
