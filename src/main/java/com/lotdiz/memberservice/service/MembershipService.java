@@ -6,9 +6,11 @@ import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.dto.response.KakaoPayReadyForMemberResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
+import com.lotdiz.memberservice.entity.MembershipPolicy;
 import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MemberRepository;
+import com.lotdiz.memberservice.repository.MembershipPolicyRepository;
 import com.lotdiz.memberservice.repository.MembershipRepository;
 import com.lotdiz.memberservice.service.client.PaymentsClientService;
 import com.lotdiz.memberservice.utils.CustomErrorMessage;
@@ -24,6 +26,7 @@ public class MembershipService {
   private final MemberRepository memberRepository;
   private final MembershipRepository membershipRepository;
   private final PaymentsClientService paymentsClientService;
+  private final MembershipPolicyRepository membershipPolicyRepository;
 
   /**
    * 멤버십 생성 (미완성), 결제 후 추가 정보 업데이트 필요
@@ -38,8 +41,11 @@ public class MembershipService {
             .findByMemberId(memberId)
             .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
 
-    Membership membership =
-        Membership.builder().membershipPolicyId(membershipJoinDto.getMembershipPolicyId()).build();
+    MembershipPolicy membershipPolicy =
+        membershipPolicyRepository.findByMembershipPolicyId(
+            membershipJoinDto.getMembershipPolicyId());
+
+    Membership membership = Membership.builder().membershipPolicy(membershipPolicy).build();
     Membership saved = membershipRepository.save(membership);
     member.assignMembership(saved);
 

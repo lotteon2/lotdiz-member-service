@@ -33,7 +33,7 @@ public class MembershipRestController {
     Member member = memberService.findMemberByMemberId(memberId);
     Membership membership = member.getMembership();
     MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
-        membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicyId());
+        membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicy().getMembershipPolicyId());
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(

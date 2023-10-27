@@ -56,7 +56,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
       // if admin check role
       String origin = request.getHeader("Origin");
-      if(origin != null && origin.equals("http://localhost:5173")) {
+      if(origin != null && origin.equals("https://admin.lotdiz.lotteedu.com")) {
         MemberRole memberRole = principalDetails.getMember().getMemberRole();
         if(!memberRole.equals(MemberRole.ROLE_ADMIN)) {
           response.sendError(HttpStatus.SC_FORBIDDEN, "권한이 없습니다.");
