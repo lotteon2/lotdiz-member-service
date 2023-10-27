@@ -15,6 +15,7 @@ import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -42,13 +43,13 @@ public class MemberService {
     Member savedMember = memberRepository.save(Member.signup(memberSignUpDto));
     memberProducer.sendCreateMember(
         CreateMemberRequestDto.builder()
-                .memberId(savedMember.getMemberId())
-                .memberRole(savedMember.getMemberRole().getValue())
-                .memberEmail(savedMember.getMemberEmail())
-                .memberPhoneNumber(savedMember.getMemberPhoneNumber())
-                .memberName(savedMember.getMemberName())
-                .createdAt(savedMember.getCreatedAt())
-                .build());
+            .memberId(savedMember.getMemberId())
+            .memberRole(savedMember.getMemberRole().getValue())
+            .memberEmail(savedMember.getMemberEmail())
+            .memberPhoneNumber(savedMember.getMemberPhoneNumber())
+            .memberName(savedMember.getMemberName())
+            .createdAt(savedMember.getCreatedAt())
+            .build());
   }
 
   /**
@@ -86,8 +87,7 @@ public class MemberService {
    * @param memberIds
    * @return Map<String, MemberInfoForProjectResponseDto>
    */
-  public Map<String, MemberInfoForProjectResponseDto> getNameAndProfileImage(
-      List<Long> memberIds) {
+  public Map<String, MemberInfoForProjectResponseDto> getNameAndProfileImage(List<Long> memberIds) {
     Map<String, MemberInfoForProjectResponseDto> memberInfos = new HashMap<>();
     for (Long memberId : memberIds) {
       Member member = findMemberByMemberId(memberId);
@@ -147,9 +147,21 @@ public class MemberService {
 
   @org.springframework.transaction.annotation.Transactional(readOnly = true)
   public Boolean checkMemberByMemberEmail(String memberEmail) {
+    Member member = memberRepository.findByMemberEmail(memberEmail).orElse(null);
+    return member != null;
+  }
+
+  /**
+   * 회원 포인트 조회
+   *
+   * @param memberId
+   * @return Long
+   */
+  public Long getMemberPoints(Long memberId) {
     Member member =
         memberRepository
-            .findByMemberEmail(memberEmail).orElse(null);
-    return member != null;
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    return member.getMemberPoint();
   }
 }
