@@ -1,9 +1,6 @@
 package com.lotdiz.memberservice.service;
 
-import com.lotdiz.memberservice.dto.request.MemberInfoForChangeRequestDto;
-import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
-import com.lotdiz.memberservice.dto.request.PointInfoForConsumptionRequestDto;
-import com.lotdiz.memberservice.dto.request.PointInfoForRefundRequestDto;
+import com.lotdiz.memberservice.dto.request.*;
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.entity.Member;
@@ -12,6 +9,7 @@ import com.lotdiz.memberservice.exception.AlreadyRegisteredMemberException;
 import com.lotdiz.memberservice.exception.InsufficientPointsException;
 import com.lotdiz.memberservice.exception.common.EntityNotFoundException;
 import com.lotdiz.memberservice.mapper.CustomMapper;
+import com.lotdiz.memberservice.messagequeue.MemberProducer;
 import com.lotdiz.memberservice.repository.MemberRepository;
 import com.lotdiz.memberservice.utils.CustomErrorMessage;
 import java.util.HashMap;
@@ -29,6 +27,7 @@ public class MemberService {
 
   private final MemberRepository memberRepository;
   private final MembershipService membershipService;
+  private final MemberProducer memberProducer;
 
   /**
    * 회원가입
@@ -40,7 +39,16 @@ public class MemberService {
     if (memberRepository.findByMemberEmail(memberSignUpDto.getUsername()).orElse(null) != null) {
       throw new AlreadyRegisteredMemberException();
     }
-    memberRepository.save(Member.signup(memberSignUpDto));
+    Member savedMember = memberRepository.save(Member.signup(memberSignUpDto));
+    memberProducer.sendCreateMember(
+        CreateMemberRequestDto.builder()
+                .memberId(savedMember.getMemberId())
+                .memberRole(savedMember.getMemberRole().getValue())
+                .memberEmail(savedMember.getMemberEmail())
+                .memberPhoneNumber(savedMember.getMemberPhoneNumber())
+                .memberName(savedMember.getMemberName())
+                .createdAt(savedMember.getCreatedAt())
+                .build());
   }
 
   /**
