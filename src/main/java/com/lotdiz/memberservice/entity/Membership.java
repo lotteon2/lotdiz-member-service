@@ -30,8 +30,9 @@ public class Membership {
   @Column(name = "membership_status")
   private Boolean membershipStatus;
 
-  @Column(name = "membership_policy_id", nullable = false)
-  private Long membershipPolicyId;
+  @ManyToOne
+  @JoinColumn(name = "membership_policy_id", nullable = false)
+  private MembershipPolicy membershipPolicy;
 
   @Column(name = "membership_subscription_id")
   private Long membershipSubscriptionId;
