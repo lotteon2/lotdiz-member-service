@@ -40,7 +40,7 @@ spec:
               value: member-service
           resources:
             requests:
-              memory: "2Gi"
+              memory: "1Gi"
           volumeMounts:
             - name: lotdiz-member-storage
               mountPath: /var/lib/mysql
