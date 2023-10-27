@@ -57,8 +57,7 @@ public class Member extends BaseEntity {
   @Column(name = "member_privacy_agreement", nullable = false)
   private Boolean memberPrivacyAgreement;
 
-  @OneToOne
-  @JoinColumn(name = "membership_id")
+  @OneToOne(mappedBy = "member")
   private Membership membership;
 
   @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
