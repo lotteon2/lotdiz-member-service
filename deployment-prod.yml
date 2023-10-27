@@ -38,12 +38,20 @@ spec:
               value: "11111111"
             - name: MYSQL_DATABASE
               value: member-service
+          resources:
+            requests:
+              memory: "1Gi"
           volumeMounts:
-            - name: lotdiz-storage
+            - name: lotdiz-member-storage
               mountPath: /var/lib/mysql
+            - name: mysql-config
+              mountPath: /etc/mysql/conf.d
       volumes:
-        - name: lotdiz-storage
+        - name: lotdiz-member-storage
           persistentVolumeClaim:
-            claimName: efs-claim
+            claimName: member-efs-claim
+        - name: mysql-config
+          configMap:
+            name: mysql-config
       restartPolicy: Always
 

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: member-efs-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "member-efs-sc"
+  resources:
+    requests:
+      storage: 5Gi
