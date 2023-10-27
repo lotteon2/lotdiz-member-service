@@ -2,6 +2,7 @@ package com.lotdiz.memberservice.service;
 
 import com.lotdiz.memberservice.dto.response.FundingDetailsForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.LikesDetailsForShowResponseDto;
+import com.lotdiz.memberservice.dto.response.MemberLikesInfoResponseDto;
 import com.lotdiz.memberservice.dto.response.ProjectDetailsForShowResponseDto;
 import com.lotdiz.memberservice.entity.Likes;
 import com.lotdiz.memberservice.entity.LikesId;
@@ -115,13 +116,20 @@ public class LikesService {
   }
 
   /**
-   * 해당 projectId 찜 개수 조회
+   * 해당 project Info
    *
-   * @param projectId
+   * @param projectId, memberId
    * @return
    */
-  public Long calProjectLikesCnt(Long projectId) {
-    return likesRepository.countByProjectId(projectId);
+  public MemberLikesInfoResponseDto getLikesInfo(Long memberId, Long projectId) {
+    Boolean isLike = null;
+    if (memberId != null) {
+      isLike = likesRepository.existsByMemberAndProjectId(memberId, projectId);
+    }
+    return MemberLikesInfoResponseDto.builder()
+        .likeCount(likesRepository.countByProjectId(projectId))
+        .isLikes(isLike)
+        .build();
   }
 
   /**

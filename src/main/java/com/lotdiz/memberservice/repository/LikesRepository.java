@@ -21,4 +21,8 @@ public interface LikesRepository extends JpaRepository<Likes, LikesId> {
   @Query("SELECT l FROM Likes l WHERE l.id.member = :memberId AND l.id.projectId = :projectId")
   Likes findByMemberIdAndProjectId(
       @Param("memberId") Member member, @Param("projectId") Long projectId);
+
+  @Query("SELECT count(l.id.member) > 0 FROM Likes l WHERE l.id.member.memberId = :memberId AND l.id.projectId = :projectId")
+  Boolean existsByMemberAndProjectId(Long memberId, Long projectId);
+
 }
