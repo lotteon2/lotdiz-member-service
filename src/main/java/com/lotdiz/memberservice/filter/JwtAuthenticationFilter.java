@@ -56,9 +56,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
       // if admin check role
       String origin = request.getHeader("Origin");
-      if(origin != null && origin.equals("https://admin.lotdiz.lotteedu.com")) {
+      if (origin != null
+          && (origin.equals("https://admin.lotdiz.lotteedu.com")
+              || origin.equals("https://d2m2rob7qku22m.cloudfront.net"))) {
         MemberRole memberRole = principalDetails.getMember().getMemberRole();
-        if(!memberRole.equals(MemberRole.ROLE_ADMIN)) {
+        if (!memberRole.equals(MemberRole.ROLE_ADMIN)) {
           response.sendError(HttpStatus.SC_FORBIDDEN, "권한이 없습니다.");
         }
       }
