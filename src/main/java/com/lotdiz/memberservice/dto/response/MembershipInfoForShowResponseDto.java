@@ -11,9 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MembershipPolicyInfoForShowResponseDto {
+public class MembershipInfoForShowResponseDto {
     private String membershipPolicyGrade;
     private Long membershipPolicySubscriptionFee;
     private Integer membershipPolicyDiscountRate;
     private Integer membershipPolicyPointAccumulationRate;
+    private String membershipSubscriptionCreatedAt;
+    private String membershipSubscriptionExpiredAt;
 }
