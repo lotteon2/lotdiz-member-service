@@ -21,4 +21,5 @@ public class DeliveryAddressInfoForCreateRequestDto {
     private String deliveryAddressRoadName; //도로명 주소
     private String deliveryAddressDetail; //상세주소
     private String deliveryAddressZipCode; //우편번호
+    private Boolean deliveryAddressIsDefault;
 }

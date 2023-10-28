@@ -19,4 +19,5 @@ public class DeliveryAddressInfoForChangeRequestDto {
     private String deliveryAddressRoadName;
     private String deliveryAddressDetail;
     private String deliveryAddressZipCode;
+    private Boolean deliveryAddressIsDefault;
 }
