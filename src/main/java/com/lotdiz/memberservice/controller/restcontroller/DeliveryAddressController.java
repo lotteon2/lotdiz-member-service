@@ -44,7 +44,7 @@ public class DeliveryAddressController {
   public ResponseEntity<ResultDataResponse<List<DeliveryAddressInfoForShowResponseDto>>>
       inquireDeliveryAddress(@RequestHeader Long memberId) {
     List<DeliveryAddressInfoForShowResponseDto> deliveryAddressInfoDtos =
-        deliveryAddressService.inquireDeliveryAddresses(memberId);
+        deliveryAddressService.getDeliveryAddresses(memberId);
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(

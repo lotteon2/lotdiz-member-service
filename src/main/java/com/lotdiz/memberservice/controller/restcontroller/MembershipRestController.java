@@ -1,10 +1,8 @@
 package com.lotdiz.memberservice.controller.restcontroller;
 
 import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinRequestDto;
-import com.lotdiz.memberservice.dto.response.MembershipPolicyInfoForShowResponseDto;
+import com.lotdiz.memberservice.dto.response.MembershipInfoForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
-import com.lotdiz.memberservice.entity.Member;
-import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.service.MemberService;
 import com.lotdiz.memberservice.service.MembershipPolicyService;
 import com.lotdiz.memberservice.service.MembershipService;
@@ -29,18 +27,15 @@ public class MembershipRestController {
   private final MembershipPolicyService membershipPolicyService;
 
   @GetMapping("/members/membership")
-  public ResponseEntity<ResultDataResponse<Object>> showMembership(@RequestHeader Long memberId) {
-    Member member = memberService.findMemberByMemberId(memberId);
-    Membership membership = member.getMembership();
-    MembershipPolicyInfoForShowResponseDto membershipPolicyDto =
-        membershipPolicyService.getMembershipPolicyInfo(membership.getMembershipPolicy().getMembershipPolicyId());
+  public ResponseEntity<ResultDataResponse<MembershipInfoForShowResponseDto>> showMembership(
+      @RequestHeader Long memberId) {
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
                 String.valueOf(HttpStatus.OK.value()),
                 HttpStatus.OK.name(),
                 "멤버십 조회 성공",
-                membershipPolicyDto));
+                membershipService.getMembershipInfo(memberId)));
   }
 
   @PostMapping("/members/membership")
@@ -58,8 +53,7 @@ public class MembershipRestController {
   }
 
   @DeleteMapping("/members/membership")
-  public ResponseEntity<ResultDataResponse<Object>> removeMembership(
-      @RequestHeader Long memberId) {
+  public ResponseEntity<ResultDataResponse<Object>> removeMembership(@RequestHeader Long memberId) {
     memberService.breakMembership(memberId);
     return ResponseEntity.ok()
         .body(

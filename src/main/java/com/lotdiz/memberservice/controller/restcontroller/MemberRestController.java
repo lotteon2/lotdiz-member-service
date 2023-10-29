@@ -55,22 +55,36 @@ public class MemberRestController {
       @Valid @RequestBody MemberInfoForChangeRequestDto memberInfoForChangeRequestDto) {
     Member member = memberService.findMemberByMemberId(memberId);
     memberService.renewMemberInfo(member.getMemberEmail(), memberInfoForChangeRequestDto);
-    return ResponseEntity.ok().body(
-        new ResultDataResponse<>(
-            String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.toString(), "회원 정보 수정 성공", null)
-    );
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()),
+                HttpStatus.OK.toString(),
+                "회원 정보 수정 성공",
+                null));
   }
 
   @PostMapping("/members/isDuplicated")
-  public ResponseEntity<ResultDataResponse<Boolean>> isDuplicatedUsername(@Valid @RequestBody String username) {
+  public ResponseEntity<ResultDataResponse<Boolean>> isDuplicatedUsername(
+      @Valid @RequestBody String username) {
     username = username.replaceAll("\"", "");
-    return ResponseEntity.ok().body(
-        new ResultDataResponse<>(
-            String.valueOf(HttpStatus.OK.value()),
-            HttpStatus.OK.name(),
-            "이메일 중복 여부 조회 성공",
-            memberService.checkMemberByMemberEmail(username)
-        )
-    );
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()),
+                HttpStatus.OK.name(),
+                "이메일 중복 여부 조회 성공",
+                memberService.checkMemberByMemberEmail(username)));
+  }
+
+  @GetMapping("/members/points")
+  public ResponseEntity<ResultDataResponse<Long>> getMemberPoints(@RequestHeader Long memberId) {
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()),
+                HttpStatus.OK.name(),
+                "포인트 조회 성공",
+                memberService.getMemberPoints(memberId)));
   }
 }

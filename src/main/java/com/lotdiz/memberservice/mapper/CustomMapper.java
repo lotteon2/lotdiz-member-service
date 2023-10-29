@@ -5,8 +5,11 @@ import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.dto.response.FundingDetailsForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.LikesDetailsForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
+import com.lotdiz.memberservice.dto.response.MembershipInfoForShowResponseDto;
 import com.lotdiz.memberservice.dto.response.ProjectDetailsForShowResponseDto;
 import com.lotdiz.memberservice.entity.Member;
+import com.lotdiz.memberservice.entity.Membership;
+import com.lotdiz.memberservice.entity.MembershipPolicy;
 
 public class CustomMapper {
   public static MemberInfoForQueryResponseDto MemberInfoForQueryResponseDtoMapper(Member member) {
@@ -37,6 +40,17 @@ public class CustomMapper {
           .makerName(projectDetailsDto.getMakerName())
           .projectFundingAchievementRate(fundingDetailsDto.getProjectFundingAchievementRate())
           .totalAccumulatedFundingAmount(fundingDetailsDto.getTotalAccumulatedFundingAmount())
+          .build();
+    }
+
+    public static MembershipInfoForShowResponseDto toMembershipInfoForShowResponseDto(Membership membership, MembershipPolicy membershipPolicy) {
+      return MembershipInfoForShowResponseDto.builder()
+          .membershipPolicyGrade(membershipPolicy.getMembershipPolicyGrade())
+          .membershipPolicySubscriptionFee(membershipPolicy.getMembershipPolicySubscriptionFee())
+          .membershipPolicyDiscountRate(membershipPolicy.getMembershipPolicyDiscountRate())
+          .membershipPolicyPointAccumulationRate(membershipPolicy.getMembershipPolicyPointAccumulationRate())
+          .membershipSubscriptionCreatedAt(membership.getMembershipSubscriptionCreatedAt().toString())
+          .membershipSubscriptionExpiredAt(membership.getMembershipSubscriptionExpiredAt().toString())
           .build();
     }
 }
