@@ -12,9 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class MemberInfoForQueryResponseDto {
-  private Long membershipPolicyId;
   private Long memberId;
   private String memberName;
   private String memberPhoneNumber;
   private String memberProfileImageUrl;
+  private String memberEmail;
+  private String createdAt;
 }

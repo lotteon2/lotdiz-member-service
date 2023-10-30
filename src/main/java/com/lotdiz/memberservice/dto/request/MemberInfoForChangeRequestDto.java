@@ -15,6 +15,10 @@ import org.jetbrains.annotations.NotNull;
 @AllArgsConstructor
 @Builder
 public class MemberInfoForChangeRequestDto {
+  @NotNull
+  @Size(max = 10)
+  private String memberName;
+
   @Pattern(
       regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).+$",
       message = "영문, 숫자, 특수문자 모두 포함하여 작성해주세요.")
@@ -28,12 +32,6 @@ public class MemberInfoForChangeRequestDto {
   private String newPassword;
 
   @NotNull
-  @Size(max = 10)
-  private String memberName;
-
-  @NotNull
   @Pattern(regexp = "[0-9]{10,11}$", message = "-없이 10 ~ 11자리 숫자를 입력해주세요.")
   private String memberPhoneNumber;
-
-  @NotNull private String memberProfileImageUrl;
 }

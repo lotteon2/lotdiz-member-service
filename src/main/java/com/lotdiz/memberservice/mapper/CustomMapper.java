@@ -18,6 +18,8 @@ public class CustomMapper {
         .memberName(member.getMemberName())
         .memberPhoneNumber(member.getMemberPhoneNumber())
         .memberProfileImageUrl(member.getMemberProfileImageUrl())
+        .memberEmail(member.getMemberEmail())
+        .createdAt(member.getCreatedAt().toString())
         .build();
   }
 
