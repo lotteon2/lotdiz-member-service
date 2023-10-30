@@ -4,7 +4,6 @@ import com.lotdiz.memberservice.dto.response.MembershipInfoForShowResponseDto;
 import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.entity.MembershipPolicy;
 import com.lotdiz.memberservice.mapper.CustomMapper;
-import com.lotdiz.memberservice.mapper.MessageMapper;
 import com.lotdiz.memberservice.repository.MembershipPolicyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

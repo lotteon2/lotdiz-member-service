@@ -100,7 +100,6 @@ public class Member extends BaseEntity {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     member.assignMemberName(memberChangeDto.getMemberName());
     member.assignMemberPhoneNumber(memberChangeDto.getMemberPhoneNumber());
-    member.assignMemberProfileImageUrl(memberChangeDto.getMemberProfileImageUrl());
 
     // 비밀번호 변경시
     if (memberChangeDto.getNewPassword() != null) {
