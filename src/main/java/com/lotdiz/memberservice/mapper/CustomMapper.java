@@ -34,25 +34,30 @@ public class CustomMapper {
         .build();
   }
 
-    public static LikesDetailsForShowResponseDto toLikesDetailsForShowResponseDto(ProjectDetailsForShowResponseDto projectDetailsDto, FundingDetailsForShowResponseDto fundingDetailsDto) {
-      return LikesDetailsForShowResponseDto.builder()
-          .remainingProjectPeriod(projectDetailsDto.getRemainingProjectPeriod())
-          .projectName(projectDetailsDto.getProjectName())
-          .projectThumbnailImage(projectDetailsDto.getProjectThumbnailImage())
-          .makerName(projectDetailsDto.getMakerName())
-          .projectFundingAchievementRate(fundingDetailsDto.getProjectFundingAchievementRate())
-          .totalAccumulatedFundingAmount(fundingDetailsDto.getTotalAccumulatedFundingAmount())
-          .build();
-    }
+  public static LikesDetailsForShowResponseDto toLikesDetailsForShowResponseDto(
+      ProjectDetailsForShowResponseDto projectDetailsDto,
+      FundingDetailsForShowResponseDto fundingDetailsDto) {
+    return LikesDetailsForShowResponseDto.builder()
+        .projectId(projectDetailsDto.getProjectId())
+        .remainingDays(projectDetailsDto.getRemainingDays())
+        .projectName(projectDetailsDto.getProjectName())
+        .projectThumbnailImageUrl(projectDetailsDto.getProjectThumbnailImageUrl())
+        .makerName(projectDetailsDto.getMakerName())
+        .fundingAchievementRate(fundingDetailsDto.getFundingAchievementRate())
+        .accumulatedFundingAmount(fundingDetailsDto.getAccumulatedFundingAmount())
+        .build();
+  }
 
-    public static MembershipInfoForShowResponseDto toMembershipInfoForShowResponseDto(Membership membership, MembershipPolicy membershipPolicy) {
-      return MembershipInfoForShowResponseDto.builder()
-          .membershipPolicyGrade(membershipPolicy.getMembershipPolicyGrade())
-          .membershipPolicySubscriptionFee(membershipPolicy.getMembershipPolicySubscriptionFee())
-          .membershipPolicyDiscountRate(membershipPolicy.getMembershipPolicyDiscountRate())
-          .membershipPolicyPointAccumulationRate(membershipPolicy.getMembershipPolicyPointAccumulationRate())
-          .membershipSubscriptionCreatedAt(membership.getMembershipSubscriptionCreatedAt().toString())
-          .membershipSubscriptionExpiredAt(membership.getMembershipSubscriptionExpiredAt().toString())
-          .build();
-    }
+  public static MembershipInfoForShowResponseDto toMembershipInfoForShowResponseDto(
+      Membership membership, MembershipPolicy membershipPolicy) {
+    return MembershipInfoForShowResponseDto.builder()
+        .membershipPolicyGrade(membershipPolicy.getMembershipPolicyGrade())
+        .membershipPolicySubscriptionFee(membershipPolicy.getMembershipPolicySubscriptionFee())
+        .membershipPolicyDiscountRate(membershipPolicy.getMembershipPolicyDiscountRate())
+        .membershipPolicyPointAccumulationRate(
+            membershipPolicy.getMembershipPolicyPointAccumulationRate())
+        .membershipSubscriptionCreatedAt(membership.getMembershipSubscriptionCreatedAt().toString())
+        .membershipSubscriptionExpiredAt(membership.getMembershipSubscriptionExpiredAt().toString())
+        .build();
+  }
 }

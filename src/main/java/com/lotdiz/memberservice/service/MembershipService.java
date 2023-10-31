@@ -97,6 +97,9 @@ public class MembershipService {
         memberRepository
             .findByMemberId(memberId)
             .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    if(member.getMembership() == null) {
+      return null;
+    }
     MembershipPolicy membershipPolicy = member.getMembership().getMembershipPolicy();
 
     return membershipPolicyService.getMembershipPolicyInfo(

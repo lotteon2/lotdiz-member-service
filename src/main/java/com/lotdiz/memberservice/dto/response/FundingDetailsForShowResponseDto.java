@@ -12,6 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class FundingDetailsForShowResponseDto {
-    private Integer projectFundingAchievementRate;
-    private Long totalAccumulatedFundingAmount;
+    private Integer fundingAchievementRate;
+    private Long accumulatedFundingAmount;
 }

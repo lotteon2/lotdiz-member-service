@@ -12,8 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class ProjectDetailsForShowResponseDto {
-    private Integer remainingProjectPeriod; //펀딩 남은 기간
+    private Long projectId;
+    private Integer remainingDays; //펀딩 남은 기간
     private String projectName;
-    private String projectThumbnailImage;
+    private String projectThumbnailImageUrl;
     private String makerName;
 }
