@@ -76,16 +76,15 @@ public class LikesRestController {
   }
 
   @GetMapping("/projects/{projectId}/like-count")
-  public ResultDataResponse<Map<String, Long>> calProjecLikes(@PathVariable("projectId") String projectId) {
+  public ResponseEntity<ResultDataResponse<Map<String, Long>>> calProjecLikes(
+      @PathVariable("projectId") String projectId) {
     long count = likesService.calCount(projectId);
     Map<String, Long> map = new HashMap<String, Long>();
     map.put(projectId.toString(), count);
-    return new ResultDataResponse<>(
-        "200",
-        HttpStatus.OK.name(),
-        "성공",
-        map
-    );
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()), HttpStatus.OK.name(), "찜개수 조회 성공", map));
   }
 
   @GetMapping("/projects/islike")
@@ -93,14 +92,9 @@ public class LikesRestController {
       @RequestHeader Long memberId, @RequestParam List<Long> projectIds) {
     List<Boolean> likesStatus = likesService.queryIsLikes(memberId, projectIds);
     Map<String, Boolean> map = new HashMap<>();
-    for(int i = 0; i < projectIds.size(); i++) {
+    for (int i = 0; i < projectIds.size(); i++) {
       map.put(projectIds.get(i).toString(), likesStatus.get(i));
     }
-    return new ResultDataResponse<>(
-        "200",
-        HttpStatus.OK.name(),
-        "성공",
-        map
-    );
+    return new ResultDataResponse<>("200", HttpStatus.OK.name(), "성공", map);
   }
 }

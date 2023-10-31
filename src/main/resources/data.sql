@@ -6,3 +6,7 @@ INSERT INTO member(member_role, created_at, updated_at, member_email, member_pas
 
 INSERT INTO membership_policy(membership_policy_grade, membership_policy_subscription_fee, membership_policy_discount_rate, membership_policy_point_accumulation_rate) VALUES('펀딩프렌즈', 6900L, 3, 1);
 INSERT INTO membership_policy(membership_policy_grade, membership_policy_subscription_fee, membership_policy_discount_rate, membership_policy_point_accumulation_rate) VALUES('펀딩파트너', 9900L, 5, 2);
+
+INSERT INTO likes(project_id, member_id, created_at) VALUES (1, 1, '2023-12-11T23:59:59');
+INSERT INTO likes(project_id, member_id, created_at) VALUES (2, 1, '2023-12-11T23:59:59');
+INSERT INTO likes(project_id, member_id, created_at) VALUES (3, 1, '2023-12-11T23:59:59');

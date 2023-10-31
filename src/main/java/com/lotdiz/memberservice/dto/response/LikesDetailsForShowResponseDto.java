@@ -12,10 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class LikesDetailsForShowResponseDto {
-    private Integer remainingProjectPeriod; //펀딩 남은 기간
+    private Long projectId;
+    private Integer remainingDays; //펀딩 남은 기간
     private String projectName;
-    private String projectThumbnailImage;
+    private String projectThumbnailImageUrl;
     private String makerName;
-    private Integer projectFundingAchievementRate;
-    private Long totalAccumulatedFundingAmount;
+    private Integer fundingAchievementRate;
+    private Long accumulatedFundingAmount;
 }
