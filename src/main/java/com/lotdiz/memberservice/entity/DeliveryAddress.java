@@ -51,46 +51,65 @@ public class DeliveryAddress extends BaseEntity {
   @JoinColumn(name = "member_id")
   private Member member;
 
-  public static DeliveryAddress create(Member member, DeliveryAddressInfoForCreateRequestDto deliveryAddressInfoCreateDto) {
-    DeliveryAddress deliveryAddress = DeliveryAddress.builder()
-        .deliveryAddressRecipientName(
-            deliveryAddressInfoCreateDto.getDeliveryAddressRecipientName())
-        .deliveryAddressRecipientPhoneNumber(
-            deliveryAddressInfoCreateDto.getDeliveryAddressRecipientPhoneNumber())
-        .deliveryAddressRecipientEmail(
-            deliveryAddressInfoCreateDto.getDeliveryAddressRecipientEmail())
-        .deliveryAddressRoadName(deliveryAddressInfoCreateDto.getDeliveryAddressRoadName())
-        .deliveryAddressDetail(deliveryAddressInfoCreateDto.getDeliveryAddressDetail())
-        .deliveryAddressZipCode(deliveryAddressInfoCreateDto.getDeliveryAddressZipCode())
-        .member(member)
-        .build();
+  public static DeliveryAddress create(
+      Member member, DeliveryAddressInfoForCreateRequestDto deliveryAddressInfoCreateDto) {
+    DeliveryAddress deliveryAddress =
+        DeliveryAddress.builder()
+            .deliveryAddressRecipientName(
+                deliveryAddressInfoCreateDto.getDeliveryAddressRecipientName())
+            .deliveryAddressRecipientPhoneNumber(
+                deliveryAddressInfoCreateDto.getDeliveryAddressRecipientPhoneNumber())
+            .deliveryAddressRecipientEmail(
+                deliveryAddressInfoCreateDto.getDeliveryAddressRecipientEmail())
+            .deliveryAddressRoadName(deliveryAddressInfoCreateDto.getDeliveryAddressRoadName())
+            .deliveryAddressDetail(deliveryAddressInfoCreateDto.getDeliveryAddressDetail())
+            .deliveryAddressZipCode(deliveryAddressInfoCreateDto.getDeliveryAddressZipCode())
+            .member(member)
+            .deliveryAddressIsDefault(deliveryAddressInfoCreateDto.getDeliveryAddressIsDefault())
+            .build();
 
-    if(deliveryAddressInfoCreateDto.getDeliveryAddressRecipientEmail() != null) {
-      deliveryAddress.assignDeliveryAddressRecipientEmail(deliveryAddressInfoCreateDto.getDeliveryAddressRecipientEmail());
+    if (deliveryAddressInfoCreateDto.getDeliveryAddressRecipientEmail() != null) {
+      deliveryAddress.assignDeliveryAddressRecipientEmail(
+          deliveryAddressInfoCreateDto.getDeliveryAddressRecipientEmail());
     }
 
-    if(deliveryAddressInfoCreateDto.getDeliveryAddressRequest() != null) {
-      deliveryAddress.assignDeliveryAddressRequest(deliveryAddressInfoCreateDto.getDeliveryAddressRequest());
+    if (deliveryAddressInfoCreateDto.getDeliveryAddressRequest() != null) {
+      deliveryAddress.assignDeliveryAddressRequest(
+          deliveryAddressInfoCreateDto.getDeliveryAddressRequest());
     }
 
     return deliveryAddress;
   }
 
-  public static DeliveryAddress renew(DeliveryAddress deliveryAddress, DeliveryAddressInfoForChangeRequestDto deliveryAddressInfoDto) {
-    deliveryAddress.assignDeliveryAddressRecipientName(deliveryAddressInfoDto.getDeliveryAddressRecipientName());
-    deliveryAddress.assignDeliveryAddressRecipientPhoneNumber(deliveryAddressInfoDto.getDeliveryAddressRecipientPhoneNumber());
-    deliveryAddress.assignDeliveryAddressRoadName(deliveryAddressInfoDto.getDeliveryAddressRoadName());
+  public static DeliveryAddress renew(
+      DeliveryAddress deliveryAddress,
+      DeliveryAddressInfoForChangeRequestDto deliveryAddressInfoDto) {
+    deliveryAddress.assignDeliveryAddressRecipientName(
+        deliveryAddressInfoDto.getDeliveryAddressRecipientName());
+    deliveryAddress.assignDeliveryAddressRecipientPhoneNumber(
+        deliveryAddressInfoDto.getDeliveryAddressRecipientPhoneNumber());
+    deliveryAddress.assignDeliveryAddressRoadName(
+        deliveryAddressInfoDto.getDeliveryAddressRoadName());
     deliveryAddress.assignDeliveryAddressDetail(deliveryAddressInfoDto.getDeliveryAddressDetail());
-    deliveryAddress.assignDeliveryAddressZipCode(deliveryAddressInfoDto.getDeliveryAddressZipCode());
+    deliveryAddress.assignDeliveryAddressZipCode(
+        deliveryAddressInfoDto.getDeliveryAddressZipCode());
+    deliveryAddress.assignDeliveryAddressIsDefault(
+        deliveryAddressInfoDto.getDeliveryAddressIsDefault());
 
-    if(deliveryAddressInfoDto.getDeliveryAddressRecipientEmail() != null) {
-      deliveryAddress.assignDeliveryAddressRecipientEmail(deliveryAddressInfoDto.getDeliveryAddressRecipientEmail());
+    if (deliveryAddressInfoDto.getDeliveryAddressRecipientEmail() != null) {
+      deliveryAddress.assignDeliveryAddressRecipientEmail(
+          deliveryAddressInfoDto.getDeliveryAddressRecipientEmail());
     }
 
-    if(deliveryAddressInfoDto.getDeliveryAddressRequest() != null) {
-      deliveryAddress.assignDeliveryAddressRequest(deliveryAddressInfoDto.getDeliveryAddressRequest());
+    if (deliveryAddressInfoDto.getDeliveryAddressRequest() != null) {
+      deliveryAddress.assignDeliveryAddressRequest(
+          deliveryAddressInfoDto.getDeliveryAddressRequest());
     }
     return deliveryAddress;
+  }
+
+  private void assignDeliveryAddressIsDefault(Boolean deliveryAddressIsDefault) {
+    this.deliveryAddressIsDefault = deliveryAddressIsDefault;
   }
 
   private void assignDeliveryAddressZipCode(String deliveryAddressZipCode) {
@@ -105,7 +124,8 @@ public class DeliveryAddress extends BaseEntity {
     this.deliveryAddressRoadName = deliveryAddressRoadName;
   }
 
-  private void assignDeliveryAddressRecipientPhoneNumber(String deliveryAddressRecipientPhoneNumber) {
+  private void assignDeliveryAddressRecipientPhoneNumber(
+      String deliveryAddressRecipientPhoneNumber) {
     this.deliveryAddressRecipientPhoneNumber = deliveryAddressRecipientPhoneNumber;
   }
 

@@ -92,16 +92,19 @@ public class LikesService {
     for (Likes like : likes) {
       projectIds.add(like.getId().getProjectId());
     }
+
+    // project 정보 가져오기
     List<ProjectDetailsForShowResponseDto> projectDetails =
         projectClientService.getProjectDetails(projectIds);
 
     for (ProjectDetailsForShowResponseDto dto : projectDetails) {
-      log.info(String.valueOf(dto.getRemainingProjectPeriod()));
+      log.info(String.valueOf(dto.getProjectThumbnailImageUrl()));
       log.info(dto.getProjectName());
-      log.info(dto.getProjectThumbnailImage());
+      log.info(dto.getRemainingDays().toString());
       log.info(dto.getMakerName());
     }
 
+    // funding 정보 가져오기
     List<FundingDetailsForShowResponseDto> fundingDetails =
         fundingClientService.getFundigDetails(projectIds);
 

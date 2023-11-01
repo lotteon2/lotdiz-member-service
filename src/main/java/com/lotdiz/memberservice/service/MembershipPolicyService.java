@@ -1,7 +1,9 @@
 package com.lotdiz.memberservice.service;
 
-import com.lotdiz.memberservice.dto.response.MembershipPolicyInfoForShowResponseDto;
-import com.lotdiz.memberservice.mapper.MessageMapper;
+import com.lotdiz.memberservice.dto.response.MembershipInfoForShowResponseDto;
+import com.lotdiz.memberservice.entity.Membership;
+import com.lotdiz.memberservice.entity.MembershipPolicy;
+import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.repository.MembershipPolicyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,12 +16,11 @@ public class MembershipPolicyService {
   /**
    * 멤버십 세부 정책 조회
    *
-   * @param membershipPolicyId
+   * @param membership
+   * @param membershipPolicy
    * @return MembershipPolicyInfoForShowResponseDto
    */
-  public MembershipPolicyInfoForShowResponseDto getMembershipPolicyInfo(
-      Long membershipPolicyId) {
-    return MessageMapper.INSTANCE.toMembershipPolicyInfoDto(
-        membershipPolicyRepository.findByMembershipPolicyId(membershipPolicyId));
+  public MembershipInfoForShowResponseDto getMembershipPolicyInfo(Membership membership, MembershipPolicy membershipPolicy) {
+    return CustomMapper.toMembershipInfoForShowResponseDto(membership, membershipPolicy);
   }
 }

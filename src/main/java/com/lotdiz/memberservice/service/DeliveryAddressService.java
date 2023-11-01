@@ -45,7 +45,7 @@ public class DeliveryAddressService {
    * @param memberId
    * @return List<DeliveryAddressInfoForShowResponseDto>
    */
-  public List<DeliveryAddressInfoForShowResponseDto> inquireDeliveryAddresses(Long memberId) {
+  public List<DeliveryAddressInfoForShowResponseDto> getDeliveryAddresses(Long memberId) {
     Member member =
         memberRepository
             .findByMemberId(memberId)

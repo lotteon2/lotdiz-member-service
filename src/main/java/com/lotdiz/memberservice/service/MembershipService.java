@@ -4,6 +4,7 @@ import com.lotdiz.memberservice.dto.request.MembershipInfoForAssignRequestDto;
 import com.lotdiz.memberservice.dto.request.MembershipInfoForJoinRequestDto;
 import com.lotdiz.memberservice.dto.request.PaymentsInfoForKakaoPayRequestDto;
 import com.lotdiz.memberservice.dto.response.KakaoPayReadyForMemberResponseDto;
+import com.lotdiz.memberservice.dto.response.MembershipInfoForShowResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.entity.MembershipPolicy;
@@ -27,6 +28,7 @@ public class MembershipService {
   private final MembershipRepository membershipRepository;
   private final PaymentsClientService paymentsClientService;
   private final MembershipPolicyRepository membershipPolicyRepository;
+  private final MembershipPolicyService membershipPolicyService;
 
   /**
    * 멤버십 생성 (미완성), 결제 후 추가 정보 업데이트 필요
@@ -45,7 +47,8 @@ public class MembershipService {
         membershipPolicyRepository.findByMembershipPolicyId(
             membershipJoinDto.getMembershipPolicyId());
 
-    Membership membership = Membership.builder().membershipPolicy(membershipPolicy).build();
+    Membership membership =
+        Membership.builder().membershipPolicy(membershipPolicy).member(member).build();
     Membership saved = membershipRepository.save(membership);
     member.assignMembership(saved);
 
@@ -81,5 +84,25 @@ public class MembershipService {
     }
 
     Membership.addMore(found, membershipSubscriptionCreatedAt, membershipSubscriptionExpiredAt);
+  }
+
+  /**
+   * 멤버십 정보 조회
+   *
+   * @param memberId
+   * @return MembershipInfoForShowResponseDto
+   */
+  public MembershipInfoForShowResponseDto getMembershipInfo(Long memberId) {
+    Member member =
+        memberRepository
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    if(member.getMembership() == null) {
+      return null;
+    }
+    MembershipPolicy membershipPolicy = member.getMembership().getMembershipPolicy();
+
+    return membershipPolicyService.getMembershipPolicyInfo(
+        member.getMembership(), membershipPolicy);
   }
 }
