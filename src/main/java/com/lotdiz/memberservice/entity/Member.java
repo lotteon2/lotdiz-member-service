@@ -12,9 +12,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Slf4j
 @Entity
 @Table(name = "member")
 @Getter
@@ -100,9 +102,9 @@ public class Member extends BaseEntity {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     member.assignMemberName(memberChangeDto.getMemberName());
     member.assignMemberPhoneNumber(memberChangeDto.getMemberPhoneNumber());
-
+    log.info("memberChangeDto.getNewPassword(): " + memberChangeDto.getNewPassword());
     // 비밀번호 변경시
-    if (memberChangeDto.getNewPassword() != null) {
+    if (!memberChangeDto.getNewPassword().isEmpty()) {
       // 입력한 비밀번호가 기존 비밀번호와 일치한다면
       if (passwordEncoder.matches(
           memberChangeDto.getOriginPassword(), member.getMemberPassword())) {
