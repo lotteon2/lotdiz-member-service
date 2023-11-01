@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
-  private final MembershipService membershipService;
   private final MemberProducer memberProducer;
+  private final PasswordEncoder passwordEncoder;
 
   /**
    * 회원가입
@@ -162,5 +163,18 @@ public class MemberService {
             .findByMemberId(memberId)
             .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
     return member.getMemberPoint();
+  }
+
+  public Boolean checkOriginPassword(Long memberId, String originPassword) {
+    log.info("originPassword: " + originPassword);
+    originPassword = originPassword.replaceAll("\"", "");
+    Member member =
+        memberRepository
+            .findByMemberId(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
+    if (passwordEncoder.matches(originPassword, member.getMemberPassword())) {
+      return true;
+    }
+    return false;
   }
 }

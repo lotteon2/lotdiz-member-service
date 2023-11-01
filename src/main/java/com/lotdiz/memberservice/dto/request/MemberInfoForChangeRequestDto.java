@@ -25,10 +25,6 @@ public class MemberInfoForChangeRequestDto {
   @Size(min = 8, max = 16, message = "8 ~ 16자로 작성해주세요.")
   private String originPassword;
 
-  @Pattern(
-      regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).+$",
-      message = "영문, 숫자, 특수문자 모두 포함하여 작성해주세요.")
-  @Size(min = 8, max = 16, message = "8 ~ 16자로 작성해주세요.")
   private String newPassword;
 
   @NotNull

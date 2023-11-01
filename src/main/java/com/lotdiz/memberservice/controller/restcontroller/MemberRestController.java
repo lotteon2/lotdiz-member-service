@@ -87,4 +87,16 @@ public class MemberRestController {
                 "포인트 조회 성공",
                 memberService.getMemberPoints(memberId)));
   }
+
+  @PostMapping("origin-password/isSame")
+  public ResponseEntity<ResultDataResponse<Boolean>> checkOriginPassword(@RequestHeader Long memberId, @Valid @RequestBody String originPassword) {
+    return ResponseEntity.ok().body(
+        new ResultDataResponse<>(
+            String.valueOf(HttpStatus.OK.value()),
+            HttpStatus.OK.name(),
+            "기존 비밀번호 조회 성공",
+            memberService.checkOriginPassword(memberId, originPassword)
+        )
+    );
+  }
 }
