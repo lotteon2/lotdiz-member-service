@@ -10,3 +10,9 @@ INSERT INTO membership_policy(membership_policy_grade, membership_policy_subscri
 INSERT INTO likes(project_id, member_id, created_at) VALUES (1, 1, '2023-12-11T23:59:59');
 INSERT INTO likes(project_id, member_id, created_at) VALUES (2, 1, '2023-12-11T23:59:59');
 INSERT INTO likes(project_id, member_id, created_at) VALUES (3, 1, '2023-12-11T23:59:59');
+
+INSERT INTO likes(project_id, member_id, created_at) VALUES (1, 4, '2023-12-11T23:59:59');
+INSERT INTO likes(project_id, member_id, created_at) VALUES (2, 4, '2023-12-11T23:59:59');
+INSERT INTO likes(project_id, member_id, created_at) VALUES (3, 4, '2023-12-11T23:59:59');
+
+INSERT INTO membership(membership_id, membership_status, membership_subscription_created_at, membership_subscription_expired_at, membership_subscription_id, member_id, membership_policy_id) VALUES(1, true, '2023-12-11T23:59:59', '2024-12-11T23:59:59', 1, 4, 1)
