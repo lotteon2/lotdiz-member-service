@@ -75,7 +75,6 @@ public class MemberRestController {
     if (isDuplicated) {
       return ResponseEntity.ok().body(new AlreadyRegisteredMemberException());
     }
-    log.info("NOTisDuplicated error");
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
