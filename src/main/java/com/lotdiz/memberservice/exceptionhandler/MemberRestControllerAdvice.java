@@ -19,7 +19,7 @@ public class MemberRestControllerAdvice extends ResponseEntityExceptionHandler {
   private static final String UNIQUE_CONSTRAINT_EXCEPTION_MESSAGE = "유니크 제약조건 오류";
   private static final String DUPLICATE_KEY_EXCEPTION_MESSAGE = "중복 키 오류";
   private static final String DOMAIN_EXCEPTION_MESSAGE = "도메인 오류";
-  private static final String METHOD_AGUMENT_VALID_EXCEPTION_MESSAGE = "VALIDATION 오류";
+  private static final String METHOD_ARGUMENT_VALID_EXCEPTION_MESSAGE = "VALIDATION 오류";
 
   private static final String INTERNAL_SERVER_ERROR = "서버 내부 오류";
 
@@ -73,7 +73,7 @@ public class MemberRestControllerAdvice extends ResponseEntityExceptionHandler {
     ResultDataResponse<Object> body =
         new ResultDataResponse<>(
             String.valueOf(HttpStatus.BAD_REQUEST.value()),
-            METHOD_AGUMENT_VALID_EXCEPTION_MESSAGE,
+            METHOD_ARGUMENT_VALID_EXCEPTION_MESSAGE,
             e.getBindingResult().getFieldError() == null
                 ? e.getMessage()
                 : e.getBindingResult().getFieldError().getDefaultMessage(),

@@ -145,7 +145,6 @@ public class MemberService {
         .orElseThrow(() -> new EntityNotFoundException(CustomErrorMessage.NOT_FOUND_MEMBER));
   }
 
-  @org.springframework.transaction.annotation.Transactional(readOnly = true)
   public Boolean checkMemberByMemberEmail(String memberEmail) {
     Member member = memberRepository.findByMemberEmail(memberEmail).orElse(null);
     return member != null;
