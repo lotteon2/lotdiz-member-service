@@ -155,4 +155,15 @@ public class LikesService {
     }
     return results;
   }
+
+  /**
+   * 현재 회원의 찜 개수 조회
+   *
+   * @param memberId
+   * @return Integer
+   */
+  public Integer getMemberLikesCnts(Long memberId) {
+      Member member = memberService.findMemberByMemberId(memberId);
+      return likesRepository.countByMember(member);
+    }
 }

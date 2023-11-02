@@ -5,10 +5,13 @@ import com.lotdiz.memberservice.dto.request.MemberInfoForSignUpRequestDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
 import com.lotdiz.memberservice.entity.Member;
+import com.lotdiz.memberservice.exception.AlreadyRegisteredMemberException;
 import com.lotdiz.memberservice.service.MemberService;
+import java.rmi.AlreadyBoundException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.sql.OracleJoinFragment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,16 +68,20 @@ public class MemberRestController {
   }
 
   @PostMapping("/members/isDuplicated")
-  public ResponseEntity<ResultDataResponse<Boolean>> isDuplicatedUsername(
-      @Valid @RequestBody String username) {
+  public ResponseEntity<Object> isDuplicatedUsername(@Valid @RequestBody String username)
+      throws AlreadyBoundException {
     username = username.replaceAll("\"", "");
+    Boolean isDuplicated = memberService.checkMemberByMemberEmail(username);
+    if (isDuplicated) {
+      return ResponseEntity.ok().body(new AlreadyRegisteredMemberException());
+    }
     return ResponseEntity.ok()
         .body(
             new ResultDataResponse<>(
                 String.valueOf(HttpStatus.OK.value()),
                 HttpStatus.OK.name(),
                 "이메일 중복 여부 조회 성공",
-                memberService.checkMemberByMemberEmail(username)));
+                isDuplicated));
   }
 
   @GetMapping("/members/points")
@@ -86,5 +93,17 @@ public class MemberRestController {
                 HttpStatus.OK.name(),
                 "포인트 조회 성공",
                 memberService.getMemberPoints(memberId)));
+  }
+
+  @PostMapping("origin-password/isSame")
+  public ResponseEntity<ResultDataResponse<Boolean>> checkOriginPassword(
+      @RequestHeader Long memberId, @Valid @RequestBody String originPassword) {
+    return ResponseEntity.ok()
+        .body(
+            new ResultDataResponse<>(
+                String.valueOf(HttpStatus.OK.value()),
+                HttpStatus.OK.name(),
+                "기존 비밀번호 조회 성공",
+                memberService.checkOriginPassword(memberId, originPassword)));
   }
 }

@@ -97,4 +97,16 @@ public class LikesRestController {
     }
     return new ResultDataResponse<>("200", HttpStatus.OK.name(), "성공", map);
   }
+
+  @GetMapping("/members/likes/cnts")
+  public ResponseEntity<ResultDataResponse<Integer>> getMemeberLikesCnts(@RequestHeader Long memberId) {
+    return ResponseEntity.ok().body(
+        new ResultDataResponse<>(
+            String.valueOf(HttpStatus.OK.value()),
+            HttpStatus.OK.name(),
+            "회원 찜 개수 조회 성공",
+            likesService.getMemberLikesCnts(memberId)
+        )
+    );
+  }
 }

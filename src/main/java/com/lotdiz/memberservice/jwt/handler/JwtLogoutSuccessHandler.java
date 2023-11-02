@@ -2,7 +2,6 @@ package com.lotdiz.memberservice.jwt.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lotdiz.memberservice.dto.response.ResultDataResponse;
-import com.lotdiz.memberservice.utils.DefaultHttpMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import javax.servlet.ServletException;
