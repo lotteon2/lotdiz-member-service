@@ -1,8 +1,10 @@
 package com.lotdiz.memberservice.service;
 
+import com.lotdiz.memberservice.dto.MemberNameDto;
 import com.lotdiz.memberservice.dto.request.*;
 import com.lotdiz.memberservice.dto.response.MemberInfoForProjectResponseDto;
 import com.lotdiz.memberservice.dto.response.MemberInfoForQueryResponseDto;
+import com.lotdiz.memberservice.dto.response.MemberNameResponseDto;
 import com.lotdiz.memberservice.entity.Member;
 import com.lotdiz.memberservice.entity.Membership;
 import com.lotdiz.memberservice.exception.AlreadyRegisteredMemberException;
@@ -12,6 +14,7 @@ import com.lotdiz.memberservice.mapper.CustomMapper;
 import com.lotdiz.memberservice.messagequeue.MemberProducer;
 import com.lotdiz.memberservice.repository.MemberRepository;
 import com.lotdiz.memberservice.utils.CustomErrorMessage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,6 +151,19 @@ public class MemberService {
   public Boolean checkMemberByMemberEmail(String memberEmail) {
     Member member = memberRepository.findByMemberEmail(memberEmail).orElse(null);
     return member != null;
+  }
+
+  public MemberNameResponseDto getMemberNames(List<Long> memberIds) {
+    List<Member> membersNameByIds = memberRepository.findMembersNameByIds(memberIds);
+    List<MemberNameDto> memberNameDtos = new ArrayList<>();
+    membersNameByIds.forEach(
+        item ->
+            memberNameDtos.add(
+                MemberNameDto.builder()
+                    .memberId(item.getMemberId())
+                    .memberName(item.getMemberName())
+                    .build()));
+    return MemberNameResponseDto.builder().memberNameDtos(memberNameDtos).build();
   }
 
   /**
